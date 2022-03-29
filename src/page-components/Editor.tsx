@@ -34,6 +34,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           theme="twilight"
           value="this is the default text value for any editor language"
           name="editor"
+          onChange={this.onChange}
           height={this.state.height}
           width={this.state.width}
           editorProps={{
