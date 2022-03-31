@@ -10,3 +10,9 @@
   height: 50px;
   width: 100px;
 }
+.run-container p {
+  position: relative;
+  text-align: center;
+  top: 25%;
+  text-anchor: middle;
+}
