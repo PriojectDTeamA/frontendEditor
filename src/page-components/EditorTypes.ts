@@ -5,4 +5,5 @@ export interface IEditorProps {
 export interface IEditorState {
   width: string | undefined;
   height: string | undefined;
+  chatIsOpen: boolean;
 }
