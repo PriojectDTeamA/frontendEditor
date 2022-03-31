@@ -1,4 +1,5 @@
 import React from "react";
+import { IEditorProps, IEditorState } from "../component-types/ProjectTypes";
 
 import "./login.css";
 
@@ -8,7 +9,14 @@ import "./login.css";
 
 
 
-export class NewProject extends React.Component {
+export class NewProject extends React.Component<IEditorProps, IEditorState> {
+    constructor(props: IEditorProps) {
+      super(props);
+      this.state = {
+        room: "",
+        language: "",
+      };
+    }
 
     render() {
         return (

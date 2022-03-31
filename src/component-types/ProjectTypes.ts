@@ -1,8 +1,11 @@
 export type Language = "javascript" | "python" | "csharp" | "java";
+
 export interface IEditorProps {
-  language: Language;
+    user: string;
+    joinRoom: any;
+    connection: any;
 }
 export interface IEditorState {
-  width: string | undefined;
-  height: string | undefined;
+    room: string;
+    language: Language | "";
 }

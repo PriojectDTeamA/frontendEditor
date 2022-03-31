@@ -1,6 +1,6 @@
 import React from "react";
 import AceEditor from "react-ace";
-import { IEditorProps, IEditorState } from "./EditorTypes";
+import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
 import Console from "../extra-components/Console";
 
 // loading in all the modes (languages) that can be used by the user
@@ -22,8 +22,17 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     };
   }
 
+  private sendBroadcast = async (text:string) => {
+    try {
+      await this.props.connection.invoke("BroadcastText", text);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   private onChange(newvalue: string) {
     console.log("Change", newvalue);
+    this.sendBroadcast(newvalue);
   }
 
   public render() {
