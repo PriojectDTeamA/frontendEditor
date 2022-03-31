@@ -10,6 +10,9 @@ const ChatInput = () => {
     }
     const inputToSend = currentinput;
     setinput("");
+
+    // <-- call the method to send the text through to another client here
+
     return <ChatMessage text={inputToSend} />;
   };
 

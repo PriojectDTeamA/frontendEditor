@@ -2,6 +2,7 @@ import React from "react";
 import AceEditor from "react-ace";
 import { IEditorProps, IEditorState } from "./EditorTypes";
 import Console from "../extra-components/Console";
+import Run from "../extra-components/Run";
 
 // loading in all the modes (languages) that can be used by the user
 import "ace-builds/src-noconflict/mode-javascript";
@@ -36,12 +37,13 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           name="editor"
           onChange={this.onChange}
           height={this.state.height}
-          width={this.state.width}
+          width="100%"
           editorProps={{
             $blockScrolling: true,
           }}
         />
         <Console />
+        <Run runcode={() => console.log("run was clicked")} />
       </div>
     );
   }

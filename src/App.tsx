@@ -14,10 +14,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />}></Route> {/* route to the login page */}
-        <Route path="/home" element={<Home/>}></Route> {/* route to the home page */}
-        <Route path="/NewProject" element={<NewProject />}></Route> {/* route to the new_project page */}
-        <Route path="/JoinProject" element={<JoinProject />}></Route> {/* route to the join_project page */}
+        <Route path="/login" element={<Login />}></Route>{" "}
+        {/* route to the login page */}
+        <Route path="/home" element={<Home />}></Route>{" "}
+        {/* route to the home page */}
+        <Route path="/NewProject" element={<NewProject />}></Route>{" "}
+        {/* route to the new_project page */}
+        <Route path="/JoinProject" element={<JoinProject />}></Route>{" "}
+        {/* route to the join_project page */}
         <Route
           path="/editor"
           element={<Editor language="python" />}
