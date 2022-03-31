@@ -1,5 +1,6 @@
 :root {
   --chat-input-height: 25%;
+  --chat-input-margin: 2%;
   --chat-box-height: 100%;
   --chat-box-width: 35%;
 }
@@ -10,15 +11,63 @@
   background-color: gray;
   color: white;
 
+  border: 3px black solid;
+
   position: fixed;
   top: 0;
-  right: 10px;
+  right: calc(-1 * var(--chat-box-width));
 }
 
 .chat-input {
-  position: relative;
-  top: calc(var(--chat-box-height) - var(--chat-input-height));
-
-  width: 100%;
   height: var(--chat-input-height);
+  width: 96%;
+  position: relative;
+  top: calc(
+    var(--chat-box-height) - var(--chat-input-height) - var(--chat-input-margin)
+  );
+
+  left: var(--chat-input-margin);
+
+  border: 3px black solid;
+}
+
+.slide-button {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: gray;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.slide-in {
+  animation: slide-in 2s ease-out forwards;
+}
+
+.slide-out {
+  animation: slide-out 2s ease-in forwards;
+}
+
+@keyframes slide-out {
+  0% {
+    margin-right: 0;
+  }
+
+  100% {
+    margin-right: var(--chat-box-width);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    margin-right: var(--chat-box-width);
+  }
+
+  100% {
+    margin-right: 0;
+  }
 }

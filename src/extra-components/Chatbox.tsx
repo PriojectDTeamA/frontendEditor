@@ -30,9 +30,19 @@ const ChatMessage = (props: IChatMessageProps) => {
 
 const Chatbox = () => {
   const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
+  const [visible, setVisibility] = useState(false);
+
   return (
-    <div className="chatbox">
-      <ChatInput />
+    <div>
+      <div
+        className={`slide-button ${visible ? "slide-out" : "slide-in"}`}
+        onClick={() => setVisibility(!visible)}
+      >
+        {visible ? ">" : "<"}
+      </div>
+      <div className={`chatbox ${visible ? "slide-out" : "slide-in"}`}>
+        <ChatInput />
+      </div>
     </div>
   );
 };
