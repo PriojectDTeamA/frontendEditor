@@ -51,7 +51,9 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           }}
         />
         <Console />
-        <Run runcode={() => console.log("run was clicked")} />
+        <Run 
+          runcode={() => console.log("run was clicked")} 
+        />
         <Chatbox
           isOpen={this.state.chatIsOpen}
           openCloseChat={this.switchChatVisibility}
