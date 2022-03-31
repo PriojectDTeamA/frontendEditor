@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IChatMessageProps } from "./ChatboxTypes";
+import { IChatboxProps, IChatMessageProps } from "./ChatboxTypes";
 import "./Chatbox.css";
 
 const ChatInput = () => {
@@ -28,11 +28,20 @@ const ChatMessage = (props: IChatMessageProps) => {
   );
 };
 
-const Chatbox = () => {
+const Chatbox = (props: IChatboxProps) => {
   const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
+
   return (
-    <div className="chatbox">
-      <ChatInput />
+    <div>
+      <div
+        className={`slide-button ${props.isOpen ? "slide-out" : "slide-in"}`}
+        onClick={props.openCloseChat}
+      >
+        {props.isOpen ? ">" : "<"}
+      </div>
+      <div className={`chatbox ${props.isOpen ? "slide-out" : "slide-in"}`}>
+        <ChatInput />
+      </div>
     </div>
   );
 };

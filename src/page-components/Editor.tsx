@@ -21,12 +21,19 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     this.state = {
       width: undefined,
       height: undefined,
+      chatIsOpen: false,
     };
   }
 
   private onChange(newvalue: string) {
     console.log("Change", newvalue);
   }
+
+  private switchChatVisibility = () => {
+    this.setState({
+      chatIsOpen: !this.state.chatIsOpen,
+    });
+  };
 
   public render() {
     return (
@@ -45,7 +52,10 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
         />
         <Console />
         <Run runcode={() => console.log("run was clicked")} />
-        <Chatbox />
+        <Chatbox
+          isOpen={this.state.chatIsOpen}
+          openCloseChat={this.switchChatVisibility}
+        />
       </div>
     );
   }
