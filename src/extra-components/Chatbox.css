@@ -1,0 +1,24 @@
+:root {
+  --chat-input-height: 25%;
+  --chat-box-height: 100%;
+  --chat-box-width: 35%;
+}
+
+.chatbox {
+  height: var(--chat-box-height);
+  width: 35%;
+  background-color: gray;
+  color: white;
+
+  position: fixed;
+  top: 0;
+  right: 10px;
+}
+
+.chat-input {
+  position: relative;
+  top: calc(var(--chat-box-height) - var(--chat-input-height));
+
+  width: 100%;
+  height: var(--chat-input-height);
+}

@@ -3,6 +3,7 @@ import AceEditor from "react-ace";
 import { IEditorProps, IEditorState } from "./EditorTypes";
 import Console from "../extra-components/Console";
 import Run from "../extra-components/Run";
+import Chatbox from "../extra-components/Chatbox";
 
 // loading in all the modes (languages) that can be used by the user
 import "ace-builds/src-noconflict/mode-javascript";
@@ -44,6 +45,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
         />
         <Console />
         <Run runcode={() => console.log("run was clicked")} />
+        <Chatbox />
       </div>
     );
   }

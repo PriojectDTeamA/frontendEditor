@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IChatMessageProps } from "./ChatboxTypes";
+import "./Chatbox.css";
 
 const ChatInput = () => {
   const [currentinput, setinput] = useState("");
@@ -16,7 +17,7 @@ const ChatInput = () => {
     return <ChatMessage text={inputToSend} />;
   };
 
-  return <div className="chat-input"></div>;
+  return <textarea className="chat-input"></textarea>;
 };
 
 const ChatMessage = (props: IChatMessageProps) => {
@@ -29,7 +30,11 @@ const ChatMessage = (props: IChatMessageProps) => {
 
 const Chatbox = () => {
   const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
-  return <div className="chatbox"></div>;
+  return (
+    <div className="chatbox">
+      <ChatInput />
+    </div>
+  );
 };
 
 export default Chatbox;
