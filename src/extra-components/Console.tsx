@@ -1,5 +1,5 @@
 import React from "react";
-import { IConsoleProps } from "./ConsoleTypes";
+import { IConsoleProps } from "../component-types/ConsoleTypes";
 import "./Console.css";
 
 const Console = (props: IConsoleProps) => {

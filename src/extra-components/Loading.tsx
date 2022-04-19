@@ -1,5 +1,5 @@
 import React from "react";
-import { IConsoleProps } from "./ConsoleTypes";
+import { IConsoleProps } from "../component-types/ConsoleTypes";
 
 const Loading = () => {
   return (

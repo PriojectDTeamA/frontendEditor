@@ -1,6 +1,5 @@
-export interface IEditorProps {
-}
-export interface IEditorState {
-    user: string;
-    password: string;
+export interface ILoginProps {}
+export interface ILoginState {
+  user: string;
+  password: string;
 }

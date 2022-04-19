@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IChatMessageProps } from "./ChatboxTypes";
+import { IChatMessageProps } from "../component-types/ChatboxTypes";
 
 const ChatInput = () => {
   const [currentinput, setinput] = useState("");
