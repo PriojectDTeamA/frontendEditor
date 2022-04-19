@@ -12,21 +12,27 @@ export class JoinProject extends React.Component<IEditorProps, IEditorState> {
       this.state = {
         room: "",
         language: "",
-        connected: this.props.connection
+        connected: false
       };
     }
     
     // private navigate = useNavigate();
-    private async join() {
+    private join = async() => {
         await this.props.joinRoom(this.props.user, this.state.room);
+        this.setState({connected: true});
+
+        
     }
 
     render() {
         return (
             <div>
-                {this.state.connected
-                ?
-                    <Navigate to="/Editor" />
+                {this.state.connected == true
+                ?   
+                    <div>
+                        {console.log("before navigating: " + this.state.connected)}
+                        <Navigate to="/Editor" />
+                    </div>
                 :
                 
                     <div className="wrapper fadeInDown">
@@ -37,6 +43,7 @@ export class JoinProject extends React.Component<IEditorProps, IEditorState> {
 
                             <form onSubmit={e => {
                                 e.preventDefault();
+                                this.join()
                                 // let navigation = useNavigate();
                                 // this.setState({connected: this.join()});
                                 // navigation.navigate('/editor');

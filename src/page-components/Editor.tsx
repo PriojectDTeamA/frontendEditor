@@ -30,7 +30,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   }
 
   componentDidMount(){
-    if(!this.props.connection){
+    if(this.props.connection){
       // navigation.navigate("QRCodeResult", {clientID});
       console.log("connection: " + this.props.connection);
     }

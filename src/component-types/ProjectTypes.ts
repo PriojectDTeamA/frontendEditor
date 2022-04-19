@@ -12,5 +12,5 @@ export interface IEditorProps {
 export interface IEditorState {
     room: string;
     language: Language | "";
-    connected: any;
+    connected: boolean;
 }

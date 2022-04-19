@@ -44,10 +44,15 @@ function App() {
       });
       
       await connectionChat.start();
+      await connectionChat.invoke("JoinRoom", { user, room });
+      setConnection(connectionChat);
       console.log("connectionChat");
-
+      console.log(connectionChat);
+      // console.log(p);
+      return true;
     } catch (e) {
       console.log(e);
+      return false;
     }
   }
 
