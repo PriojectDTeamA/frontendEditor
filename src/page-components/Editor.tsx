@@ -34,7 +34,8 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       width: undefined,
       height: undefined,
       chatIsOpen: false,
-      connected: true
+      connected: true,
+      editorValue: "this is the default text value for any editor language"
     };
   }
 
@@ -42,6 +43,12 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     if(!this.props.connection){
       this.setState({ connected: false });
     }
+  }
+
+  componentDidUpdate(){
+  this.props.connection.on("Broadcast", (text:string) => {
+    this.setState({ editorValue: text });
+  });
   }
 
   componentWillUnmount(){
@@ -58,9 +65,13 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     }
   };
 
-  private onChange(newvalue: string) {
-    console.log(this.props.connection);
+
+
+  private onChange = (newvalue: string) => {
+    // console.log(this.props.connection);
     console.log("Change", newvalue);
+    this.setState({ editorValue: newvalue });
+
     this.sendBroadcast(newvalue);
   }
 
@@ -96,10 +107,10 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
               icon={faUserGroup} 
             />
 
+            <div className="popover-list">
+              <UsersList users={this.props.users}></UsersList>
+            </div>
 
-<div className="popover-list">
-            <UsersList users={this.props.users}></UsersList>
-          </div>
             <FontAwesomeIcon 
               onClick={this.switchChatVisibility}  
               className="icon" 
@@ -124,7 +135,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
         <AceEditor
           mode={this.props.language}
           theme="twilight"
-          value="this is the default text value for any editor language"
+          value={this.state.editorValue}
           name="editor"
           onChange={this.onChange}
           height={this.state.height}

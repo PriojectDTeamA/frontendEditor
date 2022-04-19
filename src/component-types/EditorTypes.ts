@@ -8,6 +8,7 @@ export interface IEditorProps {
 export interface IEditorState {
   width: string | undefined;
   height: string | undefined;
+  editorValue: string;
   chatIsOpen: boolean;
   connected: boolean;
 }
