@@ -7,6 +7,7 @@
 }
 
 .chatbox {
+  z-index: 1;
   height: var(--chat-box-height);
   width: var(--chat-box-width);
   background-color: gray;
@@ -33,6 +34,7 @@
 }
 
 .slide-button {
+  z-index: 1;
   width: 25px;
   height: 25px;
   cursor: pointer;

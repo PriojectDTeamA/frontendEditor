@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { IChatboxProps, IChatMessageProps } from "./ChatboxTypes";
 import "./Chatbox.css";
+import { IChatMessageProps, IChatboxProps } from "../component-types/ChatboxTypes";
 
 const ChatInput = () => {
   const [currentinput, setinput] = useState("");
@@ -33,15 +33,23 @@ const Chatbox = (props: IChatboxProps) => {
 
   return (
     <div>
-      <div
-        className={`slide-button ${props.isOpen ? "slide-out" : "slide-in"}`}
-        onClick={props.openCloseChat}
-      >
-        {props.isOpen ? ">" : "<"}
+      {!props.isOpen
+      ?
+        null
+      :
+      <div>
+        <div
+          className={`slide-button ${props.isOpen ? "slide-out" : "slide-in"}`}
+          onClick={props.openCloseChat}
+        >
+          {props.isOpen ? ">" : "<"}
+        </div>
+
       </div>
-      <div className={`chatbox ${props.isOpen ? "slide-out" : "slide-in"}`}>
-        <ChatInput />
-      </div>
+      }
+        <div className={`chatbox ${props.isOpen ? "slide-out" : "slide-in"}`}>
+          <ChatInput />
+        </div>
     </div>
   );
 };

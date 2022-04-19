@@ -1,0 +1,16 @@
+.button-group {
+  top: 0;
+  right: 0;
+  position: fixed;
+  display: flex;
+  column-gap: 10px;
+  font-size: 20px;
+  margin: 10px;
+  color: #c5c5c5;
+  z-index: 10;
+
+  .icon:hover {
+    cursor: pointer;
+    color: #999999;
+  }
+}

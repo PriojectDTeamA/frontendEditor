@@ -1,9 +1,20 @@
 import React from "react";
 import AceEditor from "react-ace";
-import { IEditorProps, IEditorState } from "./EditorTypes";
+import { Navigate, useNavigate } from "react-router-dom";
+import { OverlayTrigger, Popover, Button } from "react-bootstrap";
+import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
 import Console from "../extra-components/Console";
 import Run from "../extra-components/Run";
 import Chatbox from "../extra-components/Chatbox";
+// import Editorcomp from "../extra-components/Editorcomp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserGroup,
+  faRightFromBracket,
+  faMessage,
+} from "@fortawesome/free-solid-svg-icons";
+
+import "./Editor.scss";
 
 // loading in all the modes (languages) that can be used by the user
 import "ace-builds/src-noconflict/mode-javascript";
@@ -22,22 +33,84 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       width: undefined,
       height: undefined,
       chatIsOpen: false,
+      connected: true
     };
   }
 
+  componentDidMount(){
+    if(!this.props.connection){
+      this.setState({ connected: false });
+    }
+  }
+
+  componentWillUnmount(){
+
+  }
+
+
+
+  private sendBroadcast = async (text: string) => {
+    try {
+      await this.props.connection.invoke("BroadcastText", text);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   private onChange(newvalue: string) {
+    console.log(this.props.connection);
     console.log("Change", newvalue);
+    this.sendBroadcast(newvalue);
   }
 
   private switchChatVisibility = () => {
     this.setState({
       chatIsOpen: !this.state.chatIsOpen,
     });
+  }
+  
+  private closeConnection = async () => {
+    try {
+      await this.props.connection.stop();
+      this.setState({ connected: false });
+      // navigate("/Home");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   public render() {
     return (
       <div>
+        {!this.state.connected ? <Navigate to="/JoinProject" /> : null }
+
+        {!this.state.chatIsOpen
+        ?
+
+        <div className="button-group">
+          <FontAwesomeIcon 
+            className="icon" 
+            icon={faUserGroup} 
+          />
+
+          <FontAwesomeIcon 
+            onClick={this.switchChatVisibility}  
+            className="icon" 
+            icon={faMessage} 
+          />
+          <FontAwesomeIcon
+            onClick={this.closeConnection}
+            className="icon"
+            icon={faRightFromBracket}
+          />
+        </div>
+        :
+          null
+        }
+          <Chatbox
+          isOpen={this.state.chatIsOpen}
+          openCloseChat={this.switchChatVisibility}
+          />
         <AceEditor
           mode={this.props.language}
           theme="twilight"
@@ -54,10 +127,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
         <Run 
           runcode={() => console.log("run was clicked")} 
         />
-        <Chatbox
-          isOpen={this.state.chatIsOpen}
-          openCloseChat={this.switchChatVisibility}
-        />
+
       </div>
     );
   }
