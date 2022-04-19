@@ -1,3 +1,4 @@
+import { connected } from "process";
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { IEditorProps, IEditorState } from "../component-types/ProjectTypes";
@@ -10,16 +11,20 @@ export class JoinProject extends React.Component<IEditorProps, IEditorState> {
     super(props);
       this.state = {
         room: "",
-        language: ""
+        language: "",
+        connected: this.props.connection
       };
     }
     
     // private navigate = useNavigate();
+    private async join() {
+        await this.props.joinRoom(this.props.user, this.state.room);
+    }
 
     render() {
         return (
             <div>
-                {this.props.connection
+                {this.state.connected
                 ?
                     <Navigate to="/Editor" />
                 :
@@ -32,11 +37,11 @@ export class JoinProject extends React.Component<IEditorProps, IEditorState> {
 
                             <form onSubmit={e => {
                                 e.preventDefault();
-                                let navigation = useNavigate();
-                                this.props.joinRoom(this.props.user, this.state.room);
+                                // let navigation = useNavigate();
+                                // this.setState({connected: this.join()});
                                 // navigation.navigate('/editor');
                                 // this.navigate(-1);
-                                document.location.href = "Editor";
+                                // document.location.href = "Editor";
                                 
                             }}>
                                 <input type="text" value={this.state.room} onChange={e => this.setState({room: e.target.value})} id="projname" className="fadeIn second" name="newproj" placeholder="Project Name"></input>

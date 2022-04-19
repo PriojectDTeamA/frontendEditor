@@ -15,6 +15,7 @@ export class NewProject extends React.Component<IEditorProps, IEditorState> {
       this.state = {
         room: "",
         language: "",
+        connected: this.props.connection
       };
     }
 

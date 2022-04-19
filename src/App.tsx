@@ -42,25 +42,10 @@ function App() {
         setMessages([]);
         setUsers([]);
       });
-
+      
       await connectionChat.start();
+      console.log("connectionChat");
 
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const sendBroadcast = async (text:string) => {
-    try {
-      await connectionChat.invoke("BroadcastText", text);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const closeConnection = async () => {
-    try {
-      await connectionChat.stop();
     } catch (e) {
       console.log(e);
     }

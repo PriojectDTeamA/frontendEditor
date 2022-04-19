@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
 import Console from "../extra-components/Console";
-import Editorcomp from "../extra-components/Editorcomp";
+// import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserGroup, faRightFromBracket, faMessage } from '@fortawesome/free-solid-svg-icons'
 
@@ -32,10 +32,10 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   componentDidMount(){
     if(!this.props.connection){
       // navigation.navigate("QRCodeResult", {clientID});
-      console.log("log out");
+      console.log("connection: " + this.props.connection);
     }
 
-}
+  }
 
   private sendBroadcast = async (text:string) => {
     try {
