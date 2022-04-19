@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 // in react-router v6 'Switch' is replaced with 'Routes', be mindful of this when looking up examples or documentation
 // also, the component prop in the 'Route' component has been changed to 'element'
@@ -71,8 +71,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route> {/* route to the login page */}
         <Route path="/home" element={<Home/>}></Route> {/* route to the home page */}
-        <Route path="/NewProject" element={<NewProject user="hoi" joinRoom={joinRoom} connection={connectionChat}/>}></Route> {/* route to the new_project page */}
-        <Route path="/JoinProject" element={<JoinProject user="hoi" joinRoom={joinRoom} connection={connectionChat}/>}></Route> {/* route to the join_project page */}
+        <Route path="/NewProject" element={<NewProject user="hoi" joinRoom={joinRoom} connection={connectionChat} navigation={useNavigate}/>}></Route> {/* route to the new_project page */}
+        <Route path="/JoinProject" element={<JoinProject user="hoi" joinRoom={joinRoom} connection={connectionChat} navigation={useNavigate}/>}></Route> {/* route to the join_project page */}
         <Route
           path="/editor"
           element={<Editor language="python" connection={connectionChat}/>}

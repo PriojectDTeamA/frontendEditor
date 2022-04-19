@@ -5,13 +5,6 @@ import { IEditorProps, IEditorState } from "../component-types/ProjectTypes";
 
 import "./login.css";
 
-
-
-
-
-
-
-
 export class JoinProject extends React.Component<IEditorProps, IEditorState> {
     constructor(props: IEditorProps) {
     super(props);
@@ -21,6 +14,7 @@ export class JoinProject extends React.Component<IEditorProps, IEditorState> {
       };
     }
     
+    // private navigate = useNavigate();
 
     render() {
         return (
@@ -38,7 +32,11 @@ export class JoinProject extends React.Component<IEditorProps, IEditorState> {
 
                             <form onSubmit={e => {
                                 e.preventDefault();
+                                let navigation = useNavigate();
                                 this.props.joinRoom(this.props.user, this.state.room);
+                                // navigation.navigate('/editor');
+                                // this.navigate(-1);
+                                document.location.href = "Editor";
                                 
                             }}>
                                 <input type="text" value={this.state.room} onChange={e => this.setState({room: e.target.value})} id="projname" className="fadeIn second" name="newproj" placeholder="Project Name"></input>

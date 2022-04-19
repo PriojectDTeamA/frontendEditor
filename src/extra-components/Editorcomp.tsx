@@ -3,8 +3,6 @@ import AceEditor from "react-ace";
 import { Navigate, useNavigate } from "react-router-dom";
 import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
-import Console from "../extra-components/Console";
-import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserGroup, faRightFromBracket, faMessage } from '@fortawesome/free-solid-svg-icons'
 
@@ -19,8 +17,9 @@ import "ace-builds/src-noconflict/mode-haskell";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
+import Console from "./Console";
 
-class Editor extends React.Component<IEditorProps, IEditorState> {
+class Editorcomp extends React.Component<IEditorProps, IEditorState> {
   constructor(props: IEditorProps) {
     super(props);
     this.state = {
@@ -28,14 +27,6 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       height: undefined,
     };
   }
-
-  componentDidMount(){
-    if(!this.props.connection){
-      // navigation.navigate("QRCodeResult", {clientID});
-      console.log("log out");
-    }
-
-}
 
   private sendBroadcast = async (text:string) => {
     try {
@@ -51,25 +42,9 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     this.sendBroadcast(newvalue);
   }
 
-  
-  private closeConnection = async () => {
-    try {
-      await this.props.connection.stop();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   public render() {
     return (
       <div>
-        <div className="button-group">
-          <FontAwesomeIcon className="icon" icon={faUserGroup} />
-
-          <FontAwesomeIcon className="icon" icon={faMessage} />
-          <FontAwesomeIcon onClick={this.closeConnection} className="icon" icon={faRightFromBracket} />
-
-        </div>
 
         <AceEditor
           mode={this.props.language}
@@ -89,4 +64,4 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   }
 }
 
-export default Editor;
+export default Editorcomp;
