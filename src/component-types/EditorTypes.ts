@@ -3,6 +3,7 @@ export type Language = "javascript" | "python" | "csharp" | "java";
 export interface IEditorProps {
   language: Language;
   connection: any;
+  users: any;
 }
 export interface IEditorState {
   width: string | undefined;

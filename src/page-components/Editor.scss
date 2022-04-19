@@ -14,3 +14,11 @@
     color: #999999;
   }
 }
+
+
+.popover-list {
+  opacity: 0;
+}
+#user-list:hover ~ .popover-list  {
+    opacity: 1;
+}

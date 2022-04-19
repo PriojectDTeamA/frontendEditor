@@ -25,6 +25,7 @@ import "ace-builds/src-noconflict/mode-haskell";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
+import UsersList from "../extra-components/UsersList";
 
 class Editor extends React.Component<IEditorProps, IEditorState> {
   constructor(props: IEditorProps) {
@@ -86,27 +87,36 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
 
         {!this.state.chatIsOpen
         ?
+        <div className="iets">
 
-        <div className="button-group">
-          <FontAwesomeIcon 
-            className="icon" 
-            icon={faUserGroup} 
-          />
+          <div className="button-group">
+            <FontAwesomeIcon
+              id="user-list"
+              className="icon" 
+              icon={faUserGroup} 
+            />
 
-          <FontAwesomeIcon 
-            onClick={this.switchChatVisibility}  
-            className="icon" 
-            icon={faMessage} 
-          />
-          <FontAwesomeIcon
-            onClick={this.closeConnection}
-            className="icon"
-            icon={faRightFromBracket}
-          />
+
+<div className="popover-list">
+            <UsersList users={this.props.users}></UsersList>
+          </div>
+            <FontAwesomeIcon 
+              onClick={this.switchChatVisibility}  
+              className="icon" 
+              icon={faMessage} 
+            />
+            <FontAwesomeIcon
+              onClick={this.closeConnection}
+              className="icon"
+              icon={faRightFromBracket}
+            />
+          </div>
+
         </div>
         :
           null
         }
+
           <Chatbox
           isOpen={this.state.chatIsOpen}
           openCloseChat={this.switchChatVisibility}

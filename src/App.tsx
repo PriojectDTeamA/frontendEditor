@@ -93,7 +93,12 @@ function App() {
         {/* route to the join_project page */}
         <Route
           path="/editor"
-          element={<Editor language="python" connection={connectionChat} />}
+          element={
+            <Editor 
+              language="python" 
+              connection={connectionChat} 
+              users={users}
+            />}
         ></Route>{" "}
         {/* route to the editor page */}
       </Routes>
