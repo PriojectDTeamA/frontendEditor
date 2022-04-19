@@ -1,12 +1,16 @@
 import React from "react";
 import AceEditor from "react-ace";
 import { Navigate, useNavigate } from "react-router-dom";
-import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { OverlayTrigger, Popover, Button } from "react-bootstrap";
 import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
 import Console from "../extra-components/Console";
 // import Editorcomp from "../extra-components/Editorcomp";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserGroup, faRightFromBracket, faMessage } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserGroup,
+  faRightFromBracket,
+  faMessage,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./Editor.scss";
 
@@ -29,21 +33,20 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     };
   }
 
-  componentDidMount(){
-    if(this.props.connection){
+  componentDidMount() {
+    if (this.props.connection) {
       // navigation.navigate("QRCodeResult", {clientID});
       console.log("connection: " + this.props.connection);
     }
-
   }
 
-  private sendBroadcast = async (text:string) => {
+  private sendBroadcast = async (text: string) => {
     try {
       await this.props.connection.invoke("BroadcastText", text);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   private onChange(newvalue: string) {
     console.log(this.props.connection);
@@ -51,14 +54,13 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     this.sendBroadcast(newvalue);
   }
 
-  
   private closeConnection = async () => {
     try {
       await this.props.connection.stop();
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   public render() {
     return (
@@ -67,8 +69,11 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           <FontAwesomeIcon className="icon" icon={faUserGroup} />
 
           <FontAwesomeIcon className="icon" icon={faMessage} />
-          <FontAwesomeIcon onClick={this.closeConnection} className="icon" icon={faRightFromBracket} />
-
+          <FontAwesomeIcon
+            onClick={this.closeConnection}
+            className="icon"
+            icon={faRightFromBracket}
+          />
         </div>
 
         <AceEditor

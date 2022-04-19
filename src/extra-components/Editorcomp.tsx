@@ -1,10 +1,14 @@
 import React from "react";
 import AceEditor from "react-ace";
 import { Navigate, useNavigate } from "react-router-dom";
-import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { OverlayTrigger, Popover, Button } from "react-bootstrap";
 import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserGroup, faRightFromBracket, faMessage } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserGroup,
+  faRightFromBracket,
+  faMessage,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./Editor.scss";
 
@@ -28,13 +32,13 @@ class Editorcomp extends React.Component<IEditorProps, IEditorState> {
     };
   }
 
-  private sendBroadcast = async (text:string) => {
+  private sendBroadcast = async (text: string) => {
     try {
       await this.props.connection.invoke("BroadcastText", text);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   private onChange(newvalue: string) {
     console.log(this.props.connection);
@@ -45,7 +49,6 @@ class Editorcomp extends React.Component<IEditorProps, IEditorState> {
   public render() {
     return (
       <div>
-
         <AceEditor
           mode={this.props.language}
           theme="twilight"
