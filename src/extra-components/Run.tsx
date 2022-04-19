@@ -6,7 +6,6 @@ const Run = (props: IRunProps) => {
   return (
     <div className="run-container" onClick={props.runcode}>
       <p>Run</p>
-        
     </div>
   );
 };
