@@ -1,11 +1,15 @@
 import { connected } from "process";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { Language } from "../component-types/EditorTypes";
 import { IProjectProps, IProjectState } from "../component-types/ProjectTypes";
 
 import "./login.css";
 
-export class JoinProjectClass extends React.Component<IProjectProps, IProjectState> {
+export class JoinProjectClass extends React.Component<
+  IProjectProps,
+  IProjectState
+> {
   constructor(props: IProjectProps) {
     super(props);
     this.state = {
@@ -72,7 +76,7 @@ export class JoinProjectClass extends React.Component<IProjectProps, IProjectSta
 // functional component
 const JoinProject = (props: IProjectProps) => {
   const [room, setRoom] = useState("");
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState<Language | "">("");
   const [connected, setConnected] = useState(false);
 
   const join = async () => {

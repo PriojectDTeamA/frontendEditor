@@ -33,21 +33,15 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       width: undefined,
       height: undefined,
       chatIsOpen: false,
-      connected: true
+      connected: true,
     };
   }
 
-  componentDidMount(){
-    if(!this.props.connection){
+  componentDidMount() {
+    if (!this.props.connection) {
       this.setState({ connected: false });
     }
   }
-
-  componentWillUnmount(){
-
-  }
-
-
 
   private sendBroadcast = async (text: string) => {
     try {
@@ -67,8 +61,8 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     this.setState({
       chatIsOpen: !this.state.chatIsOpen,
     });
-  }
-  
+  };
+
   private closeConnection = async () => {
     try {
       await this.props.connection.stop();
@@ -82,35 +76,27 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   public render() {
     return (
       <div>
-        {!this.state.connected ? <Navigate to="/JoinProject" /> : null }
+        {!this.state.connected ? <Navigate to="/JoinProject" /> : null}
+        {!this.state.chatIsOpen ? (
+          <div className="button-group">
+            <FontAwesomeIcon className="icon" icon={faUserGroup} />
 
-        {!this.state.chatIsOpen
-        ?
-
-        <div className="button-group">
-          <FontAwesomeIcon 
-            className="icon" 
-            icon={faUserGroup} 
-          />
-
-          <FontAwesomeIcon 
-            onClick={this.switchChatVisibility}  
-            className="icon" 
-            icon={faMessage} 
-          />
-          <FontAwesomeIcon
-            onClick={this.closeConnection}
-            className="icon"
-            icon={faRightFromBracket}
-          />
-        </div>
-        :
-          null
-        }
-          <Chatbox
+            <FontAwesomeIcon
+              onClick={this.switchChatVisibility}
+              className="icon"
+              icon={faMessage}
+            />
+            <FontAwesomeIcon
+              onClick={this.closeConnection}
+              className="icon"
+              icon={faRightFromBracket}
+            />
+          </div>
+        ) : null}
+        <Chatbox
           isOpen={this.state.chatIsOpen}
           openCloseChat={this.switchChatVisibility}
-          />
+        />
         <AceEditor
           mode={this.props.language}
           theme="twilight"
@@ -124,10 +110,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           }}
         />
         <Console />
-        <Run 
-          runcode={() => console.log("run was clicked")} 
-        />
-
+        <Run runcode={() => console.log("run was clicked")} />
       </div>
     );
   }
