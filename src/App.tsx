@@ -65,9 +65,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />}></Route>{" "}
+        <Route path={"/" || "/Login"} element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route path="/home" element={<Home />}></Route>{" "}
+        <Route
+          path="/Home"
+          element={<Home userId="" userFirstName="John" userLastName="Doe" />}
+        ></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"
@@ -94,7 +97,7 @@ function App() {
         ></Route>{" "}
         {/* route to the join_project page */}
         <Route
-          path="/editor"
+          path="/Editor"
           element={
             <Editor
               language="python"
