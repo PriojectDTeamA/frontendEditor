@@ -25,6 +25,7 @@ import "ace-builds/src-noconflict/mode-haskell";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
+import UsersList from "../extra-components/UsersList";
 
 class Editor extends React.Component<IEditorProps, IEditorState> {
   constructor(props: IEditorProps) {
@@ -33,7 +34,9 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       width: undefined,
       height: undefined,
       chatIsOpen: false,
+      initialChatOpen: true,
       connected: true,
+      editorValue: "this is the default text value for any editor language",
     };
   }
 
@@ -43,6 +46,14 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     }
   }
 
+  componentDidUpdate() {
+    this.props.connection.on("Broadcast", (text: string) => {
+      this.setState({ editorValue: text });
+    });
+  }
+
+  componentWillUnmount() {}
+
   private sendBroadcast = async (text: string) => {
     try {
       await this.props.connection.invoke("BroadcastText", text);
@@ -51,15 +62,18 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     }
   };
 
-  private onChange(newvalue: string) {
-    console.log(this.props.connection);
+  private onChange = (newvalue: string) => {
+    // console.log(this.props.connection);
     console.log("Change", newvalue);
+    this.setState({ editorValue: newvalue });
+
     this.sendBroadcast(newvalue);
-  }
+  };
 
   private switchChatVisibility = () => {
     this.setState({
       chatIsOpen: !this.state.chatIsOpen,
+      initialChatOpen: false,
     });
   };
 
@@ -77,30 +91,42 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     return (
       <div>
         {!this.state.connected ? <Navigate to="/JoinProject" /> : null}
-        {!this.state.chatIsOpen ? (
-          <div className="button-group">
-            <FontAwesomeIcon className="icon" icon={faUserGroup} />
 
-            <FontAwesomeIcon
-              onClick={this.switchChatVisibility}
-              className="icon"
-              icon={faMessage}
-            />
-            <FontAwesomeIcon
-              onClick={this.closeConnection}
-              className="icon"
-              icon={faRightFromBracket}
-            />
+        {!this.state.chatIsOpen && (
+          <div className="iets">
+            <div className="button-group">
+              <FontAwesomeIcon
+                id="user-list"
+                className="icon"
+                icon={faUserGroup}
+              />
+
+              <div className="popover-list">
+                <UsersList users={this.props.users}></UsersList>
+              </div>
+
+              <FontAwesomeIcon
+                onClick={this.switchChatVisibility}
+                className="icon"
+                icon={faMessage}
+              />
+              <FontAwesomeIcon
+                onClick={this.closeConnection}
+                className="icon"
+                icon={faRightFromBracket}
+              />
+            </div>
           </div>
-        ) : null}
+        )}
         <Chatbox
           isOpen={this.state.chatIsOpen}
+          initialOpening={this.state.initialChatOpen}
           openCloseChat={this.switchChatVisibility}
         />
         <AceEditor
           mode={this.props.language}
           theme="twilight"
-          value="this is the default text value for any editor language"
+          value={this.state.editorValue}
           name="editor"
           onChange={this.onChange}
           height={this.state.height}

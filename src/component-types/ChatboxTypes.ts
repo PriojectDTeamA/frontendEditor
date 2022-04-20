@@ -4,5 +4,6 @@ export interface IChatMessageProps {
 
 export interface IChatboxProps {
   isOpen: boolean;
+  initialOpening: boolean;
   openCloseChat: () => void;
 }
