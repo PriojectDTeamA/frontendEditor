@@ -37,6 +37,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       initialChatOpen: true,
       connected: true,
       editorValue: "this is the default text value for any editor language",
+      consoleValue: "this is the default text value for the console",
     };
   }
 
@@ -70,13 +71,6 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     this.sendBroadcast(newvalue);
   };
 
-  private switchChatVisibility = () => {
-    this.setState({
-      chatIsOpen: !this.state.chatIsOpen,
-      initialChatOpen: false,
-    });
-  };
-
   private closeConnection = async () => {
     try {
       await this.props.connection.stop();
@@ -85,6 +79,23 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  // makes it so the chat folds out or in
+  private switchChatVisibility = () => {
+    this.setState({
+      chatIsOpen: !this.state.chatIsOpen,
+      initialChatOpen: false,
+    });
+  };
+
+  // this will be activated when the run button is clicked
+  private runCode = () => {
+    console.log("Run was clicked");
+    this.setState({
+      consoleValue:
+        "Unfortunately our backend is not yet up and running for this to work",
+    });
   };
 
   public render() {
@@ -135,8 +146,8 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
             $blockScrolling: true,
           }}
         />
-        <Console />
-        <Run runcode={() => console.log("run was clicked")} />
+        <Console text={this.state.consoleValue} />
+        <Run runcode={this.runCode} />
       </div>
     );
   }
