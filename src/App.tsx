@@ -16,6 +16,8 @@ import Home from "./page-components/home";
 import JoinProject from "./page-components/JoinProject";
 import NewProject from "./page-components/NewProject";
 
+export const base_API_URL = "http://127.0.0.1:8034";
+
 function App() {
   const [connectionChat, setConnection] = useState<any>();
   const [messages, setMessages] = useState<any[]>([]);
@@ -24,7 +26,7 @@ function App() {
   const joinRoom = async (user: string, room: string) => {
     try {
       const connectionChat = new HubConnectionBuilder()
-        .withUrl("http://127.0.0.1:8034/chat")
+        .withUrl(`${base_API_URL}/chat`)
         .configureLogging(LogLevel.Information)
         .build();
 
@@ -94,11 +96,12 @@ function App() {
         <Route
           path="/editor"
           element={
-            <Editor 
-              language="python" 
-              connection={connectionChat} 
+            <Editor
+              language="python"
+              connection={connectionChat}
               users={users}
-            />}
+            />
+          }
         ></Route>{" "}
         {/* route to the editor page */}
       </Routes>
