@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./Chatbox.css";
-import { IChatMessageProps, IChatboxProps } from "../component-types/ChatboxTypes";
+import {
+  IChatMessageProps,
+  IChatboxProps,
+} from "../component-types/ChatboxTypes";
 
 const ChatInput = () => {
   const [currentinput, setinput] = useState("");
@@ -31,25 +34,33 @@ const ChatMessage = (props: IChatMessageProps) => {
 const Chatbox = (props: IChatboxProps) => {
   const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
 
+  const openAndCloseChat = () => {
+    props.openCloseChat();
+  };
+
+  const handleChatAnimation = () => {
+    if (props.initialOpening)
+      // initial state of the chat
+      return "";
+    else if (props.isOpen)
+      // chat is open and is activated at least once
+      return "slide-out";
+    // chat is not open but is activated at least once
+    else return "slide-in";
+  };
+
   return (
     <div>
-      {!props.isOpen
-      ?
-        null
-      :
-      <div>
-        <div
-          className={`slide-button ${props.isOpen ? "slide-out" : "slide-in"}`}
-          onClick={props.openCloseChat}
-        >
-          {props.isOpen ? ">" : "<"}
+      {props.isOpen && (
+        <div>
+          <div className={`slide-button slide-out`} onClick={openAndCloseChat}>
+            {">"}
+          </div>
         </div>
-
+      )}
+      <div className={`chatbox ${handleChatAnimation()}`}>
+        <ChatInput />
       </div>
-      }
-        <div className={`chatbox ${props.isOpen ? "slide-out" : "slide-in"}`}>
-          <ChatInput />
-        </div>
     </div>
   );
 };

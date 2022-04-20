@@ -10,5 +10,6 @@ export interface IEditorState {
   height: string | undefined;
   editorValue: string;
   chatIsOpen: boolean;
+  initialChatOpen: boolean; // controls the very first animation of the chatbox
   connected: boolean;
 }

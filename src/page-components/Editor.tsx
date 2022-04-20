@@ -34,8 +34,9 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
       width: undefined,
       height: undefined,
       chatIsOpen: false,
+      initialChatOpen: true,
       connected: true,
-      editorValue: "this is the default text value for any editor language"
+      editorValue: "this is the default text value for any editor language",
     };
   }
 
@@ -45,17 +46,13 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     }
   }
 
-  componentDidUpdate(){
-  this.props.connection.on("Broadcast", (text:string) => {
-    this.setState({ editorValue: text });
-  });
+  componentDidUpdate() {
+    this.props.connection.on("Broadcast", (text: string) => {
+      this.setState({ editorValue: text });
+    });
   }
 
-  componentWillUnmount(){
-
-  }
-
-
+  componentWillUnmount() {}
 
   private sendBroadcast = async (text: string) => {
     try {
@@ -65,19 +62,18 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     }
   };
 
-
-
   private onChange = (newvalue: string) => {
     // console.log(this.props.connection);
     console.log("Change", newvalue);
     this.setState({ editorValue: newvalue });
 
     this.sendBroadcast(newvalue);
-  }
+  };
 
   private switchChatVisibility = () => {
     this.setState({
       chatIsOpen: !this.state.chatIsOpen,
+      initialChatOpen: false,
     });
   };
 
@@ -94,42 +90,37 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   public render() {
     return (
       <div>
-        {!this.state.connected ? <Navigate to="/JoinProject" /> : null }
+        {!this.state.connected ? <Navigate to="/JoinProject" /> : null}
 
-        {!this.state.chatIsOpen
-        ?
-        <div className="iets">
+        {!this.state.chatIsOpen && (
+          <div className="iets">
+            <div className="button-group">
+              <FontAwesomeIcon
+                id="user-list"
+                className="icon"
+                icon={faUserGroup}
+              />
 
-          <div className="button-group">
-            <FontAwesomeIcon
-              id="user-list"
-              className="icon" 
-              icon={faUserGroup} 
-            />
+              <div className="popover-list">
+                <UsersList users={this.props.users}></UsersList>
+              </div>
 
-            <div className="popover-list">
-              <UsersList users={this.props.users}></UsersList>
+              <FontAwesomeIcon
+                onClick={this.switchChatVisibility}
+                className="icon"
+                icon={faMessage}
+              />
+              <FontAwesomeIcon
+                onClick={this.closeConnection}
+                className="icon"
+                icon={faRightFromBracket}
+              />
             </div>
-
-            <FontAwesomeIcon 
-              onClick={this.switchChatVisibility}  
-              className="icon" 
-              icon={faMessage} 
-            />
-            <FontAwesomeIcon
-              onClick={this.closeConnection}
-              className="icon"
-              icon={faRightFromBracket}
-            />
           </div>
-
-        </div>
-        :
-          null
-        }
-
-          <Chatbox
+        )}
+        <Chatbox
           isOpen={this.state.chatIsOpen}
+          initialOpening={this.state.initialChatOpen}
           openCloseChat={this.switchChatVisibility}
         />
         <AceEditor
