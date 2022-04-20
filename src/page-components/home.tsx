@@ -1,8 +1,19 @@
 import React from "react";
+import { Navigate } from "react-router";
 import { base_API_URL } from "../App";
 import { IHomeProps } from "../component-types/HomeTypes";
 import { IProjectBoxProps } from "../component-types/ProjectBoxTypes";
-import "./login.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlus,
+  faArrowRightToBracket,
+  faArrowRightFromBracket
+
+} from "@fortawesome/free-solid-svg-icons";
+
+// import "./login.css";
+import "./Home.scss";
+
 const pythonlogo = require("../assets/python.png");
 const javalogo = require("../assets/java.jpg");
 const javascriptlogo = require("../assets/javascript.png");
@@ -20,9 +31,11 @@ const Home = (props: IHomeProps) => {
 
   return (
     <div>
-      <div className="row fadeInDown">
-        <div className="col-md-4 m-5">
-          <ul className="list-group">
+      <div className="row fadeInDown m-5">
+        <div className="col-6">
+          <div className="projects-group">
+            <h3 className="projects-title">My Projects</h3>
+            <hr />
             {/*loadInProjects() here instead of the single projectBoxes*/}
             <ProjectBox language="python" projectName="First Project" />
             <ProjectBox language="java" projectName="Second Project" />
@@ -36,36 +49,45 @@ const Home = (props: IHomeProps) => {
               projectName="Fourth Project"
               fadeTiming="second"
             />
-          </ul>
+
+            <div onClick={e => Navigate({to: "/NewProject", replace: true })} className="fadeIn third projects-button">
+              <FontAwesomeIcon className="icon" icon={faPlus}/>
+            </div>
+
+          </div>
         </div>
-      </div>
 
-      <div className="fadeIn third position-absolute new">
-        <a
-          href="/NewProject"
-          className="btn btn-primary btn-lg active"
-          role="button"
-          aria-pressed="true"
-        >
-          New Project
-        </a>
-      </div>
+        <div className="col-6">
+          <div className="projects-group">
+            <h3 className="projects-title">Recent Projects</h3>
+            <hr />
+            {/*loadInProjects() here instead of the single projectBoxes*/}
+            <ProjectBox language="python" projectName="First Project" />
+            <ProjectBox language="java" projectName="Second Project" />
+            <ProjectBox
+              language="javascript"
+              projectName="Third Project"
+              fadeTiming="second"
+            />
+            <ProjectBox
+              language="csharp"
+              projectName="Fourth Project"
+              fadeTiming="second"
+            />
 
-      <div className="fadeIn third position-absolute join">
-        <a
-          href="/JoinProject"
-          className="btn btn-primary btn-lg active"
-          role="button"
-          aria-pressed="true"
-        >
-          Join Project
-        </a>
-      </div>
+            <div onClick={e => Navigate({to: "/JoinProject", replace: true })} className="fadeIn third projects-button">
+              <FontAwesomeIcon className="icon" icon={faArrowRightToBracket}/>
+            </div>
 
-      <div className="fadeIn fourth position-absolute logout">
-        <a href="/login" className="btn btn-danger">
-          Logout
-        </a>
+          </div>
+
+
+        </div>
+
+      </div>  
+
+      <div onClick={e => Navigate({to: "/Login", replace: true })} className="fadeIn fourth leave-button">
+        <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket}/>
       </div>
     </div>
   );
@@ -92,10 +114,10 @@ const ProjectBox = (props: IProjectBoxProps) => {
 
   return (
     <div className={`fadeIn ${props.fadeTiming || "first"}`}>
-      <li className="list-group-item m-3">
-        <img src={getLogo()} alt="Project Icon" className="projectlogo" />
-        <a href="./editor">{props.projectName}</a>
-      </li>
+      <div onClick={e => Navigate({to: "/Editor", replace: true })} className="project-item m-3">
+        
+        <h3 className="project-title"><img src={getLogo()} alt="Project Icon" className="projectlogo" /> {props.projectName}</h3>
+      </div>
     </div>
   );
 };
