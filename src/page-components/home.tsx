@@ -1,4 +1,5 @@
 import React from "react";
+import { base_API_URL } from "../App";
 import { IProjectBoxProps } from "../component-types/ProjectBoxTypes";
 import "./login.css";
 const pythonlogo = require("../assets/python.png");
@@ -7,12 +8,21 @@ const javascriptlogo = require("../assets/javascript.png");
 const csharplogo = require("../assets/csharp.png");
 
 const Home = () => {
+  // this will be used to load in all the projects when the api call for projects for one user works
+  // it doesn't work yet since the api isn't complete and the fetch() call isn't correct
+  const loadInProjects = (userId: string) => {
+    fetch(`${base_API_URL}/Projects/${userId}`).then((response) =>
+      response.json()
+    );
+    // return map(e => {<ProjectBox language=e.language projectName=e.name/>})
+  };
+
   return (
     <div>
       <div className="row fadeInDown">
         <div className="col-md-4 m-5">
           <ul className="list-group">
-            {/* eventually these projectboxes need to be loaded from the api with something like a map() function */}
+            {/*loadInProjects() here instead of the single projectBoxes*/}
             <ProjectBox language="python" projectName="First Project" />
             <ProjectBox language="java" projectName="Second Project" />
             <ProjectBox
