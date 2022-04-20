@@ -14,7 +14,7 @@ const Home = () => {
     fetch(`${base_API_URL}/Projects/${userId}`).then((response) =>
       response.json()
     );
-    // map(e => {<ProjectBox language=e.language projectName=e.name/>})
+    // return map(e => {<ProjectBox language=e.language projectName=e.name/>})
   };
 
   return (
@@ -22,7 +22,7 @@ const Home = () => {
       <div className="row fadeInDown">
         <div className="col-md-4 m-5">
           <ul className="list-group">
-            {/* eventually these projectboxes need to be loaded from the api with something like a map() function */}
+            {/*loadInProjects() here instead of the single projectBoxes*/}
             <ProjectBox language="python" projectName="First Project" />
             <ProjectBox language="java" projectName="Second Project" />
             <ProjectBox
