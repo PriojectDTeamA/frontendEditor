@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Language } from "../component-types/EditorTypes";
 import { IProjectProps, IProjectState } from "../component-types/ProjectTypes";
 
 import "./login.css";
@@ -54,8 +55,8 @@ class NewProjectClass extends React.Component<IProjectProps, IProjectState> {
 
 const NewProject = (props: IProjectProps) => {
   const [room, setRoom] = useState("");
-  const [language, setLanguage] = useState("");
-  const [connected, setConnected] = props.connection;
+  const [language, setLanguage] = useState<Language | "">("");
+  const [connected, setConnected] = useState(props.connection);
 
   return (
     <div>

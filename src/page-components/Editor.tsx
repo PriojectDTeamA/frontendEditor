@@ -39,8 +39,8 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     };
   }
 
-  componentDidMount(){
-    if(!this.props.connection){
+  componentDidMount() {
+    if (!this.props.connection) {
       this.setState({ connected: false });
     }
   }
@@ -79,8 +79,8 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     this.setState({
       chatIsOpen: !this.state.chatIsOpen,
     });
-  }
-  
+  };
+
   private closeConnection = async () => {
     try {
       await this.props.connection.stop();
@@ -131,7 +131,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           <Chatbox
           isOpen={this.state.chatIsOpen}
           openCloseChat={this.switchChatVisibility}
-          />
+        />
         <AceEditor
           mode={this.props.language}
           theme="twilight"
@@ -145,10 +145,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
           }}
         />
         <Console />
-        <Run 
-          runcode={() => console.log("run was clicked")} 
-        />
-
+        <Run runcode={() => console.log("run was clicked")} />
       </div>
     );
   }

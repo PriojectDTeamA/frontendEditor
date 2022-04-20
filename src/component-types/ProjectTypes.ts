@@ -1,7 +1,5 @@
-import { ReactEventHandler, ReactNode } from "react";
 import { NavigateFunction } from "react-router-dom";
-
-export type Language = "javascript" | "python" | "csharp" | "java";
+import { Language } from "./EditorTypes";
 
 export interface IProjectProps {
   user: string;
