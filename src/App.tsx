@@ -65,7 +65,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path={"/" || "/Login"} element={<Login />}></Route>{" "}
+        <Route path="/" element={<Login />}></Route>{" "}
+        <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
         <Route
           path="/Home"
