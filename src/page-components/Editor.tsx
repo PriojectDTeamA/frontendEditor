@@ -46,21 +46,31 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     if (!this.props.connection) {
       this.setState({ connected: false });
     }
+    else {
+      this.props.connection.on("Broadcast", (text: string) => {
+        console.log("update!");
+        if (text != this.state.editorValue)
+          this.setState({ editorValue: text });
+      });
+    }
   }
 
   componentDidUpdate() {
     if(this.state.connected){
+      console.log("test");
       this.props.connection.on("Broadcast", (text: string) => {
-        this.setState({ editorValue: text });
+        // console.log(text);
+        if (text != this.state.editorValue)
+          this.setState({ editorValue: text });
       });
     }
   }
 
   componentWillUnmount() {}
 
-  private sendBroadcast = async (text: string) => {
+  private sendBroadcast = (text: string) => {
     try {
-      await this.props.connection.invoke("BroadcastText", text);
+      this.props.connection.invoke("BroadcastText", text);
     } catch (e) {
       console.log(e);
     }
