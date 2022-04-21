@@ -1,7 +1,7 @@
-import { connected } from "process";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Language } from "../component-types/EditorTypes";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps, IProjectState } from "../component-types/ProjectTypes";
 
 import "./login.css";
@@ -75,13 +75,19 @@ export class JoinProjectClass extends React.Component<
 
 // functional component
 const JoinProject = (props: IProjectProps) => {
-  const [room, setRoom] = useState("");
-  const [language, setLanguage] = useState<Language | "">("");
-  const [connected, setConnected] = useState(false);
+  const room = useAppSelector((state) => state.project.room);
+  const language = useAppSelector((state) => state.project.language);
+  const connected = useAppSelector((state) => state.project.connected);
+
+  const dispatch = useAppDispatch();
+  // const [room, setRoom] = useState("");
+  // const [language, setLanguage] = useState<Language | "">("");
+  // const [connected, setConnected] = useState(false);
 
   const join = async () => {
     await props.joinRoom(props.user, room);
-    setConnected(true);
+    dispatch({ type: "project/connect-true" });
+    // setConnected(true);
   };
 
   return (
