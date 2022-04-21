@@ -4,6 +4,9 @@ import {
   IChatMessageProps,
   IChatboxProps,
 } from "../component-types/ChatboxTypes";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
+import { AppDispatch } from "../component-types/store";
+import { useDispatch } from "react-redux";
 
 const ChatInput = () => {
   const [currentinput, setinput] = useState("");
@@ -32,7 +35,10 @@ const ChatMessage = (props: IChatMessageProps) => {
 };
 
 const Chatbox = (props: IChatboxProps) => {
-  const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
+  // const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
+  const messages = useAppSelector((state) => state.chatbox.messages);
+  const isOpen = useAppSelector((state) => state.chatbox.isOpen);
+  const dispatch: AppDispatch = useDispatch();
 
   const openAndCloseChat = () => {
     props.openCloseChat();
@@ -51,7 +57,7 @@ const Chatbox = (props: IChatboxProps) => {
 
   return (
     <div>
-      {props.isOpen && (
+      {isOpen && (
         <div>
           <div className={`slide-button slide-out`} onClick={openAndCloseChat}>
             {">"}

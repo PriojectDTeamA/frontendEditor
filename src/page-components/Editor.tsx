@@ -91,22 +91,22 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   };
 
   // this will be activated when the run button is clicked
-  private runCode = async() => {
+  private runCode = async () => {
     console.log("Run was clicked");
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ project_id: 1, code: "whoop" })
-    }
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ project_id: 1, code: "whoop" }),
+    };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
-    .then((response) => response.json())
-    .then((data) => this.setState({consoleValue: data.output}));
+      .then((response) => response.json())
+      .then((data) => this.setState({ consoleValue: data.output }));
   };
 
   public render() {
     return (
       <div>
-        {!this.state.connected ? <Navigate to="/JoinProject" /> : null}
+        {!this.state.connected && <Navigate to="/JoinProject" />}
 
         {!this.state.chatIsOpen && (
           <div className="iets">

@@ -1,5 +1,5 @@
 import React from "react";
-import { IRunProps } from "./RunTypes";
+import { IRunProps } from "../component-types/RunTypes";
 import "./Run.css";
 
 const Run = (props: IRunProps) => {

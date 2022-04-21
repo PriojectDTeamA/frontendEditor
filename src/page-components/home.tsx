@@ -3,6 +3,7 @@ import { base_API_URL } from "../App";
 import { IHomeProps } from "../component-types/HomeTypes";
 import { IProjectBoxProps } from "../component-types/ProjectBoxTypes";
 import "./login.css";
+
 const pythonlogo = require("../assets/python.png");
 const javalogo = require("../assets/java.jpg");
 const javascriptlogo = require("../assets/javascript.png");
@@ -14,8 +15,10 @@ const Home = (props: IHomeProps) => {
   const loadInProjects = async () => {
     const userProjects = await fetch(`${base_API_URL}/Projects/${props.userId}`)
       .then((response) => response.json())
-      .then((data) => data);
-    // return userProjects.map(e => {<ProjectBox language=e.language projectName=e.name/>})
+      .then(
+        (data) =>
+          data /*.map(res => {ProjectBox language=res.language projectName=res.name})*/
+      );
   };
 
   return (
@@ -63,7 +66,7 @@ const Home = (props: IHomeProps) => {
       </div>
 
       <div className="fadeIn fourth position-absolute logout">
-        <a href="/login" className="btn btn-danger">
+        <a href="/" className="btn btn-danger">
           Logout
         </a>
       </div>
