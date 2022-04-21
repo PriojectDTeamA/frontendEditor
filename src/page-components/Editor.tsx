@@ -49,9 +49,11 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   }
 
   componentDidUpdate() {
-    this.props.connection.on("Broadcast", (text: string) => {
-      this.setState({ editorValue: text });
-    });
+    if(this.state.connected){
+      this.props.connection.on("Broadcast", (text: string) => {
+        this.setState({ editorValue: text });
+      });
+    }
   }
 
   componentWillUnmount() {}
@@ -74,8 +76,8 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
 
   private closeConnection = async () => {
     try {
-      await this.props.connection.stop();
       this.setState({ connected: false });
+      await this.props.connection.stop();
       // navigate("/Home");
     } catch (e) {
       console.log(e);
