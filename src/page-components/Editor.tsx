@@ -1,6 +1,7 @@
 import React from "react";
 import AceEditor from "react-ace";
 import { Navigate, useNavigate } from "react-router-dom";
+import { base_API_URL } from "../App";
 import { OverlayTrigger, Popover, Button } from "react-bootstrap";
 import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
 import Console from "../extra-components/Console";
@@ -90,12 +91,16 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
   };
 
   // this will be activated when the run button is clicked
-  private runCode = () => {
+  private runCode = async() => {
     console.log("Run was clicked");
-    this.setState({
-      consoleValue:
-        "Unfortunately our backend is not yet up and running for this to work",
-    });
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ project_id: 1, code: "whoop" })
+    }
+    await fetch(`${base_API_URL}/RunSession`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => this.setState({consoleValue: data.output}));
   };
 
   public render() {

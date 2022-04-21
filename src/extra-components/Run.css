@@ -10,6 +10,16 @@
   height: 50px;
   width: 100px;
 }
+
+.run-container:hover{
+  background-color: rgb(148, 148, 148);
+  cursor: pointer;
+}
+
+.run-container:active {
+  background-color: rgb(92, 91, 91);
+}
+
 .run-container p {
   position: relative;
   text-align: center;
