@@ -56,7 +56,7 @@ const Login = (props: ILoginProps) => {
               placeholder="login"
             ></input>
             <input
-              type="text"
+              type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
