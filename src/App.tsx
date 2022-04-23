@@ -32,6 +32,8 @@ function App() {
 
       connectionChat.on("ReceiveMessage", (user, message) => {
         setMessages((messages) => [...messages, { user, message }]);
+        console.log("Received");
+        
       });
 
       connectionChat.on("Broadcast", (text) => {

@@ -20,13 +20,18 @@ const Login = (props: ILoginProps) => {
       await fetch(`${base_API_URL}/Login`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
 
-        if(data.status == "Success"){
+        if(data.Status == "Success"){
           console.log("user logged in");
           console.log(data.message);
-        }else if(data.status == "Failed"){
+        }else if(data.Status == "Failed"){
           console.log(data.message);
           setPassword("");
+        }
+        else {
+          console.log("Error, no successfull response;")
+          console.log(data);
         }
       });
     } catch (error) {
