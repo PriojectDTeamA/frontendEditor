@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import "./Chatbox.css";
-import {
-  IChatMessageProps,
-  IChatboxProps,
-} from "../component-types/ChatboxTypes";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { AppDispatch } from "../component-types/store";
-import { useDispatch } from "react-redux";
+import { switchChatbox } from "../component-types/stateTypes";
+import { IChatMessageProps } from "../component-types/propTypes";
 
 const ChatInput = () => {
   const [currentinput, setinput] = useState("");
@@ -34,32 +31,36 @@ const ChatMessage = (props: IChatMessageProps) => {
   );
 };
 
-const Chatbox = (props: IChatboxProps) => {
+const Chatbox = () => {
   // const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
-  const messages = useAppSelector((state) => state.chatbox.messages);
-  const isOpen = useAppSelector((state) => state.chatbox.isOpen);
-  const dispatch: AppDispatch = useDispatch();
+  const messages = useAppSelector((state) => state.chatbox.chatMessages);
+  const isOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
+  const initialOpening = useAppSelector(
+    (state) => state.chatbox.initialOpening
+  );
 
-  const openAndCloseChat = () => {
-    props.openCloseChat();
-  };
+  const dispatch: AppDispatch = useAppDispatch();
 
   const handleChatAnimation = () => {
-    if (props.initialOpening)
+    if (initialOpening)
       // initial state of the chat
       return "";
-    else if (props.isOpen)
+    else if (isOpen)
       // chat is open and is activated at least once
       return "slide-out";
     // chat is not open but is activated at least once
     else return "slide-in";
   };
 
+  // TODO: load in all the messages of the chatbox that belong to the current room.
   return (
     <div>
       {isOpen && (
         <div>
-          <div className={`slide-button slide-out`} onClick={openAndCloseChat}>
+          <div
+            className={`slide-button slide-out`}
+            onClick={() => dispatch(switchChatbox())}
+          >
             {">"}
           </div>
         </div>

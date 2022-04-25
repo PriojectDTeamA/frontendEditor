@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Language } from "../component-types/EditorTypes";
-import { IProjectProps, IProjectState } from "../component-types/ProjectTypes";
+import { IProjectProps, Language } from "../component-types/propTypes";
 
 import "./login.css";
 
-class NewProjectClass extends React.Component<IProjectProps, IProjectState> {
+class NewProjectClass extends React.Component<IProjectProps> {
   constructor(props: IProjectProps) {
     super(props);
     this.state = {

@@ -1,7 +1,7 @@
 import React from "react";
 import { base_API_URL } from "../App";
-import { IHomeProps } from "../component-types/HomeTypes";
-import { IProjectBoxProps } from "../component-types/ProjectBoxTypes";
+import { useAppSelector } from "../component-types/hooks";
+import { IProjectBoxProps } from "../component-types/propTypes";
 import "./login.css";
 
 const pythonlogo = require("../assets/python.png");
@@ -9,11 +9,13 @@ const javalogo = require("../assets/java.jpg");
 const javascriptlogo = require("../assets/javascript.png");
 const csharplogo = require("../assets/csharp.png");
 
-const Home = (props: IHomeProps) => {
+const Home = () => {
+  const mainUser = useAppSelector((state) => state.editor.mainUser);
+
   // this will be used to load in all the projects when the api call for projects for one user works
   // it doesn't work yet since the api isn't complete and the fetch() call isn't correct
   const loadInProjects = async () => {
-    const userProjects = await fetch(`${base_API_URL}/Projects/${props.userId}`)
+    const userProjects = await fetch(`${base_API_URL}/Projects/${mainUser.ID}`)
       .then((response) => response.json())
       .then(
         (data) =>

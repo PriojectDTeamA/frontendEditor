@@ -1,13 +1,10 @@
 import React from "react";
-import { ILoginProps } from "../component-types/LoginTypes";
-import { useState } from "react";
-
-import "./login.css";
+import "./Login.css";
+import { useAppDispatch } from "../component-types/hooks";
 var logo = require("../assets/User-icon.png");
 
-const Login = (props: ILoginProps) => {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const dispatch = useAppDispatch();
 
   return (
     <div>

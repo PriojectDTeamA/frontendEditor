@@ -1,13 +1,15 @@
 import React from "react";
-import { IConsoleProps } from "../component-types/ConsoleTypes";
+import { useAppSelector } from "../component-types/hooks";
 import "./Console.css";
 
-const Console = (props: IConsoleProps) => {
+const Console = () => {
+  const consoleText = useAppSelector((state) => state.editor.consoleText);
+
   return (
     <div className="console">
       <p>
         {"$ "}
-        {props.text || "no output was given"}
+        {consoleText}
       </p>
     </div>
   );

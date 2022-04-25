@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AceEditor from "react-ace";
 import { Navigate, useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
-import { OverlayTrigger, Popover, Button } from "react-bootstrap";
-import { IEditorProps, IEditorState } from "../component-types/EditorTypes";
+import { IEditorProps } from "../component-types/propTypes";
 import Console from "../extra-components/Console";
 import Run from "../extra-components/Run";
 import Chatbox from "../extra-components/Chatbox";
+import UsersList from "../extra-components/UsersList";
 // import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,72 +26,61 @@ import "ace-builds/src-noconflict/mode-haskell";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
-import UsersList from "../extra-components/UsersList";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
+import {
+  disconnectProject,
+  switchChatbox,
+  updateConsole,
+  updateEditor,
+} from "../component-types/stateTypes";
+import { HubConnection } from "@microsoft/signalr";
 
-class Editor extends React.Component<IEditorProps, IEditorState> {
-  constructor(props: IEditorProps) {
-    super(props);
-    this.state = {
-      width: undefined,
-      height: undefined,
-      chatIsOpen: false,
-      initialChatOpen: true,
-      connected: true,
-      editorValue: "this is the default text value for any editor language",
-      consoleValue: "this is the default text value for the console",
-    };
-  }
+const Editor = (props: IEditorProps) => {
+  const connection = useAppSelector(
+    (state) => state.projectConnection.connection
+  ) as HubConnection;
+  const connected = useAppSelector(
+    (state) => state.projectConnection.connected
+  );
+  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
+  const editorValue = useAppSelector((state) => state.editor.editorText);
 
-  componentDidMount() {
-    if (!this.props.connection) {
-      this.setState({ connected: false });
+  const dispatch = useAppDispatch();
+
+  // the empty array as a second parameter gives the same effect as componentOnMount
+  useEffect(() => {
+    if (!connected) {
+      dispatch(disconnectProject());
     }
-  }
+  }, []);
 
-  componentDidUpdate() {
-    this.props.connection.on("Broadcast", (text: string) => {
-      this.setState({ editorValue: text });
-    });
-  }
-
-  componentWillUnmount() {}
-
-  private sendBroadcast = async (text: string) => {
+  const sendBroadcast = async (text: string) => {
     try {
-      await this.props.connection.invoke("BroadcastText", text);
+      await connection.invoke("BroadcastText", text);
     } catch (e) {
       console.log(e);
     }
   };
 
-  private onChange = (newvalue: string) => {
+  const onChange = (newvalue: string) => {
     // console.log(this.props.connection);
     console.log("Change", newvalue);
-    this.setState({ editorValue: newvalue });
-
-    this.sendBroadcast(newvalue);
+    dispatch(updateEditor(newvalue));
+    sendBroadcast(newvalue);
   };
 
-  private closeConnection = async () => {
+  const closeConnection = async () => {
     try {
-      await this.props.connection.stop();
-      this.setState({ connected: false });
+      await connection.stop();
+      dispatch(disconnectProject());
       // navigate("/Home");
     } catch (e) {
       console.log(e);
     }
   };
 
-  // makes it so the chat folds out or in
-  private switchChatVisibility = () => {
-    this.setState({
-      chatIsOpen: !this.state.chatIsOpen,
-      initialChatOpen: false,
-    });
-  };
-
   // this will be activated when the run button is clicked
-  private runCode = async () => {
+  const runCode = async () => {
     console.log("Run was clicked");
     const requestOptions = {
       method: "POST",
@@ -100,62 +89,54 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
       .then((response) => response.json())
-      .then((data) => this.setState({ consoleValue: data.output }));
+      .then((data) => dispatch(updateConsole(data.output)));
   };
 
-  public render() {
-    return (
-      <div>
-        {!this.state.connected && <Navigate to="/JoinProject" />}
+  return (
+    <div>
+      {!connected && <Navigate to="/JoinProject" />}
 
-        {!this.state.chatIsOpen && (
-          <div className="iets">
-            <div className="button-group">
-              <FontAwesomeIcon
-                id="user-list"
-                className="icon"
-                icon={faUserGroup}
-              />
+      {!chatIsOpen && (
+        <div className="iets">
+          <div className="button-group">
+            <FontAwesomeIcon
+              id="user-list"
+              className="icon"
+              icon={faUserGroup}
+            />
 
-              <div className="popover-list">
-                <UsersList users={this.props.users}></UsersList>
-              </div>
-
-              <FontAwesomeIcon
-                onClick={this.switchChatVisibility}
-                className="icon"
-                icon={faMessage}
-              />
-              <FontAwesomeIcon
-                onClick={this.closeConnection}
-                className="icon"
-                icon={faRightFromBracket}
-              />
+            <div className="popover-list">
+              <UsersList></UsersList>
             </div>
-          </div>
-        )}
-        <Chatbox
-          isOpen={this.state.chatIsOpen}
-          initialOpening={this.state.initialChatOpen}
-          openCloseChat={this.switchChatVisibility}
-        />
-        <AceEditor
-          mode={this.props.language}
-          theme="twilight"
-          value={this.state.editorValue}
-          name="editor"
-          onChange={this.onChange}
-          height={this.state.height}
-          width="100%"
-          editorProps={{
-            $blockScrolling: true,
-          }}
-        />
-        <Console text={this.state.consoleValue} />
-        <Run runcode={this.runCode} />
-      </div>
-    );
-  }
-}
 
+            <FontAwesomeIcon
+              onClick={() => dispatch(switchChatbox())}
+              className="icon"
+              icon={faMessage}
+            />
+            <FontAwesomeIcon
+              onClick={closeConnection}
+              className="icon"
+              icon={faRightFromBracket}
+            />
+          </div>
+        </div>
+      )}
+      <Chatbox />
+      <AceEditor
+        mode={props.language}
+        theme="twilight"
+        value={editorValue}
+        name="editor"
+        onChange={onChange}
+        width="100%"
+        editorProps={{
+          $blockScrolling: true,
+        }}
+      />
+      <Console />
+      <Run runcode={runCode} />
+    </div>
+  );
+};
 export default Editor;

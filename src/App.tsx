@@ -15,13 +15,24 @@ import Login from "./page-components/login";
 import Home from "./page-components/home";
 import JoinProject from "./page-components/JoinProject";
 import NewProject from "./page-components/NewProject";
+import { useAppDispatch, useAppSelector } from "./component-types/hooks";
+import {
+  connectProject,
+  disconnectProject,
+} from "./component-types/stateTypes";
 
 export const base_API_URL = "http://127.0.0.1:8034";
 
 function App() {
-  const [connectionChat, setConnection] = useState<any>();
-  const [messages, setMessages] = useState<any[]>([]);
+  const connectionChat = useAppSelector(
+    (state) => state.projectConnection.connection
+  );
+
+  // TODO: replace these hooks with useAppSelector somehow
+  const [messages, setMessages] = useState<any[]>([]); // what is this used for?
   const [users, setUsers] = useState<any>([]);
+
+  const dispatch = useAppDispatch();
 
   const joinRoom = async (user: string, room: string) => {
     try {
@@ -39,26 +50,25 @@ function App() {
         console.log("voert uit");
       });
 
+      // TODO: make it so this uses a dispatch action to set the users
       connectionChat.on("UsersInRoom", (users) => {
         setUsers(users);
       });
 
       connectionChat.onclose((e) => {
-        setConnection([]);
+        dispatch(disconnectProject());
         setMessages([]);
         setUsers([]);
       });
 
       await connectionChat.start();
       await connectionChat.invoke("JoinRoom", { user, room });
-      setConnection(connectionChat);
+      dispatch(connectProject(connectionChat));
       console.log("connectionChat");
       console.log(connectionChat);
-      // console.log(p);
-      return true;
     } catch (e) {
       console.log(e);
-      return false;
+      dispatch(disconnectProject());
     }
   };
 
@@ -68,10 +78,7 @@ function App() {
         <Route path="/" element={<Login />}></Route>{" "}
         <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route
-          path="/Home"
-          element={<Home userId="" username="john doe" />}
-        ></Route>{" "}
+        <Route path="/Home" element={<Home />}></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"
@@ -99,13 +106,7 @@ function App() {
         {/* route to the join_project page */}
         <Route
           path="/Editor"
-          element={
-            <Editor
-              language="python"
-              connection={connectionChat}
-              users={users}
-            />
-          }
+          element={<Editor language="python" />}
         ></Route>{" "}
         {/* route to the editor page */}
       </Routes>

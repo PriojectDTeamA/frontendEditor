@@ -1,15 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { chatBoxReducer } from "./ChatboxTypes";
-import { editorReducer } from "./EditorTypes";
-import { loginReducer } from "./LoginTypes";
-import { projectReducer } from "./ProjectTypes";
+import { slices } from "./stateTypes";
 
 export const store = configureStore({
   reducer: {
-    chatbox: chatBoxReducer,
-    editor: editorReducer,
-    login: loginReducer,
-    project: projectReducer,
+    chatbox: slices.chatBoxSlice.reducer,
+    editor: slices.editorSlice.reducer,
+    projectConnection: slices.projectConnectionSlice.reducer,
   },
 });
 
