@@ -112,7 +112,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     }
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
     .then((response) => response.json())
-    .then((data) => this.setState({consoleValue: data.output}));
+    .then((data) => this.setState({consoleValue: data.Message}));
   };
 
   public render() {
