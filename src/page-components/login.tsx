@@ -1,5 +1,5 @@
 import React from "react";
-import "./Login.css";
+import "./login.css";
 import { useAppDispatch } from "../component-types/hooks";
 var logo = require("../assets/User-icon.png");
 
