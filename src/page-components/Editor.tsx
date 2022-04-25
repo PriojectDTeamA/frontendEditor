@@ -108,7 +108,7 @@ class Editor extends React.Component<IEditorProps, IEditorState> {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ project_id: 1, code: "whoop" })
+      body: JSON.stringify({ project_id: 1, code: this.state.editorValue })
     }
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
     .then((response) => response.json())
