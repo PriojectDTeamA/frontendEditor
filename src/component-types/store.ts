@@ -6,6 +6,7 @@ export const store = configureStore({
     chatbox: slices.chatBoxSlice.reducer,
     editor: slices.editorSlice.reducer,
     projectConnection: slices.projectConnectionSlice.reducer,
+    user: slices.userSlice.reducer,
   },
   devTools: true,
 });

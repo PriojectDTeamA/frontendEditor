@@ -12,6 +12,11 @@ export interface IProjectProps {
   connection: HubConnection | null; // might need to go into the state and not into a prop
 }
 
+export interface IHomeProps {
+  userID: number;
+  username: string;
+}
+
 export interface IRunProps {
   runcode: () => void;
 }

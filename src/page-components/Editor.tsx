@@ -75,11 +75,11 @@ const Editor = (props: IEditorProps) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ project_id: 1, code: "whoop" }),
+      body: JSON.stringify({ project_id: 1, code: editorValue, language: props.language }),
     };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
       .then((response) => response.json())
-      .then((data) => dispatch(updateConsole(data.output)));
+      .then((data) => dispatch(updateConsole(data.Message)));
   };
 
   return (

@@ -46,6 +46,30 @@ const chatBoxSlice = createSlice({
   },
 });
 
+// CODE FOR THE USER
+interface IUserState {
+  id: number,
+  username: string,
+}
+
+const initialUserState: IUserState = {
+  id: -1,
+  username: "none",
+}
+
+const userSlice = createSlice({
+  name: "user",
+  initialState: initialUserState,
+  reducers: {
+    setID: (state, action: PayloadAction<number>) => {
+      state.id = action.payload;
+    },
+    setUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload; 
+    }
+  }
+})
+
 // CODE FOR THE EDITOR
 interface IEditorState {
   mainUser: User; // this also holds the userId of the main user, thus we don't need a separate userId state. gets reset when a user logs out or after a certain timeframe of inactivity (if possible)
@@ -115,10 +139,11 @@ const projectConnectionSlice = createSlice({
   },
 });
 
-export const slices = { chatBoxSlice, editorSlice, projectConnectionSlice };
+export const slices = { chatBoxSlice, editorSlice, projectConnectionSlice, userSlice };
 export const { openChatbox, closeChatbox, switchChatbox } =
   chatBoxSlice.actions;
 export const { updateEditor, updateConsole, setUserStringArray } =
   editorSlice.actions;
 export const { updateRoom, connectProject, disconnectProject } =
   projectConnectionSlice.actions;
+export const { setID, setUsername} = userSlice.actions;

@@ -89,7 +89,13 @@ function App() {
         <Route path="/" element={<Login />}></Route>{" "}
         <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route path="/Home" element={<Home />}></Route>{" "}
+        <Route 
+          path="/Home" 
+          element={<Home 
+              userID={1}
+              username="test"
+            />}
+        ></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"
