@@ -35,11 +35,10 @@ const Login = () => {
 
         if(data.Status == "Success"){
           console.log("user logged in");
-          console.log(data.message);
           dispatch(setID(data.Data.ID));
           dispatch(setUsername(data.Data.username));
-        }else if(data.status == "Failed"){
-          console.log(data.message);
+        }else if(data.Status == "Failed"){
+          console.log(data.Message);
         }
       });
     } catch (error) {
