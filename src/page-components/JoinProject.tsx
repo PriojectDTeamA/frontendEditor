@@ -13,12 +13,12 @@ const JoinProject = (props: IProjectProps) => {
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
-  const user = useAppSelector((state) => state.editor.mainUser);
+  const user = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
 
   const join = async () => {
-    await props.joinRoom(user.userName, room);
+    await props.joinRoom(user.username, room);
     // setConnected(true); // the equivalent of this happens in joinRoom when dispatch(connectProject()) gets activated
   };
 

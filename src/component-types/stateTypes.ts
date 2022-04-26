@@ -2,7 +2,7 @@
 // NAME             : TYPE              : WHY IS IT USED?
 // chatIsOpen       : boolean           : To keep track of the chat being open or closed
 // chatMessages     : ReactNode[]       : To keep track of all the messages that are sent in the chat
-// userID           : string | number   : To keep track of the currently logged in user
+// user             : string | number   : To keep track of the currently logged in user
 // consoleText      : string            : To keep track of the output in the console (which changes upon "running" the code)
 // editorText       : string            : To keep track of the text that is being written in the editor
 // currentLanguage  : string            : (Don't know if this is neccessarily a state variable, maybe this should be a prop for editor since it is not mutable after joining a room/project)
@@ -72,7 +72,7 @@ const userSlice = createSlice({
 
 // CODE FOR THE EDITOR
 interface IEditorState {
-  mainUser: User; // this also holds the userId of the main user, thus we don't need a separate userId state. gets reset when a user logs out or after a certain timeframe of inactivity (if possible)
+  // mainUser: User; // this also holds the userId of the main user, thus we don't need a separate userId state. gets reset when a user logs out or after a certain timeframe of inactivity (if possible)
   editorText: string;
   consoleText: string;
   currentUsers: User[];
@@ -86,7 +86,7 @@ export type User = {
 };
 
 const initialEditorState: IEditorState = {
-  mainUser: { ID: -1, userName: "" },
+  // mainUser: { ID: -1, userName: "" },
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
   currentUsers: [],
