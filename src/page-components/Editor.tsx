@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import AceEditor from "react-ace";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { base_API_URL } from "../App";
 import { IEditorProps } from "../component-types/propTypes";
 import Console from "../extra-components/Console";
@@ -33,12 +33,8 @@ import {
   updateConsole,
   updateEditor,
 } from "../component-types/stateTypes";
-import { HubConnection } from "@microsoft/signalr";
 
 const Editor = (props: IEditorProps) => {
-  const connection = useAppSelector(
-    (state) => state.projectConnection.connection
-  ) as HubConnection;
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
@@ -48,40 +44,26 @@ const Editor = (props: IEditorProps) => {
   const dispatch = useAppDispatch();
 
   // the empty array as a second parameter gives the same effect as componentOnMount
+  // as it is now i don't think useEffect is necessary.
+  // if connected is not true it sets it to false (? it is already false if not true ?)
   useEffect(() => {
     if (!connected) {
       dispatch(disconnectProject());
-    }
-    else {
-      connection.on("Broadcast", (text: string) => {
-        console.log("update!");
-        if (text != editorValue) {
-          dispatch(updateEditor(text));
-        }
-      });
     }
   }, []);
 
   const sendBroadcast = async (text: string) => {
     try {
-      await connection.invoke("BroadcastText", text);
+      await props.connection.invoke("BroadcastText", text);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const onChange = (newvalue: string) => {
-    // console.log(this.props.connection);
-    console.log("Change", newvalue);
-    dispatch(updateEditor(newvalue));
-    sendBroadcast(newvalue);
-  };
-
   const closeConnection = async () => {
     try {
-      await connection.stop();
+      await props.connection.stop();
       dispatch(disconnectProject());
-      // navigate("/Home");
     } catch (e) {
       console.log(e);
     }
@@ -136,7 +118,7 @@ const Editor = (props: IEditorProps) => {
         theme="twilight"
         value={editorValue}
         name="editor"
-        onChange={onChange}
+        onChange={(newValue: string) => sendBroadcast(newValue)}
         width="100%"
         editorProps={{
           $blockScrolling: true,

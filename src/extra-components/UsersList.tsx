@@ -4,7 +4,8 @@ import "./UserList.scss";
 
 // style="display:block;top:50px;left:200px"
 const UsersList = () => {
-  const users = useAppSelector((state) => state.editor.currentUsers);
+  // TODO: this should get the users from currentUsers once login is fixed and each user has an id
+  const users = useAppSelector((state) => state.editor.stringUsers);
   return (
     <div className="user-popover">
       <h4 className="popover-title">Joined Users</h4>

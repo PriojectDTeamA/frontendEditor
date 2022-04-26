@@ -7,6 +7,7 @@ export const store = configureStore({
     editor: slices.editorSlice.reducer,
     projectConnection: slices.projectConnectionSlice.reducer,
   },
+  devTools: true,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

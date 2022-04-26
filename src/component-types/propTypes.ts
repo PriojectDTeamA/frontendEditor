@@ -24,6 +24,7 @@ export interface IProjectBoxProps {
 
 export interface IEditorProps {
   language: Language;
+  connection: any | HubConnection;
 }
 
 export type Language = "javascript" | "python" | "csharp" | "java";

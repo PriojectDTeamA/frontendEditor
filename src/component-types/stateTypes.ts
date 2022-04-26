@@ -13,7 +13,6 @@
 // while developing I or You might find this list is incomplete, please feel free to update this list and the code below here, but don't forget to update your fellow developers as well :-).
 
 // the following is code that i would interpret follows and groups this state in the best possible way:
-import { HubConnection } from "@microsoft/signalr";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode } from "react";
 
@@ -53,10 +52,11 @@ interface IEditorState {
   editorText: string;
   consoleText: string;
   currentUsers: User[];
+  stringUsers: string[]; // TODO: this is temporary, once the login is fixed and everybody has an id this should become currentUsers above this everywhere
   currentLanguage?: string; // again, dont't know if this belongs in a state or in the props of the editor
 }
 
-type User = {
+export type User = {
   ID: number;
   userName: string;
 };
@@ -66,6 +66,7 @@ const initialEditorState: IEditorState = {
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
   currentUsers: [],
+  stringUsers: [],
 };
 
 const editorSlice = createSlice({
@@ -78,6 +79,9 @@ const editorSlice = createSlice({
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
     },
+    setUserStringArray: (state, action: PayloadAction<string[]>) => {
+      state.stringUsers = action.payload;
+    },
   },
 });
 
@@ -86,13 +90,11 @@ const editorSlice = createSlice({
 interface IProjectConnectionState {
   currentRoom: string;
   connected: boolean;
-  connection: HubConnection | null; // null if the connection has not been set yet or if you log out of the editor
 }
 
 const initialProjectConnectionState: IProjectConnectionState = {
   currentRoom: "",
   connected: false,
-  connection: null,
 };
 
 const projectConnectionSlice = createSlice({
@@ -102,9 +104,9 @@ const projectConnectionSlice = createSlice({
     updateRoom: (state, action: PayloadAction<string>) => {
       state.currentRoom = action.payload;
     },
-    connectProject: (state, action: PayloadAction<HubConnection>) => {
+    connectProject: (state) => {
       state.connected = true;
-      state.connection = action.payload;
+      // state.connection = action.payload;
     },
     disconnectProject: (state) => {
       state.connected = false;
@@ -116,6 +118,7 @@ const projectConnectionSlice = createSlice({
 export const slices = { chatBoxSlice, editorSlice, projectConnectionSlice };
 export const { openChatbox, closeChatbox, switchChatbox } =
   chatBoxSlice.actions;
-export const { updateEditor, updateConsole } = editorSlice.actions;
+export const { updateEditor, updateConsole, setUserStringArray } =
+  editorSlice.actions;
 export const { updateRoom, connectProject, disconnectProject } =
   projectConnectionSlice.actions;

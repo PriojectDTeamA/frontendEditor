@@ -6,7 +6,11 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  LogLevel,
+} from "@microsoft/signalr";
 // in react-router v6 'Switch' is replaced with 'Routes', be mindful of this when looking up examples or documentation
 // also, the component prop in the 'Route' component has been changed to 'element'
 
@@ -19,57 +23,63 @@ import { useAppDispatch, useAppSelector } from "./component-types/hooks";
 import {
   connectProject,
   disconnectProject,
+  setUserStringArray,
+  updateEditor,
 } from "./component-types/stateTypes";
 
 export const base_API_URL = "http://127.0.0.1:8034";
 
 function App() {
-  const connectionChat = useAppSelector(
-    (state) => state.projectConnection.connection
+  // maybe we can replace these hooks and states with state in the store
+  // this won't work for the connectionChat since this is not serializable in the state and will therefore not be a good fit for redux
+  const [connectionChat, setConnectionChat] = useState<HubConnection | null>(
+    null
   );
-
-  // TODO: replace these hooks with useAppSelector somehow
   const [messages, setMessages] = useState<any[]>([]); // what is this used for?
-  const [users, setUsers] = useState<any>([]);
 
   const dispatch = useAppDispatch();
+  const editorValue = useAppSelector((state) => state.editor.editorText);
+  const users = useAppSelector((state) => state.editor.currentUsers);
 
-  const joinRoom = async (user: string, room: string) => {
+  const joinRoom = async (username: string, room: string) => {
     try {
-      const connectionChat = new HubConnectionBuilder()
+      const tempConnection = new HubConnectionBuilder()
         .withUrl(`${base_API_URL}/chat`)
         .configureLogging(LogLevel.Information)
         .build();
 
-      connectionChat.on("ReceiveMessage", (user, message) => {
+      tempConnection.on("ReceiveMessage", (user, message) => {
         setMessages((messages) => [...messages, { user, message }]);
       });
 
-      connectionChat.on("Broadcast", (text) => {
+      tempConnection.on("Broadcast", (text: string) => {
         // console.log(this.refs.editor);
-        console.log("voert uit");
+        console.log("update!");
+        if (text !== editorValue) {
+          dispatch(updateEditor(text));
+        }
       });
 
       // TODO: make it so this uses a dispatch action to set the users
-      connectionChat.on("UsersInRoom", (users) => {
-        setUsers(users);
+      tempConnection.on("UsersInRoom", (users) => {
+        dispatch(setUserStringArray(users));
       });
 
-      connectionChat.onclose((e) => {
+      tempConnection.onclose((e) => {
         dispatch(disconnectProject());
         setMessages([]);
-        setUsers([]);
+        dispatch(setUserStringArray([]));
       });
 
-      await connectionChat.start();
-      await connectionChat.invoke("JoinRoom", { user, room });
-      dispatch(connectProject(connectionChat));
+      await tempConnection.start();
+      await tempConnection.invoke("JoinRoom", { username, room }); // dit is waar het fout gaat.
+      setConnectionChat(tempConnection);
+      dispatch(connectProject()); // sets connected to true
       console.log("connectionChat");
-      console.log(connectionChat);
-    } 
-    catch (e) {
+      console.log(tempConnection);
+    } catch (e) {
       console.log(e);
-      dispatch(disconnectProject());
+      dispatch(disconnectProject()); // sets connected to false
     }
   };
 
@@ -107,7 +117,7 @@ function App() {
         {/* route to the join_project page */}
         <Route
           path="/Editor"
-          element={<Editor language="python" />}
+          element={<Editor connection={connectionChat} language="python" />}
         ></Route>{" "}
         {/* route to the editor page */}
       </Routes>
