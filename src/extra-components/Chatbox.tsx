@@ -14,9 +14,7 @@ const ChatInput = () => {
     }
     const inputToSend = currentinput;
     setinput("");
-
     // <-- call the method to send the text through to another client here
-
     return <ChatMessage text={inputToSend} />;
   };
 
@@ -32,7 +30,6 @@ const ChatMessage = (props: IChatMessageProps) => {
 };
 
 const Chatbox = () => {
-  // const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
   const messages = useAppSelector((state) => state.chatbox.chatMessages);
   const isOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const initialOpening = useAppSelector(
@@ -42,13 +39,8 @@ const Chatbox = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
   const handleChatAnimation = () => {
-    if (initialOpening)
-      // initial state of the chat
-      return "";
-    else if (isOpen)
-      // chat is open and is activated at least once
-      return "slide-out";
-    // chat is not open but is activated at least once
+    if (initialOpening) return "";
+    else if (isOpen) return "slide-out";
     else return "slide-in";
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AceEditor from "react-ace";
 import { Navigate } from "react-router-dom";
 import { base_API_URL } from "../App";
@@ -31,7 +31,6 @@ import {
   disconnectProject,
   switchChatbox,
   updateConsole,
-  updateEditor,
 } from "../component-types/stateTypes";
 
 const Editor = (props: IEditorProps) => {
@@ -42,15 +41,6 @@ const Editor = (props: IEditorProps) => {
   const editorValue = useAppSelector((state) => state.editor.editorText);
 
   const dispatch = useAppDispatch();
-
-  // the empty array as a second parameter gives the same effect as componentOnMount
-  // as it is now i don't think useEffect is necessary.
-  // if connected is not true it sets it to false (? it is already false if not true ?)
-  useEffect(() => {
-    if (!connected) {
-      dispatch(disconnectProject());
-    }
-  }, []);
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -75,7 +65,11 @@ const Editor = (props: IEditorProps) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ project_id: 1, code: editorValue, language: props.language }),
+      body: JSON.stringify({
+        project_id: 1,
+        code: editorValue,
+        language: props.language,
+      }),
     };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
       .then((response) => response.json())
@@ -85,7 +79,6 @@ const Editor = (props: IEditorProps) => {
   return (
     <div>
       {!connected && <Navigate to="/JoinProject" />}
-
       {!chatIsOpen && (
         <div className="iets">
           <div className="button-group">
@@ -94,11 +87,9 @@ const Editor = (props: IEditorProps) => {
               className="icon"
               icon={faUserGroup}
             />
-
             <div className="popover-list">
               <UsersList></UsersList>
             </div>
-
             <FontAwesomeIcon
               onClick={() => dispatch(switchChatbox())}
               className="icon"
