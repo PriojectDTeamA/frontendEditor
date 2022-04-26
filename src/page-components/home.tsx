@@ -1,7 +1,7 @@
 import React from "react";
 import { base_API_URL } from "../App";
 import { useAppSelector } from "../component-types/hooks";
-import { IProjectBoxProps, IHomeProps } from "../component-types/propTypes";
+import { IProjectBoxProps } from "../component-types/propTypes";
 import "./login.css";
 
 const pythonlogo = require("../assets/python.png");
@@ -9,7 +9,7 @@ const javalogo = require("../assets/java.jpg");
 const javascriptlogo = require("../assets/javascript.png");
 const csharplogo = require("../assets/csharp.png");
 
-const Home = (props: IHomeProps) => {
+const Home = () => {
   const mainUser = useAppSelector((state) => state.user);
 
   // this will be used to load in all the projects when the api call for projects for one user works

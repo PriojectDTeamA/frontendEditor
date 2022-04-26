@@ -7,7 +7,6 @@ import {
   setID,
   setUsername
 } from "../component-types/stateTypes";
-import { IHomeProps } from "../component-types/propTypes";
 import { Navigate } from "react-router-dom";
 
 var logo = require("../assets/User-icon.png");

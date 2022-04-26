@@ -91,10 +91,7 @@ function App() {
         {/* route to the login page */}
         <Route 
           path="/Home" 
-          element={<Home 
-              userID={1}
-              username="test"
-            />}
+          element={<Home/>}
         ></Route>{" "}
         {/* route to the home page */}
         <Route
