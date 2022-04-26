@@ -118,7 +118,10 @@ const Editor = (props: IEditorProps) => {
         theme="twilight"
         value={editorValue}
         name="editor"
-        onChange={(newValue: string) => sendBroadcast(newValue)}
+        onChange={(newValue: string) => {
+          sendBroadcast(newValue)
+          dispatch(updateEditor(newValue))
+        }}
         width="100%"
         editorProps={{
           $blockScrolling: true,
