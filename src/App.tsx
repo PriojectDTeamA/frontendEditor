@@ -66,7 +66,8 @@ function App() {
       dispatch(connectProject(connectionChat));
       console.log("connectionChat");
       console.log(connectionChat);
-    } catch (e) {
+    } 
+    catch (e) {
       console.log(e);
       dispatch(disconnectProject());
     }

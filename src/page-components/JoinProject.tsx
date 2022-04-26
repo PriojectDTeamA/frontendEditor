@@ -18,7 +18,7 @@ const JoinProject = (props: IProjectProps) => {
   const dispatch = useAppDispatch();
 
   const join = async () => {
-    await props.joinRoom(user, room);
+    await props.joinRoom(user.userName, room);
     // setConnected(true); // the equivalent of this happens in joinRoom when dispatch(connectProject(value)) gets activated
   };
 

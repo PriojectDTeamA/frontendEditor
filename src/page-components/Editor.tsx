@@ -52,6 +52,14 @@ const Editor = (props: IEditorProps) => {
     if (!connected) {
       dispatch(disconnectProject());
     }
+    else {
+      connection.on("Broadcast", (text: string) => {
+        console.log("update!");
+        if (text != editorValue) {
+          dispatch(updateEditor(text));
+        }
+      });
+    }
   }, []);
 
   const sendBroadcast = async (text: string) => {
