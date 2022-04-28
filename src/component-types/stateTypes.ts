@@ -90,6 +90,7 @@ const editorSlice = createSlice({
   initialState: initialEditorState,
   reducers: {
     updateEditor: (state, action: PayloadAction<string>) => {
+      console.warn("Editor is being updated...");
       state.editorText = action.payload;
     },
     updateConsole: (state, action: PayloadAction<string>) => {

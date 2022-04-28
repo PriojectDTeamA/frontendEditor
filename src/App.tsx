@@ -53,7 +53,6 @@ function App() {
       });
 
       tempConnection.on("Broadcast", (text: string) => {
-        console.log("update!");
         if (text !== editorValue) {
           dispatch(updateEditor(text));
         }

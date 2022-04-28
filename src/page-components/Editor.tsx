@@ -31,6 +31,7 @@ import {
   disconnectProject,
   switchChatbox,
   updateConsole,
+  updateEditor,
 } from "../component-types/stateTypes";
 
 const Editor = (props: IEditorProps) => {
@@ -110,8 +111,8 @@ const Editor = (props: IEditorProps) => {
         value={editorValue}
         name="editor"
         onChange={(newValue: string) => {
-          sendBroadcast(newValue)
-          dispatch(updateEditor(newValue))
+          sendBroadcast(newValue);
+          dispatch(updateEditor(newValue));
         }}
         width="100%"
         editorProps={{
