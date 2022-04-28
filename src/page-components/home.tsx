@@ -4,10 +4,10 @@ import { useAppSelector } from "../component-types/hooks";
 import { IProjectBoxProps } from "../component-types/propTypes";
 import "./login.css";
 
-import pythonlogo from "../assets/python.png";
-import javalogo from "../assets/java.jpg";
-import javascriptlogo from "../assets/javascript.png";
-import csharplogo from "../assets/csharp.png";
+const pythonlogo = require("../assets/python.png");
+const javalogo = require("../assets/java.jpg");
+const javascriptlogo = require("../assets/javascript.png");
+const csharplogo = require("../assets/csharp.png");
 
 const Home = () => {
   const mainUser = useAppSelector((state) => state.user);
@@ -44,6 +44,7 @@ const Home = () => {
           </ul>
         </div>
       </div>
+
       <div className="fadeIn third position-absolute new">
         <a
           href="/NewProject"
@@ -54,6 +55,7 @@ const Home = () => {
           New Project
         </a>
       </div>
+
       <div className="fadeIn third position-absolute join">
         <a
           href="/JoinProject"
@@ -64,6 +66,7 @@ const Home = () => {
           Join Project
         </a>
       </div>
+
       <div className="fadeIn fourth position-absolute logout">
         <a href="/" className="btn btn-danger">
           Logout

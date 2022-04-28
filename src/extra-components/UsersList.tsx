@@ -2,6 +2,7 @@ import React from "react";
 import { useAppSelector } from "../component-types/hooks";
 import "./UserList.scss";
 
+// style="display:block;top:50px;left:200px"
 const UsersList = () => {
   // TODO: this should get the users from currentUsers once login is fixed and each user has an id
   const users = useAppSelector((state) => state.editor.stringUsers);

@@ -13,5 +13,5 @@ export const store = configureStore({
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type:  chatbox: IChatBoxState; editor: IEditorState; projectConnection: IProjectConnectionState; user: User}
+// Inferred type:  chatbox: IChatBoxState; editor: IEditorState; login: ILoginState;}
 export type AppDispatch = typeof store.dispatch;

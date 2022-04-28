@@ -6,8 +6,10 @@ import { updateRoom } from "../component-types/stateTypes";
 
 import "./login.css";
 
+// functional component
 const JoinProject = (props: IProjectProps) => {
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
+  const language = useAppSelector((state) => state.editor.currentLanguage);
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
@@ -16,7 +18,8 @@ const JoinProject = (props: IProjectProps) => {
   const dispatch = useAppDispatch();
 
   const join = async () => {
-    await props.joinRoom();
+    await props.joinRoom(user.username, room);
+    // setConnected(true); // the equivalent of this happens in joinRoom when dispatch(connectProject()) gets activated
   };
 
   return (
@@ -30,10 +33,16 @@ const JoinProject = (props: IProjectProps) => {
         <div className="wrapper fadeInDown">
           <div id="formContent">
             <div className="fadeIn first"></div>
+
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 join();
+                // let navigation = useNavigate();
+                // this.setState({connected: this.join()});
+                // navigation.navigate('/editor');
+                // this.navigate(-1);
+                // document.location.href = "Editor";
               }}
             >
               <input
@@ -45,6 +54,7 @@ const JoinProject = (props: IProjectProps) => {
                 name="newproj"
                 placeholder="Project Name"
               ></input>
+
               <input
                 type="submit"
                 className="fadeIn fourth"
