@@ -27,7 +27,7 @@ import {
   updateEditor,
 } from "./component-types/stateTypes";
 
-export const base_API_URL = "http://127.0.0.1:8034";
+export const base_API_URL = "http://145.24.222.113/api";
 
 function App() {
   // maybe we can replace these hooks and states with state in the store
