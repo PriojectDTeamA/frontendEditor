@@ -16,7 +16,7 @@ const JoinProject = (props: IProjectProps) => {
   const dispatch = useAppDispatch();
 
   const join = async () => {
-    await props.joinRoom(user.username, room);
+    await props.joinRoom();
   };
 
   return (
