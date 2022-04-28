@@ -40,6 +40,7 @@ const Editor = (props: IEditorProps) => {
   );
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const editorValue = useAppSelector((state) => state.editor.editorText);
+  const language = useAppSelector((state) => state.editor.language);
 
   const dispatch = useAppDispatch();
 
@@ -69,7 +70,7 @@ const Editor = (props: IEditorProps) => {
       body: JSON.stringify({
         project_id: 1,
         code: editorValue,
-        language: props.language,
+        language,
       }),
     };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
@@ -106,7 +107,7 @@ const Editor = (props: IEditorProps) => {
       )}
       <Chatbox />
       <AceEditor
-        mode={props.language}
+        mode={language}
         theme="twilight"
         value={editorValue}
         name="editor"

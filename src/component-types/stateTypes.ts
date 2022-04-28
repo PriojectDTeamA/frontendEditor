@@ -15,6 +15,7 @@
 // the following is code that i would interpret follows and groups this state in the best possible way:
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode } from "react";
+import { Language } from "./propTypes";
 
 // CODE FOR THE CHATBOX
 interface IChatBoxState {
@@ -75,6 +76,7 @@ const userSlice = createSlice({
 interface IEditorState {
   editorText: string;
   consoleText: string;
+  language?: Language;
   currentUsers: User[];
   stringUsers: string[]; // TODO: this is temporary, once the login is fixed and everybody has an id this should become currentUsers (like above) everywhere
 }
@@ -82,6 +84,7 @@ interface IEditorState {
 const initialEditorState: IEditorState = {
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
+  language: "python",
   currentUsers: [],
   stringUsers: [],
 };
@@ -99,6 +102,9 @@ const editorSlice = createSlice({
     },
     setUserStringArray: (state, action: PayloadAction<string[]>) => {
       state.stringUsers = action.payload;
+    },
+    setLanguage: (state, action: PayloadAction<Language>) => {
+      state.language = action.payload;
     },
   },
 });
@@ -138,7 +144,7 @@ export const slices = {
 };
 export const { openChatbox, closeChatbox, switchChatbox } =
   chatBoxSlice.actions;
-export const { updateEditor, updateConsole, setUserStringArray } =
+export const { updateEditor, updateConsole, setUserStringArray, setLanguage } =
   editorSlice.actions;
 export const { updateRoom, connectProject, disconnectProject } =
   projectConnectionSlice.actions;

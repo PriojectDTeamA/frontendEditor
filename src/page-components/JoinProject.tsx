@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps } from "../component-types/propTypes";
-import { updateRoom } from "../component-types/stateTypes";
+import { setLanguage, updateRoom } from "../component-types/stateTypes";
 
 import "./login.css";
 
@@ -17,6 +17,7 @@ const JoinProject = (props: IProjectProps) => {
 
   const join = async () => {
     await props.joinRoom();
+    dispatch(setLanguage("python")); // TODO: load this dynamically from an API call
   };
 
   return (

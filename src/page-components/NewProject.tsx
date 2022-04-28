@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+import { useAppDispatch } from "../component-types/hooks";
 import { IProjectProps, Language } from "../component-types/propTypes";
+import { setLanguage } from "../component-types/stateTypes";
 
 import "./login.css";
 
 const NewProject = (props: IProjectProps) => {
-  const [room, setRoom] = useState("");
-  const [language, setLanguage] = useState<Language | "">("");
-  const [connected, setConnected] = useState(props.connection);
+  const dispatch = useAppDispatch();
+
+  const createNew = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await props.joinRoom();
+  };
 
   return (
     <div>
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first"></div>
-          <form>
+          <form onSubmit={(e) => createNew(e)}>
             <input
               type="text"
               id="projname"
@@ -26,6 +31,9 @@ const NewProject = (props: IProjectProps) => {
               name="language"
               placeholder="Language"
               className="fadeIn third"
+              onChange={(e) =>
+                dispatch(setLanguage(e.target.value as Language))
+              }
             >
               <option value="csharp">C#</option>
               <option value="java">Java</option>
