@@ -27,9 +27,7 @@ export const base_API_URL = "http://127.0.0.1:8034";
 function App() {
   // maybe we can replace these hooks and states with state in the store
   // this won't work for the connectionChat since this is not serializable in the state and will therefore not be a good fit for redux
-  const [connectionChat, setConnectionChat] = useState<HubConnection | null>(
-    null
-  );
+  const [connectionChat, setConnectionChat] = useState<HubConnection>();
   const [messages, setMessages] = useState<any[]>([]); // what is this used for?
 
   const dispatch = useAppDispatch();
@@ -90,29 +88,17 @@ function App() {
         {/* route to the home page */}
         <Route
           path="/NewProject"
-          element={
-            <NewProject
-              user="hoi"
-              joinRoom={joinRoom}
-              connection={connectionChat}
-            />
-          }
+          element={<NewProject joinRoom={joinRoom} />}
         ></Route>{" "}
         {/* route to the new_project page */}
         <Route
           path="/JoinProject"
-          element={
-            <JoinProject
-              user="hoi"
-              joinRoom={joinRoom}
-              connection={connectionChat}
-            />
-          }
+          element={<JoinProject joinRoom={joinRoom} />}
         ></Route>{" "}
         {/* route to the join_project page */}
         <Route
           path="/Editor"
-          element={<Editor connection={connectionChat} language="python" />}
+          element={<Editor connection={connectionChat as HubConnection} />}
         ></Route>{" "}
         {/* route to the editor page */}
       </Routes>
