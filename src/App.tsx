@@ -53,8 +53,6 @@ function App() {
       });
 
       tempConnection.on("Broadcast", (text: string) => {
-        // console.log(this.refs.editor);
-        console.log("update!");
         if (text !== editorValue) {
           dispatch(updateEditor(text));
         }
@@ -72,14 +70,12 @@ function App() {
       });
 
       await tempConnection.start();
-      await tempConnection.invoke("JoinRoom", { username, room }); // dit is waar het fout gaat.
+      await tempConnection.invoke("JoinRoom", { username, room });
       setConnectionChat(tempConnection);
-      dispatch(connectProject()); // sets connected to true
-      console.log("connectionChat");
-      console.log(tempConnection);
+      dispatch(connectProject());
     } catch (e) {
       console.log(e);
-      dispatch(disconnectProject()); // sets connected to false
+      dispatch(disconnectProject());
     }
   };
 
@@ -89,10 +85,7 @@ function App() {
         <Route path="/" element={<Login />}></Route>{" "}
         <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route 
-          path="/Home" 
-          element={<Home/>}
-        ></Route>{" "}
+        <Route path="/Home" element={<Home />}></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"
