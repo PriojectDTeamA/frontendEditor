@@ -40,8 +40,10 @@ function App() {
   const dispatch = useAppDispatch();
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const users = useAppSelector((state) => state.editor.currentUsers);
+  const room = useAppSelector((state) => state.projectConnection.currentRoom);
+  const mainUser = useAppSelector((state) => state.user);
 
-  const joinRoom = async (username: string, room: string) => {
+  const joinRoom = async () => {
     try {
       const tempConnection = new HubConnectionBuilder()
         .withUrl(`${base_API_URL}/chat`)
@@ -53,8 +55,6 @@ function App() {
       });
 
       tempConnection.on("Broadcast", (text: string) => {
-        // console.log(this.refs.editor);
-        console.log("update!");
         if (text !== editorValue) {
           dispatch(updateEditor(text));
         }
@@ -62,6 +62,7 @@ function App() {
 
       // TODO: make it so this uses a dispatch action to set the users
       tempConnection.on("UsersInRoom", (users) => {
+        // BUG: doesn't actually set the users, when looking into the state users are null
         dispatch(setUserStringArray(users));
       });
 
@@ -72,14 +73,15 @@ function App() {
       });
 
       await tempConnection.start();
-      await tempConnection.invoke("JoinRoom", { username, room }); // dit is waar het fout gaat.
+      await tempConnection.invoke("JoinRoom", {
+        user: mainUser.username,
+        room,
+      });
       setConnectionChat(tempConnection);
-      dispatch(connectProject()); // sets connected to true
-      console.log("connectionChat");
-      console.log(tempConnection);
+      dispatch(connectProject());
     } catch (e) {
       console.log(e);
-      dispatch(disconnectProject()); // sets connected to false
+      dispatch(disconnectProject());
     }
   };
 
@@ -89,10 +91,7 @@ function App() {
         <Route path="/" element={<Login />}></Route>{" "}
         <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route 
-          path="/Home" 
-          element={<Home/>}
-        ></Route>{" "}
+        <Route path="/Home" element={<Home />}></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"
@@ -101,7 +100,6 @@ function App() {
               user="hoi"
               joinRoom={joinRoom}
               connection={connectionChat}
-              navigation={useNavigate}
             />
           }
         ></Route>{" "}
@@ -113,7 +111,6 @@ function App() {
               user="hoi"
               joinRoom={joinRoom}
               connection={connectionChat}
-              navigation={useNavigate}
             />
           }
         ></Route>{" "}

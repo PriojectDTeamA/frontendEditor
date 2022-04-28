@@ -42,20 +42,21 @@ const chatBoxSlice = createSlice({
     },
     switchChatbox: (state) => {
       state.chatIsOpen = !state.chatIsOpen;
+      state.initialOpening = false;
     },
   },
 });
 
 // CODE FOR THE USER
-interface IUserState {
-  id: number,
-  username: string,
-}
+export type User = {
+  id: number;
+  username: string;
+};
 
-const initialUserState: IUserState = {
+const initialUserState: User = {
   id: -1,
   username: "none",
-}
+};
 
 const userSlice = createSlice({
   name: "user",
@@ -65,28 +66,20 @@ const userSlice = createSlice({
       state.id = action.payload;
     },
     setUsername: (state, action: PayloadAction<string>) => {
-      state.username = action.payload; 
-    }
-  }
-})
+      state.username = action.payload;
+    },
+  },
+});
 
 // CODE FOR THE EDITOR
 interface IEditorState {
-  // mainUser: User; // this also holds the userId of the main user, thus we don't need a separate userId state. gets reset when a user logs out or after a certain timeframe of inactivity (if possible)
   editorText: string;
   consoleText: string;
   currentUsers: User[];
-  stringUsers: string[]; // TODO: this is temporary, once the login is fixed and everybody has an id this should become currentUsers above this everywhere
-  currentLanguage?: string; // again, dont't know if this belongs in a state or in the props of the editor
+  stringUsers: string[]; // TODO: this is temporary, once the login is fixed and everybody has an id this should become currentUsers (like above) everywhere
 }
 
-export type User = {
-  ID: number;
-  userName: string;
-};
-
 const initialEditorState: IEditorState = {
-  // mainUser: { ID: -1, userName: "" },
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
   currentUsers: [],
@@ -98,6 +91,7 @@ const editorSlice = createSlice({
   initialState: initialEditorState,
   reducers: {
     updateEditor: (state, action: PayloadAction<string>) => {
+      console.warn("Editor is being updated...");
       state.editorText = action.payload;
     },
     updateConsole: (state, action: PayloadAction<string>) => {
@@ -110,7 +104,6 @@ const editorSlice = createSlice({
 });
 
 // CODE FOR THE PROJECT CONNECTION
-// not sure if the connection needs to be a prop or included in the state
 interface IProjectConnectionState {
   currentRoom: string;
   connected: boolean;
@@ -130,20 +123,23 @@ const projectConnectionSlice = createSlice({
     },
     connectProject: (state) => {
       state.connected = true;
-      // state.connection = action.payload;
     },
     disconnectProject: (state) => {
       state.connected = false;
-      // state.connection = null;
     },
   },
 });
 
-export const slices = { chatBoxSlice, editorSlice, projectConnectionSlice, userSlice };
+export const slices = {
+  chatBoxSlice,
+  editorSlice,
+  projectConnectionSlice,
+  userSlice,
+};
 export const { openChatbox, closeChatbox, switchChatbox } =
   chatBoxSlice.actions;
 export const { updateEditor, updateConsole, setUserStringArray } =
   editorSlice.actions;
 export const { updateRoom, connectProject, disconnectProject } =
   projectConnectionSlice.actions;
-export const { setID, setUsername} = userSlice.actions;
+export const { setID, setUsername } = userSlice.actions;
