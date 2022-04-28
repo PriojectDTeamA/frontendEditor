@@ -42,6 +42,7 @@ const chatBoxSlice = createSlice({
     },
     switchChatbox: (state) => {
       state.chatIsOpen = !state.chatIsOpen;
+      state.initialOpening = false;
     },
   },
 });

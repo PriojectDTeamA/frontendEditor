@@ -40,8 +40,10 @@ function App() {
   const dispatch = useAppDispatch();
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const users = useAppSelector((state) => state.editor.currentUsers);
+  const room = useAppSelector((state) => state.projectConnection.currentRoom);
+  const mainUser = useAppSelector((state) => state.user);
 
-  const joinRoom = async (username: string, room: string) => {
+  const joinRoom = async () => {
     try {
       const tempConnection = new HubConnectionBuilder()
         .withUrl(`${base_API_URL}/chat`)
@@ -60,6 +62,7 @@ function App() {
 
       // TODO: make it so this uses a dispatch action to set the users
       tempConnection.on("UsersInRoom", (users) => {
+        // BUG: doesn't actually set the users, when looking into the state users are null
         dispatch(setUserStringArray(users));
       });
 
@@ -70,7 +73,10 @@ function App() {
       });
 
       await tempConnection.start();
-      await tempConnection.invoke("JoinRoom", { username, room });
+      await tempConnection.invoke("JoinRoom", {
+        user: mainUser.username,
+        room,
+      });
       setConnectionChat(tempConnection);
       dispatch(connectProject());
     } catch (e) {
@@ -94,7 +100,6 @@ function App() {
               user="hoi"
               joinRoom={joinRoom}
               connection={connectionChat}
-              navigation={useNavigate}
             />
           }
         ></Route>{" "}
@@ -106,7 +111,6 @@ function App() {
               user="hoi"
               joinRoom={joinRoom}
               connection={connectionChat}
-              navigation={useNavigate}
             />
           }
         ></Route>{" "}

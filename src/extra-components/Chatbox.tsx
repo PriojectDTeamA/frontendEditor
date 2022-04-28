@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Chatbox.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { AppDispatch } from "../component-types/store";
 import { switchChatbox } from "../component-types/stateTypes";
 import { IChatMessageProps } from "../component-types/propTypes";
 
@@ -18,7 +17,13 @@ const ChatInput = () => {
     return <ChatMessage text={inputToSend} />;
   };
 
-  return <textarea className="chat-input"></textarea>;
+  // return <textarea className="chat-input"></textarea>;
+  return (
+    <form>
+      <textarea placeholder="Text here"></textarea>
+      <input id="submit" type="submit" value="Send" />
+    </form>
+  );
 };
 
 const ChatMessage = (props: IChatMessageProps) => {
@@ -36,7 +41,7 @@ const Chatbox = () => {
     (state) => state.chatbox.initialOpening
   );
 
-  const dispatch: AppDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChatAnimation = () => {
     if (initialOpening) return "";
