@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Chatbox.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { AppDispatch } from "../component-types/store";
 import { switchChatbox } from "../component-types/stateTypes";
 import { IChatMessageProps } from "../component-types/propTypes";
 
@@ -14,13 +13,17 @@ const ChatInput = () => {
     }
     const inputToSend = currentinput;
     setinput("");
-
     // <-- call the method to send the text through to another client here
-
     return <ChatMessage text={inputToSend} />;
   };
 
-  return <textarea className="chat-input"></textarea>;
+  // return <textarea className="chat-input"></textarea>;
+  return (
+    <form>
+      <textarea placeholder="Text here"></textarea>
+      <input id="submit" type="submit" value="Send" />
+    </form>
+  );
 };
 
 const ChatMessage = (props: IChatMessageProps) => {
@@ -32,23 +35,17 @@ const ChatMessage = (props: IChatMessageProps) => {
 };
 
 const Chatbox = () => {
-  // const [messages, setMessages] = useState<React.ReactNode[]>([]); // an array of ChatMessage components
   const messages = useAppSelector((state) => state.chatbox.chatMessages);
   const isOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const initialOpening = useAppSelector(
     (state) => state.chatbox.initialOpening
   );
 
-  const dispatch: AppDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChatAnimation = () => {
-    if (initialOpening)
-      // initial state of the chat
-      return "";
-    else if (isOpen)
-      // chat is open and is activated at least once
-      return "slide-out";
-    // chat is not open but is activated at least once
+    if (initialOpening) return "";
+    else if (isOpen) return "slide-out";
     else return "slide-in";
   };
 
