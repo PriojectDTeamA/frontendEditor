@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { base_API_URL } from "../App";
+import { Language } from "../component-types/EditorTypes";
 import { IHomeProps } from "../component-types/HomeTypes";
 import { IProjectBoxProps } from "../component-types/ProjectBoxTypes";
 import "./login.css";
@@ -9,33 +10,35 @@ const javascriptlogo = require("../assets/javascript.png");
 const csharplogo = require("../assets/csharp.png");
 
 const Home = (props: IHomeProps) => {
-  // this will be used to load in all the projects when the api call for projects for one user works
-  // it doesn't work yet since the api isn't complete and the fetch() call isn't correct
-  const loadInProjects = async () => {
-    const userProjects = await fetch(`${base_API_URL}/Projects/${props.userId}`)
-      .then((response) => response.json())
-      .then((data) => data);
-    // return userProjects.map(e => {<ProjectBox language=e.language projectName=e.name/>})
-  };
+  const [projects, setProjects] = useState<any>([]);
+
+  useEffect( () => {
+    const loadProjects = async () => {
+      await fetch(`${base_API_URL}/Projects/GetProjects/1`)
+        .then((response) => response.json())
+        .then((data) => {
+          if(data.Status == "Success"){
+            setProjects(data.Data);      
+          }
+        });
+    };
+    loadProjects();
+  }, []);
+
+  const projectsComp = projects?.map((e: { language:Language, name: string;}, i:any) => (
+    <ProjectBox key={i} language={e.language} projectName={e.name} fadeTiming="second"/>
+  ));
 
   return (
     <div>
       <div className="row fadeInDown">
         <div className="col-md-4 m-5">
           <ul className="list-group">
-            {/*loadInProjects() here instead of the single projectBoxes*/}
-            <ProjectBox language="python" projectName="First Project" />
-            <ProjectBox language="java" projectName="Second Project" />
-            <ProjectBox
-              language="javascript"
-              projectName="Third Project"
-              fadeTiming="second"
-            />
-            <ProjectBox
-              language="csharp"
-              projectName="Fourth Project"
-              fadeTiming="second"
-            />
+            {projects.length != 0 ?
+              projectsComp
+              :
+              <div>No projects found</div>
+            }
           </ul>
         </div>
       </div>
