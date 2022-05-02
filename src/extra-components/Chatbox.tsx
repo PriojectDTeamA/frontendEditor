@@ -1,41 +1,88 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Chatbox.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { switchChatbox } from "../component-types/stateTypes";
-import { IChatMessageProps } from "../component-types/propTypes";
+import { IChatMessageProps, IEditorProps } from "../component-types/propTypes";
 
-const ChatInput = () => {
+const ChatInput = (props: IChatMessageProps) => {
   const [currentinput, setinput] = useState("");
 
-  const send = () => {
+  const send = async () => {
     if (currentinput === "") {
       return null;
     }
-    const inputToSend = currentinput;
+    
+    try {
+      await props.connection.invoke("SendMessage", currentinput);
+    } catch (e) {
+      console.log(e);
+    }
+    
     setinput("");
-    // <-- call the method to send the text through to another client here
-    return <ChatMessage text={inputToSend} />;
   };
 
-  // return <textarea className="chat-input"></textarea>;
   return (
-    <form>
-      <textarea placeholder="Text here"></textarea>
-      <input id="submit" type="submit" value="Send" />
-    </form>
-  );
-};
+    <form
+    onSubmit={(e) => {
+      e.preventDefault();
+      send();
+    }}
+  >
+    <div className="input-container">
+      <input
+        type="text"
+        value={currentinput}
+        onChange={(e) => setinput(e.target.value)}
+        placeholder="message..."
+        className="message-text"
+      ></input>
+      <input
+        type="submit"
+        value="send"
+        className="message-button"
+      ></input>
 
-const ChatMessage = (props: IChatMessageProps) => {
-  return (
-    <div className="chat-message">
-      <p>{props.text}</p>
     </div>
+  </form>
   );
 };
 
-const Chatbox = () => {
+const MessageContainer = () => {
+  const messageRef = useRef<null | HTMLDivElement>(null);
   const messages = useAppSelector((state) => state.chatbox.chatMessages);
+  const mainUser = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    // scroll to the last incoming ref
+    if (messageRef && messageRef.current) {
+      const { scrollHeight, clientHeight } = messageRef.current;
+      messageRef.current.scrollTo({ left: 0, top: scrollHeight - clientHeight, behavior: 'smooth' });
+      messageRef.current.scrollIntoView(true);
+    }
+  }, [messages]);
+
+  return <div className='message-container' >
+    
+    {messages.map((m:any, index:any) => (
+      <div ref={messageRef} key={index}>
+        {m[0].user === 'MyChat Bot' &&
+          <div>
+            <div className={'bot-message'}>{m[0].message}</div>
+          </div>
+        }
+
+        {m[0].user != 'MyChat Bot' && 
+          <div className={(m.user === mainUser ? 'user-message' : 'user-message-public')}>
+            <div className={'message ' + (m[0].user === mainUser ? 'message-primary' : 'message-secondary')}>{m[0].message}</div>
+            {m[0].user === mainUser && <div className='from-user'>{m[0].user}</div>}
+          </div>
+        }
+      </div>
+    ))}
+  </div>
+}
+
+const Chatbox = (props: IChatMessageProps) => {
   const isOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const initialOpening = useAppSelector(
     (state) => state.chatbox.initialOpening
@@ -49,7 +96,6 @@ const Chatbox = () => {
     else return "slide-in";
   };
 
-  // TODO: load in all the messages of the chatbox that belong to the current room.
   return (
     <div>
       {isOpen && (
@@ -63,7 +109,8 @@ const Chatbox = () => {
         </div>
       )}
       <div className={`chatbox ${handleChatAnimation()}`}>
-        <ChatInput />
+        <MessageContainer />
+        <ChatInput connection={props.connection}/>
       </div>
     </div>
   );
