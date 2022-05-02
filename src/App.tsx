@@ -29,10 +29,10 @@ import {
   setNewMessages,
 } from "./component-types/stateTypes";
 
-export const base_API_URL = "http://codojo.made-by-s.id:8034";
+// export const base_API_URL = "http://codojo.made-by-s.id:8034";
 
 // didnt work after testing, idk if we should use this IP
-// export const base_API_URL = "http://145.24.222.113/api";
+export const base_API_URL = "http://145.24.222.113/api";
 
 function App() {
   // maybe we can replace these hooks and states with state in the store
