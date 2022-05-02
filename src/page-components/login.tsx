@@ -65,22 +65,22 @@ const Login = () => {
                 id="login"
                 value={user}
                 onChange={(e) => setUser(e.target.value)}
-                className="fadeIn second"
+                className="fadeIn second standard-input"
                 name="login"
                 placeholder="login"
               ></input>
               <input
-                type="text"
+                type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="fadeIn third"
+                className="fadeIn third standard-input"
                 name="password"
                 placeholder="password"
               ></input>
               <input
                 type="submit"
-                className="fadeIn fourth"
+                className="fadeIn fourth standard-input"
                 value="Log In"
               ></input>
             </form>

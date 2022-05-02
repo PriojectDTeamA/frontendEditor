@@ -17,7 +17,7 @@ const NewProject = (props: IProjectProps) => {
             <input
               type="text"
               id="projname"
-              className="fadeIn second"
+              className="fadeIn second standard-input"
               name="newproj"
               placeholder="Project Name"
             ></input>
@@ -34,7 +34,7 @@ const NewProject = (props: IProjectProps) => {
             </select>
             <input
               type="submit"
-              className="fadeIn fourth"
+              className="fadeIn fourth standard-input"
               value="Create"
             ></input>
           </form>
