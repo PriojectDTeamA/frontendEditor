@@ -29,7 +29,7 @@ import {
   setNewMessages,
 } from "./component-types/stateTypes";
 
-export const base_API_URL = "http://127.0.0.1:8034/api";
+export const base_API_URL = "http://codojo.made-by-s.id:8034";
 
 // didnt work after testing, idk if we should use this IP
 // export const base_API_URL = "http://145.24.222.113/api";
