@@ -34,56 +34,129 @@ const Home = (props: IHomeProps) => {
       <div className="row fadeInDown m-5">
         <div className="col-6">
           <div className="projects-group">
-            <h3 className="projects-title">My Projects</h3>
-            <hr />
-            {/*loadInProjects() here instead of the single projectBoxes*/}
-            <ProjectBox language="python" projectName="First Project" />
-            <ProjectBox language="java" projectName="Second Project" />
-            <ProjectBox
-              language="javascript"
-              projectName="Third Project"
-              fadeTiming="second"
-            />
-            <ProjectBox
-              language="csharp"
-              projectName="Fourth Project"
-              fadeTiming="second"
-            />
 
-            <div onClick={e => Navigate({to: "/NewProject", replace: true })} className="fadeIn third projects-button">
-              <FontAwesomeIcon className="icon" icon={faPlus}/>
+            <div className="projects-header">
+              <h3 className="projects-title">My Projects</h3>
+              <hr />
             </div>
+            <div className="projects-body">`
+              {/*loadInProjects() here instead of the single projectBoxes*/}
+              <ProjectBox 
+                language="python" 
+                projectName="First Project" 
+              />
+              <ProjectBox 
+                language="java" 
+                projectName="Second Project" 
+              />
+              <ProjectBox
+                language="javascript"
+                projectName="Third Project"
+                fadeTiming="second"
+              />
+              <ProjectBox
+                language="csharp"
+                projectName="Fourth Project"
+                fadeTiming="second"
+              />
 
+              <div onClick={e => Navigate({to: "/NewProject", replace: true })} className="fadeIn third projects-button">
+                <FontAwesomeIcon className="icon" icon={faPlus}/>
+              </div>
+
+            </div>
           </div>
         </div>
 
         <div className="col-6">
           <div className="projects-group">
-            <h3 className="projects-title">Recent Projects</h3>
-            <hr />
-            {/*loadInProjects() here instead of the single projectBoxes*/}
-            <ProjectBox language="python" projectName="First Project" />
-            <ProjectBox language="java" projectName="Second Project" />
-            <ProjectBox
-              language="javascript"
-              projectName="Third Project"
-              fadeTiming="second"
-            />
-            <ProjectBox
-              language="csharp"
-              projectName="Fourth Project"
-              fadeTiming="second"
-            />
 
-            <div onClick={e => Navigate({to: "/JoinProject", replace: true })} className="fadeIn third projects-button">
-              <FontAwesomeIcon className="icon" icon={faArrowRightToBracket}/>
+            <div className="projects-header">
+              <h3 className="projects-title">My Projects</h3>
+              <hr />
             </div>
+            <div className="projects-body">
+              {/*loadInProjects() here instead of the single projectBoxes*/}
+              <ProjectBox 
+                language="python" 
+                projectName="First Project" 
+              />
+              <ProjectBox 
+                language="java" 
+                projectName="Second Project" 
+              />
+              <ProjectBox
+                language="javascript"
+                projectName="Third Project"
+                fadeTiming="second"
+              />
+              <ProjectBox
+                language="csharp"
+                projectName="Fourth Project"
+                fadeTiming="second"
+              />
+              <ProjectBox 
+                language="python" 
+                projectName="First Project" 
+              />
+              <ProjectBox 
+                language="java" 
+                projectName="Second Project" 
+              />
+              <ProjectBox
+                language="javascript"
+                projectName="Third Project"
+                fadeTiming="second"
+              />
+              <ProjectBox
+                language="csharp"
+                projectName="Fourth Project"
+                fadeTiming="second"
+              />
+              <ProjectBox 
+                language="python" 
+                projectName="First Project" 
+              />
+              <ProjectBox 
+                language="java" 
+                projectName="Second Project" 
+              />
+              <ProjectBox
+                language="javascript"
+                projectName="Third Project"
+                fadeTiming="second"
+              />
+              <ProjectBox
+                language="csharp"
+                projectName="Fourth Project"
+                fadeTiming="second"
+              />
+              <ProjectBox 
+                language="python" 
+                projectName="First Project" 
+              />
+              <ProjectBox 
+                language="java" 
+                projectName="Second Project" 
+              />
+              <ProjectBox
+                language="javascript"
+                projectName="Third Project"
+                fadeTiming="second"
+              />
+              <ProjectBox
+                language="csharp"
+                projectName="Fourth Project"
+                fadeTiming="second"
+              />
 
+              <div onClick={e => Navigate({to: "/JoinProject", replace: true })} className="fadeIn third projects-button">
+                <FontAwesomeIcon className="icon" icon={faArrowRightToBracket}/>
+              
+              </div>
+            </div>
           </div>
-
-
         </div>
-
       </div>  
 
       <div onClick={e => Navigate({to: "/Login", replace: true })} className="fadeIn fourth leave-button">
