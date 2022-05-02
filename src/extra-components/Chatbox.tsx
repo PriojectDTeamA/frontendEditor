@@ -74,7 +74,7 @@ const MessageContainer = () => {
         {m[0].user != 'MyChat Bot' && 
           <div className={(m.user === mainUser ? 'user-message' : 'user-message-public')}>
             <div className={'message ' + (m[0].user === mainUser ? 'message-primary' : 'message-secondary')}>{m[0].message}</div>
-            {m[0].user === mainUser && <div className='from-user'>{m[0].user}</div>}
+            {m[0].user === mainUser && <div className='from-user'>{m[0].user} {m[0].time}</div>}
           </div>
         }
       </div>

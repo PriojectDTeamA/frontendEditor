@@ -54,7 +54,9 @@ function App() {
         .build();
 
       tempConnection.on("ReceiveMessage", (user, message) => {
-        dispatch(setChatMessagesArray(([{ user, message }])));
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes();
+        dispatch(setChatMessagesArray(([{ user, message, time }])));
       });
 
       tempConnection.on("Broadcast", (text: string) => {
