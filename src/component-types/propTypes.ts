@@ -1,7 +1,7 @@
 import { HubConnection } from "@microsoft/signalr";
 
 export interface IChatMessageProps {
-  text: string;
+  connection: HubConnection | any;
 }
 
 export interface IProjectProps {

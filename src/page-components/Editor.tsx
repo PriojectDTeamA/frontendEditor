@@ -104,7 +104,7 @@ const Editor = (props: IEditorProps) => {
           </div>
         </div>
       )}
-      <Chatbox />
+      <Chatbox connection={props.connection} />
       <AceEditor
         mode={props.language}
         theme="twilight"

@@ -44,6 +44,9 @@ const chatBoxSlice = createSlice({
       state.chatIsOpen = !state.chatIsOpen;
       state.initialOpening = false;
     },
+    setChatMessagesArray: (state, action: PayloadAction<any[]>) => {
+      state.chatMessages.push(action.payload);
+    },
   },
 });
 
@@ -136,7 +139,7 @@ export const slices = {
   projectConnectionSlice,
   userSlice,
 };
-export const { openChatbox, closeChatbox, switchChatbox } =
+export const { openChatbox, closeChatbox, switchChatbox, setChatMessagesArray } =
   chatBoxSlice.actions;
 export const { updateEditor, updateConsole, setUserStringArray } =
   editorSlice.actions;

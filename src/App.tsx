@@ -25,9 +25,13 @@ import {
   disconnectProject,
   setUserStringArray,
   updateEditor,
+  setChatMessagesArray,
 } from "./component-types/stateTypes";
 
-export const base_API_URL = "http://145.24.222.113/api";
+export const base_API_URL = "http://127.0.0.1:8034";
+
+// didnt work after testing, idk if we should use this IP
+// export const base_API_URL = "http://145.24.222.113/api";
 
 function App() {
   // maybe we can replace these hooks and states with state in the store
@@ -35,8 +39,7 @@ function App() {
   const [connectionChat, setConnectionChat] = useState<HubConnection | null>(
     null
   );
-  const [messages, setMessages] = useState<any[]>([]); // what is this used for?
-
+  
   const dispatch = useAppDispatch();
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const users = useAppSelector((state) => state.editor.currentUsers);
@@ -51,7 +54,7 @@ function App() {
         .build();
 
       tempConnection.on("ReceiveMessage", (user, message) => {
-        setMessages((messages) => [...messages, { user, message }]);
+        dispatch(setChatMessagesArray(([{ user, message }])));
       });
 
       tempConnection.on("Broadcast", (text: string) => {
@@ -68,7 +71,7 @@ function App() {
 
       tempConnection.onclose((e) => {
         dispatch(disconnectProject());
-        setMessages([]);
+        dispatch(setChatMessagesArray([]));
         dispatch(setUserStringArray([]));
       });
 
