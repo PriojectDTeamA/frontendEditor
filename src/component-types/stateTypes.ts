@@ -19,12 +19,14 @@ import { ReactNode } from "react";
 // CODE FOR THE CHATBOX
 interface IChatBoxState {
   chatMessages: ReactNode[];
+  newMessages: string;
   chatIsOpen: boolean;
   initialOpening: boolean;
 }
 
 const initialChatBoxState: IChatBoxState = {
   chatMessages: [],
+  newMessages: "",
   chatIsOpen: false,
   initialOpening: true, // this is added to prevent a bug with the chatbox where it loads in on an animation
 };
@@ -46,6 +48,9 @@ const chatBoxSlice = createSlice({
     },
     setChatMessagesArray: (state, action: PayloadAction<any[]>) => {
       state.chatMessages.push(action.payload);
+    },
+    setNewMessages: (state, action: PayloadAction<string>) => {
+      state.newMessages = action.payload;
     },
   },
 });
@@ -139,7 +144,7 @@ export const slices = {
   projectConnectionSlice,
   userSlice,
 };
-export const { openChatbox, closeChatbox, switchChatbox, setChatMessagesArray } =
+export const { openChatbox, closeChatbox, switchChatbox, setChatMessagesArray, setNewMessages } =
   chatBoxSlice.actions;
 export const { updateEditor, updateConsole, setUserStringArray } =
   editorSlice.actions;

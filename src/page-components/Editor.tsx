@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AceEditor from "react-ace";
 import { Navigate } from "react-router-dom";
 import { base_API_URL } from "../App";
@@ -29,6 +29,7 @@ import "ace-builds/src-noconflict/theme-twilight";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import {
   disconnectProject,
+  setNewMessages,
   switchChatbox,
   updateConsole,
   updateEditor,
@@ -40,7 +41,7 @@ const Editor = (props: IEditorProps) => {
   );
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const editorValue = useAppSelector((state) => state.editor.editorText);
-
+  let newMessages = useAppSelector((state) => state.chatbox.newMessages);
   const dispatch = useAppDispatch();
 
   const sendBroadcast = async (text: string) => {
@@ -92,10 +93,13 @@ const Editor = (props: IEditorProps) => {
               <UsersList></UsersList>
             </div>
             <FontAwesomeIcon
-              onClick={() => dispatch(switchChatbox())}
+              onClick={() => {
+                dispatch(setNewMessages(""));
+                dispatch(switchChatbox())}}      
               className="icon"
               icon={faMessage}
             />
+            {newMessages != "" && <div className="new-message"></div>}
             <FontAwesomeIcon
               onClick={closeConnection}
               className="icon"

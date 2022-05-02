@@ -26,6 +26,7 @@ import {
   setUserStringArray,
   updateEditor,
   setChatMessagesArray,
+  setNewMessages,
 } from "./component-types/stateTypes";
 
 export const base_API_URL = "http://127.0.0.1:8034";
@@ -45,6 +46,7 @@ function App() {
   const users = useAppSelector((state) => state.editor.currentUsers);
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
   const mainUser = useAppSelector((state) => state.user);
+  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
 
   const joinRoom = async () => {
     try {
@@ -56,6 +58,10 @@ function App() {
       tempConnection.on("ReceiveMessage", (user, message) => {
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes();
+
+        if(!chatIsOpen){
+          dispatch(setNewMessages("*"));
+        }
         dispatch(setChatMessagesArray(([{ user, message, time }])));
       });
 

@@ -15,6 +15,17 @@
   }
 }
 
+.new-message {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: red;
+  text-align: center;
+  right: 33px;
+  top: 0px;
+  position: fixed;
+  z-index: 2;
+}
 
 .popover-list {
   opacity: 0;
