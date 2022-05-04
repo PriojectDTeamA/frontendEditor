@@ -29,9 +29,10 @@ const Login = () => {
         .then((data) => {
           if (data.Status === "Success") {
             console.log("user logged in");
-            console.log(data.message);
-            dispatch(setID(data.Data.ID));
-            dispatch(setUsername(data.Data.username));
+            console.log(data.Data);
+            console.log(data.Data[0].ID);
+            dispatch(setID(data.Data[0].ID));
+            dispatch(setUsername(data.Data[0].username));
           } else if (data.status === "Failed") {
             console.log(data.message);
           }

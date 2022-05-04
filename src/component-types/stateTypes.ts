@@ -105,8 +105,8 @@ const editorSlice = createSlice({
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
     },
-    setUserStringArray: (state, action: PayloadAction<string[]>) => {
-      state.stringUsers = action.payload;
+    setUserStringArray: (state, action: PayloadAction<User[]>) => {
+      state.currentUsers = action.payload;
     },
   },
 });

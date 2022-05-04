@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { compose, configureStore } from "@reduxjs/toolkit";
 import { slices } from "./stateTypes";
 
 export const store = configureStore({
@@ -10,6 +10,8 @@ export const store = configureStore({
   },
   devTools: true,
 });
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

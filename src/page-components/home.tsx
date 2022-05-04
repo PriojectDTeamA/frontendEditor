@@ -8,6 +8,7 @@ import pythonlogo from "../assets/python.png";
 import javalogo from "../assets/java.jpg";
 import javascriptlogo from "../assets/javascript.png";
 import csharplogo from "../assets/csharp.png";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const mainUser = useAppSelector((state) => state.user);
@@ -55,14 +56,15 @@ const Home = () => {
         </a>
       </div>
       <div className="fadeIn third position-absolute join">
-        <a
-          href="/JoinProject"
+        <Link to="/JoinProject">
+        <button
           className="btn btn-primary btn-lg active"
           role="button"
           aria-pressed="true"
         >
           Join Project
-        </a>
+        </button>
+        </Link>
       </div>
       <div className="fadeIn fourth position-absolute logout">
         <a href="/" className="btn btn-danger">

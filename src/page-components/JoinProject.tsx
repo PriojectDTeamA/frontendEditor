@@ -11,7 +11,7 @@ const JoinProject = (props: IProjectProps) => {
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
-  const user = useAppSelector((state) => state.user);
+  //const user = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
 
