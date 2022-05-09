@@ -1,6 +1,6 @@
 import React from "react";
 import AceEditor from "react-ace";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
 import { IEditorProps } from "../component-types/propTypes";
 import Console from "../extra-components/Console";
@@ -22,7 +22,6 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-csharp";
 import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/mode-haskell";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
@@ -42,9 +41,10 @@ const Editor = (props: IEditorProps) => {
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const language = useAppSelector((state) => state.editor.language);
+  const newMessages = useAppSelector((state) => state.chatbox.newMessages);
 
-  let newMessages = useAppSelector((state) => state.chatbox.newMessages);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -82,7 +82,7 @@ const Editor = (props: IEditorProps) => {
 
   return (
     <div>
-      {!connected && <Navigate to="/JoinProject" />}
+      {!connected && navigate("/JoinProject")}
       {!chatIsOpen && (
         <div className="iets">
           <div className="button-group">
@@ -102,7 +102,7 @@ const Editor = (props: IEditorProps) => {
               className="icon"
               icon={faMessage}
             />
-            {newMessages != "" && <div className="new-message"></div>}
+            {newMessages !== "" && <div className="new-message"></div>}
             <FontAwesomeIcon
               onClick={closeConnection}
               className="icon"

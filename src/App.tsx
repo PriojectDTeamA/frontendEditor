@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from "./component-types/hooks";
 import {
   connectProject,
   disconnectProject,
-  setUserStringArray,
+  setUserArray,
   updateEditor,
   setChatMessagesArray,
   setNewMessages,
@@ -69,13 +69,13 @@ function App() {
       // TODO: make it so this uses a dispatch action to set the users
       tempConnection.on("UsersInRoom", (users) => {
         // BUG: doesn't actually set the users, when looking into the state users are null
-        dispatch(setUserStringArray(users));
+        dispatch(setUserArray(users));
       });
 
       tempConnection.onclose((e) => {
         dispatch(disconnectProject());
         dispatch(setChatMessagesArray([]));
-        dispatch(setUserStringArray([]));
+        dispatch(setUserArray([]));
       });
 
       await tempConnection.start();
