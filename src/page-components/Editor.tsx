@@ -29,6 +29,7 @@ import "ace-builds/src-noconflict/theme-twilight";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import {
   disconnectProject,
+  setNewMessages,
   switchChatbox,
   updateConsole,
   updateEditor,
@@ -42,6 +43,7 @@ const Editor = (props: IEditorProps) => {
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const language = useAppSelector((state) => state.editor.language);
 
+  let newMessages = useAppSelector((state) => state.chatbox.newMessages);
   const dispatch = useAppDispatch();
 
   const sendBroadcast = async (text: string) => {
@@ -93,10 +95,14 @@ const Editor = (props: IEditorProps) => {
               <UsersList></UsersList>
             </div>
             <FontAwesomeIcon
-              onClick={() => dispatch(switchChatbox())}
+              onClick={() => {
+                dispatch(setNewMessages(""));
+                dispatch(switchChatbox());
+              }}
               className="icon"
               icon={faMessage}
             />
+            {newMessages != "" && <div className="new-message"></div>}
             <FontAwesomeIcon
               onClick={closeConnection}
               className="icon"
@@ -105,7 +111,7 @@ const Editor = (props: IEditorProps) => {
           </div>
         </div>
       )}
-      <Chatbox />
+      <Chatbox connection={props.connection} />
       <AceEditor
         mode={language}
         theme="twilight"

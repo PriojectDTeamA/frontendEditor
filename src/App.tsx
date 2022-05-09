@@ -20,21 +20,28 @@ import {
   disconnectProject,
   setUserStringArray,
   updateEditor,
+  setChatMessagesArray,
+  setNewMessages,
 } from "./component-types/stateTypes";
 
-export const base_API_URL = "http://127.0.0.1:8034";
+// export const base_API_URL = "http://codojo.made-by-s.id:8034";
+
+// didnt work after testing, idk if we should use this IP
+export const base_API_URL = "http://145.24.222.113/api";
 
 function App() {
   // maybe we can replace these hooks and states with state in the store
   // this won't work for the connectionChat since this is not serializable in the state and will therefore not be a good fit for redux
-  const [connectionChat, setConnectionChat] = useState<HubConnection>();
-  const [messages, setMessages] = useState<any[]>([]); // what is this used for?
+  const [connectionChat, setConnectionChat] = useState<HubConnection | null>(
+    null
+  );
 
   const dispatch = useAppDispatch();
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const users = useAppSelector((state) => state.editor.currentUsers);
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
   const mainUser = useAppSelector((state) => state.user);
+  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
 
   const joinRoom = async () => {
     try {
@@ -44,7 +51,13 @@ function App() {
         .build();
 
       tempConnection.on("ReceiveMessage", (user, message) => {
-        setMessages((messages) => [...messages, { user, message }]);
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes();
+
+        if (!chatIsOpen) {
+          dispatch(setNewMessages("*"));
+        }
+        dispatch(setChatMessagesArray([{ user, message, time }]));
       });
 
       tempConnection.on("Broadcast", (text: string) => {
@@ -61,7 +74,7 @@ function App() {
 
       tempConnection.onclose((e) => {
         dispatch(disconnectProject());
-        setMessages([]);
+        dispatch(setChatMessagesArray([]));
         dispatch(setUserStringArray([]));
       });
 

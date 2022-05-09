@@ -11,7 +11,7 @@ const JoinProject = (props: IProjectProps) => {
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
-  const user = useAppSelector((state) => state.user);
+  //const user = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
 
@@ -42,13 +42,13 @@ const JoinProject = (props: IProjectProps) => {
                 value={room}
                 onChange={(e) => dispatch(updateRoom(e.target.value))}
                 id="projname"
-                className="fadeIn second"
+                className="fadeIn second standard-input"
                 name="newproj"
                 placeholder="Project Name"
               ></input>
               <input
                 type="submit"
-                className="fadeIn fourth"
+                className="fadeIn fourth standard-input"
                 value="Join Project"
               ></input>
             </form>

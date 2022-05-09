@@ -20,12 +20,14 @@ import { Language } from "./propTypes";
 // CODE FOR THE CHATBOX
 interface IChatBoxState {
   chatMessages: ReactNode[];
+  newMessages: string;
   chatIsOpen: boolean;
   initialOpening: boolean;
 }
 
 const initialChatBoxState: IChatBoxState = {
   chatMessages: [],
+  newMessages: "",
   chatIsOpen: false,
   initialOpening: true, // this is added to prevent a bug with the chatbox where it loads in on an animation
 };
@@ -44,6 +46,12 @@ const chatBoxSlice = createSlice({
     switchChatbox: (state) => {
       state.chatIsOpen = !state.chatIsOpen;
       state.initialOpening = false;
+    },
+    setChatMessagesArray: (state, action: PayloadAction<any[]>) => {
+      state.chatMessages.push(action.payload);
+    },
+    setNewMessages: (state, action: PayloadAction<string>) => {
+      state.newMessages = action.payload;
     },
   },
 });
@@ -100,8 +108,8 @@ const editorSlice = createSlice({
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
     },
-    setUserStringArray: (state, action: PayloadAction<string[]>) => {
-      state.stringUsers = action.payload;
+    setUserStringArray: (state, action: PayloadAction<User[]>) => {
+      state.currentUsers = action.payload;
     },
     setLanguage: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
@@ -142,7 +150,7 @@ export const slices = {
   projectConnectionSlice,
   userSlice,
 };
-export const { openChatbox, closeChatbox, switchChatbox } =
+export const { openChatbox, closeChatbox, switchChatbox, setChatMessagesArray, setNewMessages } =
   chatBoxSlice.actions;
 export const { updateEditor, updateConsole, setUserStringArray, setLanguage } =
   editorSlice.actions;
