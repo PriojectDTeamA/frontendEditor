@@ -26,6 +26,7 @@ const NewProject = (props: IProjectProps) => {
   const navigate = useNavigate();
 
   const createNew = async (e: React.FormEvent) => {
+    if (project_name === "") return;
     e.preventDefault();
     const requestOptions = {
       method: "POST",
@@ -41,10 +42,9 @@ const NewProject = (props: IProjectProps) => {
         .then((response) => response.json())
         .then(async (data) => {
           if (data.Status === "Success") {
-            console.log("user logged in");
-            console.log(data.Data);
-            dispatch(updateRoom(data.Data.ID));
-            dispatch(updateEditor(data.Data.Code));
+            const projectData = data.Data[0];
+            dispatch(updateRoom(projectData.ID));
+            dispatch(updateEditor(projectData.Code));
             await props.joinRoom();
           } else if (data.Status === "Failed") {
             console.log(data.message);
