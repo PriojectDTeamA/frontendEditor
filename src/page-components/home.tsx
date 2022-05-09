@@ -170,9 +170,14 @@ const ProjectBox = (props: IProjectBoxProps) => {
     }
   };
 
+  const handleClick = () => {
+    // TODO: update this so it connects to the right room and not just to the general editor
+    navigate("/Editor");
+  };
+
   return (
     <div className={`fadeIn ${props.fadeTiming || "first"}`}>
-      <div onClick={() => navigate("/Editor")} className="project-item m-3">
+      <div onClick={handleClick} className="project-item m-3">
         <h3 className="project-title">
           <img src={getLogo()} alt="Project Icon" className="projectlogo" />{" "}
           {props.projectName}

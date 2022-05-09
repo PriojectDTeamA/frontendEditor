@@ -34,7 +34,6 @@ const Login = () => {
             console.log(data.Data[0].ID);
             dispatch(setID(data.Data[0].ID));
             dispatch(setUsername(data.Data[0].username));
-            logged_in !== -1 && navigate("/Home");
           } else if (data.status === "Failed") {
             console.log(data.message);
           }
@@ -46,6 +45,7 @@ const Login = () => {
 
   return (
     <div>
+      {logged_in !== -1 && navigate("/Home")}
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first">

@@ -8,6 +8,9 @@ import "./login.css";
 
 const JoinProject = (props: IProjectProps) => {
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
+  const projectName = useAppSelector(
+    (state) => state.projectConnection.projectName
+  );
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
@@ -19,12 +22,11 @@ const JoinProject = (props: IProjectProps) => {
   const join = async () => {
     await props.joinRoom();
     dispatch(setLanguage("python")); // TODO: load this dynamically from an API call
-
-    connected === true && navigate("/Editor");
   };
 
   return (
     <div>
+      {connected === true && navigate("/Editor")}
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first"></div>
@@ -36,7 +38,7 @@ const JoinProject = (props: IProjectProps) => {
           >
             <input
               type="text"
-              value={room}
+              value={projectName}
               onChange={(e) => dispatch(updateProjectName(e.target.value))}
               id="projname"
               className="fadeIn second standard-input"

@@ -27,16 +27,16 @@ const NewProject = (props: IProjectProps) => {
 
   const createNew = async (e: React.FormEvent) => {
     e.preventDefault();
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        language,
+        project_name,
+        project_owner_id,
+      }),
+    };
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          language,
-          project_name,
-          project_owner_id,
-        }),
-      };
       await fetch(`${base_API_URL}/createsession`, requestOptions)
         .then((response) => response.json())
         .then(async (data) => {
@@ -46,7 +46,6 @@ const NewProject = (props: IProjectProps) => {
             dispatch(updateRoom(data.Data.ID));
             dispatch(updateEditor(data.Data.Code));
             await props.joinRoom();
-            connected && navigate("/Editor");
           } else if (data.Status === "Failed") {
             console.log(data.message);
           }
@@ -58,6 +57,7 @@ const NewProject = (props: IProjectProps) => {
 
   return (
     <div>
+      {connected && navigate("/Editor")}
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first"></div>
