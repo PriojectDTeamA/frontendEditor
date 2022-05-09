@@ -15,6 +15,7 @@
 // the following is code that i would interpret follows and groups this state in the best possible way:
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode } from "react";
+import { Language } from "./propTypes";
 
 // CODE FOR THE CHATBOX
 interface IChatBoxState {
@@ -35,13 +36,6 @@ const chatBoxSlice = createSlice({
   name: "chatbox",
   initialState: initialChatBoxState,
   reducers: {
-    openChatbox: (state) => {
-      state.chatIsOpen = true;
-      state.initialOpening = false;
-    },
-    closeChatbox: (state) => {
-      state.chatIsOpen = false;
-    },
     switchChatbox: (state) => {
       state.chatIsOpen = !state.chatIsOpen;
       state.initialOpening = false;
@@ -83,15 +77,15 @@ const userSlice = createSlice({
 interface IEditorState {
   editorText: string;
   consoleText: string;
+  language?: Language;
   currentUsers: User[];
-  stringUsers: string[]; // TODO: this is temporary, once the login is fixed and everybody has an id this should become currentUsers (like above) everywhere
 }
 
 const initialEditorState: IEditorState = {
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
+  language: "python",
   currentUsers: [],
-  stringUsers: [],
 };
 
 const editorSlice = createSlice({
@@ -105,8 +99,11 @@ const editorSlice = createSlice({
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
     },
-    setUserStringArray: (state, action: PayloadAction<User[]>) => {
+    setUserArray: (state, action: PayloadAction<User[]>) => {
       state.currentUsers = action.payload;
+    },
+    setLanguage: (state, action: PayloadAction<Language>) => {
+      state.language = action.payload;
     },
   },
 });
@@ -114,11 +111,13 @@ const editorSlice = createSlice({
 // CODE FOR THE PROJECT CONNECTION
 interface IProjectConnectionState {
   currentRoom: string;
+  projectName: string;
   connected: boolean;
 }
 
 const initialProjectConnectionState: IProjectConnectionState = {
   currentRoom: "",
+  projectName: "",
   connected: false,
 };
 
@@ -128,6 +127,9 @@ const projectConnectionSlice = createSlice({
   reducers: {
     updateRoom: (state, action: PayloadAction<string>) => {
       state.currentRoom = action.payload;
+    },
+    updateProjectName: (state, action: PayloadAction<string>) => {
+      state.projectName = action.payload;
     },
     connectProject: (state) => {
       state.connected = true;
@@ -144,10 +146,14 @@ export const slices = {
   projectConnectionSlice,
   userSlice,
 };
-export const { openChatbox, closeChatbox, switchChatbox, setChatMessagesArray, setNewMessages } =
+export const { switchChatbox, setChatMessagesArray, setNewMessages } =
   chatBoxSlice.actions;
-export const { updateEditor, updateConsole, setUserStringArray } =
+export const { updateEditor, updateConsole, setUserArray, setLanguage } =
   editorSlice.actions;
-export const { updateRoom, connectProject, disconnectProject } =
-  projectConnectionSlice.actions;
+export const {
+  updateRoom,
+  updateProjectName,
+  connectProject,
+  disconnectProject,
+} = projectConnectionSlice.actions;
 export const { setID, setUsername } = userSlice.actions;

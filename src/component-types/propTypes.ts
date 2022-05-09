@@ -5,9 +5,7 @@ export interface IChatMessageProps {
 }
 
 export interface IProjectProps {
-  user: string; // after testing connecting to the project i think this can be removed
   joinRoom: () => Promise<void>;
-  connection: HubConnection | null; // might need to go into the state and not into a prop
 }
 
 export interface IRunProps {
@@ -21,8 +19,7 @@ export interface IProjectBoxProps {
 }
 
 export interface IEditorProps {
-  language: Language;
-  connection: any | HubConnection;
+  connection: HubConnection;
 }
 
 export type Language = "javascript" | "python" | "csharp" | "java";

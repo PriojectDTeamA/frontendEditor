@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AceEditor from "react-ace";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
 import { IEditorProps } from "../component-types/propTypes";
 import Console from "../extra-components/Console";
@@ -22,7 +22,6 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-csharp";
 import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/mode-haskell";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
@@ -41,8 +40,11 @@ const Editor = (props: IEditorProps) => {
   );
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const editorValue = useAppSelector((state) => state.editor.editorText);
-  let newMessages = useAppSelector((state) => state.chatbox.newMessages);
+  const language = useAppSelector((state) => state.editor.language);
+  const newMessages = useAppSelector((state) => state.chatbox.newMessages);
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -70,7 +72,7 @@ const Editor = (props: IEditorProps) => {
       body: JSON.stringify({
         project_id: 1,
         code: editorValue,
-        language: props.language,
+        language,
       }),
     };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
@@ -80,7 +82,7 @@ const Editor = (props: IEditorProps) => {
 
   return (
     <div>
-      {!connected && <Navigate to="/JoinProject" />}
+      {!connected && navigate("/JoinProject")}
       {!chatIsOpen && (
         <div className="iets">
           <div className="button-group">
@@ -95,11 +97,12 @@ const Editor = (props: IEditorProps) => {
             <FontAwesomeIcon
               onClick={() => {
                 dispatch(setNewMessages(""));
-                dispatch(switchChatbox())}}      
+                dispatch(switchChatbox());
+              }}
               className="icon"
               icon={faMessage}
             />
-            {newMessages != "" && <div className="new-message"></div>}
+            {newMessages !== "" && <div className="new-message"></div>}
             <FontAwesomeIcon
               onClick={closeConnection}
               className="icon"
@@ -110,7 +113,7 @@ const Editor = (props: IEditorProps) => {
       )}
       <Chatbox connection={props.connection} />
       <AceEditor
-        mode={props.language}
+        mode={language}
         theme="twilight"
         value={editorValue}
         name="editor"

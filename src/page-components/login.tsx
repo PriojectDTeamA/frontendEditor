@@ -4,12 +4,13 @@ import "./login.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { base_API_URL } from "../App";
 import { setID, setUsername } from "../component-types/stateTypes";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/User-icon.png";
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // temp
   const [user, setUser] = useState("");
@@ -44,55 +45,49 @@ const Login = () => {
 
   return (
     <div>
-      {logged_in !== -1 ? (
-        <div>
-          {console.log("logged in!")}
-          <Navigate to="/Home" />
-        </div>
-      ) : (
-        <div className="wrapper fadeInDown">
-          <div id="formContent">
-            <div className="fadeIn first">
-              <img src={logo} id="icon" alt="User Icon" className="imagelogo" />
-            </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                login();
-              }}
-            >
-              <input
-                type="text"
-                id="login"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
-                className="fadeIn second standard-input"
-                name="login"
-                placeholder="login"
-              ></input>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="fadeIn third standard-input"
-                name="password"
-                placeholder="password"
-              ></input>
-              <input
-                type="submit"
-                className="fadeIn fourth standard-input"
-                value="Log In"
-              ></input>
-            </form>
-            <div id="formFooter">
-              <a className="underlineHover" href="/forgotpassword">
-                Forgot Password?
-              </a>
-            </div>
+      {logged_in !== -1 && navigate("/Home")}
+      <div className="wrapper fadeInDown">
+        <div id="formContent">
+          <div className="fadeIn first">
+            <img src={logo} id="icon" alt="User Icon" className="imagelogo" />
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              login();
+            }}
+          >
+            <input
+              type="text"
+              id="login"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              className="fadeIn second standard-input"
+              name="login"
+              placeholder="login"
+            ></input>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="fadeIn third standard-input"
+              name="password"
+              placeholder="password"
+            ></input>
+            <input
+              type="submit"
+              className="fadeIn fourth standard-input"
+              value="Log In"
+            ></input>
+          </form>
+          <div id="formFooter">
+            <a className="underlineHover" href="/forgotpassword">
+              Forgot Password?
+            </a>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

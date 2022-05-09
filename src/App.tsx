@@ -1,11 +1,6 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -23,7 +18,7 @@ import { useAppDispatch, useAppSelector } from "./component-types/hooks";
 import {
   connectProject,
   disconnectProject,
-  setUserStringArray,
+  setUserArray,
   updateEditor,
   setChatMessagesArray,
   setNewMessages,
@@ -40,7 +35,7 @@ function App() {
   const [connectionChat, setConnectionChat] = useState<HubConnection | null>(
     null
   );
-  
+
   const dispatch = useAppDispatch();
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const users = useAppSelector((state) => state.editor.currentUsers);
@@ -59,10 +54,10 @@ function App() {
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes();
 
-        if(!chatIsOpen){
+        if (!chatIsOpen) {
           dispatch(setNewMessages("*"));
         }
-        dispatch(setChatMessagesArray(([{ user, message, time }])));
+        dispatch(setChatMessagesArray([{ user, message, time }]));
       });
 
       tempConnection.on("Broadcast", (text: string) => {
@@ -74,13 +69,13 @@ function App() {
       // TODO: make it so this uses a dispatch action to set the users
       tempConnection.on("UsersInRoom", (users) => {
         // BUG: doesn't actually set the users, when looking into the state users are null
-        dispatch(setUserStringArray(users));
+        dispatch(setUserArray(users));
       });
 
       tempConnection.onclose((e) => {
         dispatch(disconnectProject());
         dispatch(setChatMessagesArray([]));
-        dispatch(setUserStringArray([]));
+        dispatch(setUserArray([]));
       });
 
       await tempConnection.start();
@@ -106,29 +101,17 @@ function App() {
         {/* route to the home page */}
         <Route
           path="/NewProject"
-          element={
-            <NewProject
-              user="hoi"
-              joinRoom={joinRoom}
-              connection={connectionChat}
-            />
-          }
+          element={<NewProject joinRoom={joinRoom} />}
         ></Route>{" "}
         {/* route to the new_project page */}
         <Route
           path="/JoinProject"
-          element={
-            <JoinProject
-              user="hoi"
-              joinRoom={joinRoom}
-              connection={connectionChat}
-            />
-          }
+          element={<JoinProject joinRoom={joinRoom} />}
         ></Route>{" "}
         {/* route to the join_project page */}
         <Route
           path="/Editor"
-          element={<Editor connection={connectionChat} language="python" />}
+          element={<Editor connection={connectionChat as HubConnection} />}
         ></Route>{" "}
         {/* route to the editor page */}
       </Routes>
