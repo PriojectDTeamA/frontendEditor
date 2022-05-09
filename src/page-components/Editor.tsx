@@ -42,6 +42,7 @@ const Editor = (props: IEditorProps) => {
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const language = useAppSelector((state) => state.editor.language);
   const newMessages = useAppSelector((state) => state.chatbox.newMessages);
+  const room = useAppSelector((state) => state.projectConnection.currentRoom)
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -70,9 +71,9 @@ const Editor = (props: IEditorProps) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        project_id: 1,
+        project_id: room,
         code: editorValue,
-        language,
+        language: language
       }),
     };
     await fetch(`${base_API_URL}/RunSession`, requestOptions)
