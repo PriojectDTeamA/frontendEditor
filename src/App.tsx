@@ -22,6 +22,8 @@ import {
   updateEditor,
   setChatMessagesArray,
   setNewMessages,
+  User,
+  clearChatMessages,
 } from "./component-types/stateTypes";
 
 // export const base_API_URL = "http://codojo.made-by-s.id:8034";
@@ -43,7 +45,6 @@ function App() {
 
   const dispatch = useAppDispatch();
   const editorValue = useAppSelector((state) => state.editor.editorText);
-  const users = useAppSelector((state) => state.editor.currentUsers);
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
   const mainUser = useAppSelector((state) => state.user);
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
@@ -55,33 +56,7 @@ function App() {
         .configureLogging(LogLevel.Information)
         .build();
 
-      tempConnection.on("ReceiveMessage", (user, message) => {
-        var today = new Date();
-        var time = today.getHours() + ":" + today.getMinutes();
-
-        if (!chatIsOpen) {
-          dispatch(setNewMessages("*"));
-        }
-        dispatch(setChatMessagesArray([{ user, message, time }]));
-      });
-
-      tempConnection.on("Broadcast", (text: string) => {
-        if (text !== editorValue) {
-          dispatch(updateEditor(text));
-        }
-      });
-
-      // TODO: make it so this uses a dispatch action to set the users
-      tempConnection.on("UsersInRoom", (users) => {
-        // BUG: doesn't actually set the users, when looking into the state users are null
-        dispatch(setUserArray(users));
-      });
-
-      tempConnection.onclose((e) => {
-        dispatch(disconnectProject());
-        dispatch(setChatMessagesArray([]));
-        dispatch(setUserArray([]));
-      });
+      setConnectionCallbacks(tempConnection);
 
       await tempConnection.start();
       await tempConnection.invoke("JoinRoom", {
@@ -94,6 +69,39 @@ function App() {
       console.error(e);
       dispatch(disconnectProject());
     }
+  };
+
+  const setConnectionCallbacks = (connection: HubConnection) => {
+    connection.on("ReceiveMessage", receiveMessage);
+    connection.on("Broadcast", broadcastText);
+    connection.on("UsersInRoom", setRoomUsers);
+    connection.onclose(onClose);
+  };
+
+  const receiveMessage = (user: string, message: string) => {
+    const today = new Date();
+    const time = today.getHours() + ":" + today.getMinutes();
+    if (!chatIsOpen) {
+      dispatch(setNewMessages("*"));
+    }
+    const chatMessageObject = { user, message, time };
+    dispatch(setChatMessagesArray(chatMessageObject));
+  };
+
+  const broadcastText = (text: string) => {
+    if (text !== editorValue) {
+      dispatch(updateEditor(text));
+    }
+  };
+
+  const setRoomUsers = (users: User[]) => {
+    dispatch(setUserArray(users));
+  };
+
+  const onClose = (error?: Error | undefined) => {
+    dispatch(disconnectProject());
+    dispatch(clearChatMessages());
+    dispatch(setUserArray([]));
   };
 
   return (

@@ -38,13 +38,18 @@ const JoinProject = (props: IProjectProps) => {
 
   const handleProjectData = async (data: APIReturnType) => {
     if (data.Status === "Success") {
-      const projectData = data.Data[0];
-      dispatch(setLanguage(projectData.Language));
-      dispatch(updateEditor(projectData.Code));
-      await props.joinRoom();
+      updateProjectOptionsAndJoinRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
       console.warn("joining project failed... (room might not exist?)");
     }
+  };
+
+  const updateProjectOptionsAndJoinRoom = async (
+    projectData: Record<string, any>
+  ) => {
+    dispatch(setLanguage(projectData.Language));
+    dispatch(updateEditor(projectData.Code));
+    await props.joinRoom();
   };
 
   return (
