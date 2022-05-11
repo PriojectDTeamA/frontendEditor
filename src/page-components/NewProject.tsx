@@ -38,22 +38,32 @@ const NewProject = (props: IProjectProps) => {
       }),
     };
     try {
-      await fetch(`${base_API_URL}/createsession`, requestOptions)
-        .then((response) => response.json())
-        .then(async (data: APIReturnType) => {
-          if (data.Status === "Success") {
-            const projectData = data.Data[0];
-            console.log(`This is the id of the new project: ${projectData.ID}`);
-            dispatch(updateRoom(projectData.ID));
-            dispatch(updateEditor(projectData.Code));
-            await props.joinRoom();
-          } else if (data.Status === "Failed") {
-            console.warn(data.Message);
-          }
-        });
+      await passProjectOptionsToServer(requestOptions);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const passProjectOptionsToServer = async (requestOptions: RequestInit) => {
+    fetch(`${base_API_URL}/createsession`, requestOptions)
+      .then((response) => response.json())
+      .then(checkReturnStatus);
+  };
+
+  const checkReturnStatus = async (data: APIReturnType) => {
+    if (data.Status === "Success") {
+      updateProjectOptionsAndCreateRoom(data.Data[0]);
+    } else if (data.Status === "Failed") {
+      console.warn(data.Message);
+    }
+  };
+
+  const updateProjectOptionsAndCreateRoom = async (
+    projectData: Record<string, any>
+  ) => {
+    dispatch(updateRoom(projectData.ID));
+    dispatch(updateEditor(projectData.Code));
+    await props.joinRoom();
   };
 
   return (

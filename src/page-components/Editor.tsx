@@ -73,7 +73,12 @@ const Editor = (props: IEditorProps) => {
     }
   };
 
-  // this will be activated when the run button is clicked
+  const runCodeWithLoading = async () => {
+    dispatch(turnOnLoadingScreen());
+    await runCode();
+    dispatch(turnOffLoadingScreen());
+  };
+
   const runCode = async () => {
     console.log("Run was clicked");
     const requestOptions = {
@@ -85,7 +90,13 @@ const Editor = (props: IEditorProps) => {
         language: language,
       }),
     };
-    await fetch(`${base_API_URL}/RunSession`, requestOptions)
+    await passCodeToServerAndUpdateConsole(requestOptions);
+  };
+
+  const passCodeToServerAndUpdateConsole = async (
+    requestOptions: RequestInit
+  ) => {
+    fetch(`${base_API_URL}/RunSession`, requestOptions)
       .then((response) => response.json())
       .then((data) => dispatch(updateConsole(data.Message)));
   };
@@ -111,13 +122,7 @@ const Editor = (props: IEditorProps) => {
         }}
       />
       <Console />
-      <Run
-        runcode={async () => {
-          dispatch(turnOnLoadingScreen());
-          await runCode();
-          dispatch(turnOffLoadingScreen());
-        }}
-      />
+      <Run runcode={runCodeWithLoading} />
     </div>
   );
 };
