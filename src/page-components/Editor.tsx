@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AceEditor from "react-ace";
 import { useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
@@ -45,6 +45,10 @@ const Editor = (props: IEditorProps) => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    !connected && navigate("/JoinProject");
+  }, []);
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -131,4 +135,5 @@ const Editor = (props: IEditorProps) => {
     </div>
   );
 };
+
 export default Editor;
