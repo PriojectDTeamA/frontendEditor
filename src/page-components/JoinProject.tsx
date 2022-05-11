@@ -21,20 +21,30 @@ const JoinProject = (props: IProjectProps) => {
   const navigate = useNavigate();
 
   const join = async () => {
-    await fetch(`${base_API_URL}/joinsession?project_id=${room}`, {
+    try {
+      await joinProjectApiCall();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const joinProjectApiCall = async () => {
+    fetch(`${base_API_URL}/joinsession?project_id=${room}`, {
       method: "GET",
     })
       .then((response) => response.json())
-      .then(async (data: APIReturnType) => {
-        if (data.Status === "Succes") {
-          const projectData = data.Data[0];
-          dispatch(setLanguage(projectData.Language));
-          dispatch(updateEditor(projectData.Code));
-          await props.joinRoom();
-        } else if (data.Status === "Failed") {
-          console.warn("joining project failed... (room might not exist?)");
-        }
-      });
+      .then(handleProjectData);
+  };
+
+  const handleProjectData = async (data: APIReturnType) => {
+    if (data.Status === "Success") {
+      const projectData = data.Data[0];
+      dispatch(setLanguage(projectData.Language));
+      dispatch(updateEditor(projectData.Code));
+      await props.joinRoom();
+    } else if (data.Status === "Failed") {
+      console.warn("joining project failed... (room might not exist?)");
+    }
   };
 
   return (
