@@ -79,6 +79,7 @@ interface IEditorState {
   consoleText: string;
   language?: Language;
   currentUsers: User[];
+  loadingScreenOn: boolean;
 }
 
 const initialEditorState: IEditorState = {
@@ -86,6 +87,7 @@ const initialEditorState: IEditorState = {
   consoleText: "this is the default text value for the console",
   language: "python",
   currentUsers: [],
+  loadingScreenOn: false,
 };
 
 const editorSlice = createSlice({
@@ -104,6 +106,12 @@ const editorSlice = createSlice({
     },
     setLanguage: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
+    },
+    turnOnLoadingScreen: (state) => {
+      state.loadingScreenOn = true;
+    },
+    turnOffLoadingScreen: (state) => {
+      state.loadingScreenOn = false;
     },
   },
 });
@@ -148,8 +156,14 @@ export const slices = {
 };
 export const { switchChatbox, setChatMessagesArray, setNewMessages } =
   chatBoxSlice.actions;
-export const { updateEditor, updateConsole, setUserArray, setLanguage } =
-  editorSlice.actions;
+export const {
+  updateEditor,
+  updateConsole,
+  setUserArray,
+  setLanguage,
+  turnOnLoadingScreen,
+  turnOffLoadingScreen,
+} = editorSlice.actions;
 export const {
   updateRoom,
   updateProjectName,

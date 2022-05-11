@@ -22,4 +22,8 @@ export interface IEditorProps {
   connection: HubConnection;
 }
 
+export interface IEditorIconProps {
+  closeConnection: () => Promise<void>;
+}
+
 export type Language = "javascript" | "python" | "csharp" | "java";

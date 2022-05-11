@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import AceEditor from "react-ace";
 import { useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
-import { IEditorProps } from "../component-types/propTypes";
+import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import Console from "../extra-components/Console";
 import Run from "../extra-components/Run";
 import Chatbox from "../extra-components/Chatbox";
@@ -30,9 +30,12 @@ import {
   disconnectProject,
   setNewMessages,
   switchChatbox,
+  turnOffLoadingScreen,
+  turnOnLoadingScreen,
   updateConsole,
   updateEditor,
 } from "../component-types/stateTypes";
+import LoadingScreen from "../extra-components/LoadingScreen";
 
 const Editor = (props: IEditorProps) => {
   const connected = useAppSelector(
@@ -41,14 +44,16 @@ const Editor = (props: IEditorProps) => {
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const language = useAppSelector((state) => state.editor.language);
-  const newMessages = useAppSelector((state) => state.chatbox.newMessages);
+  const showLoadingScreen = useAppSelector(
+    (state) => state.editor.loadingScreenOn
+  );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     !connected && navigate("/JoinProject");
-  }, []);
+  }, [connected, navigate]);
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -87,34 +92,8 @@ const Editor = (props: IEditorProps) => {
   return (
     <div>
       {!connected && navigate("/JoinProject")}
-      {!chatIsOpen && (
-        <div className="iets">
-          <div className="button-group">
-            <FontAwesomeIcon
-              id="user-list"
-              className="icon"
-              icon={faUserGroup}
-            />
-            <div className="popover-list">
-              <UsersList></UsersList>
-            </div>
-            <FontAwesomeIcon
-              onClick={() => {
-                dispatch(setNewMessages(""));
-                dispatch(switchChatbox());
-              }}
-              className="icon"
-              icon={faMessage}
-            />
-            {newMessages !== "" && <div className="new-message"></div>}
-            <FontAwesomeIcon
-              onClick={closeConnection}
-              className="icon"
-              icon={faRightFromBracket}
-            />
-          </div>
-        </div>
-      )}
+      {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
+      {showLoadingScreen && <LoadingScreen />}
       <Chatbox connection={props.connection} />
       <AceEditor
         mode={language}
@@ -131,7 +110,42 @@ const Editor = (props: IEditorProps) => {
         }}
       />
       <Console />
-      <Run runcode={runCode} />
+      <Run
+        runcode={async () => {
+          dispatch(turnOnLoadingScreen());
+          await runCode();
+          dispatch(turnOffLoadingScreen());
+        }}
+      />
+    </div>
+  );
+};
+
+const EditorIcons = (props: IEditorIconProps) => {
+  const dispatch = useAppDispatch();
+  const newMessages = useAppSelector((state) => state.chatbox.newMessages);
+  return (
+    <div className="iets">
+      <div className="button-group">
+        <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
+        <div className="popover-list">
+          <UsersList></UsersList>
+        </div>
+        <FontAwesomeIcon
+          onClick={() => {
+            dispatch(setNewMessages(""));
+            dispatch(switchChatbox());
+          }}
+          className="icon"
+          icon={faMessage}
+        />
+        {newMessages !== "" && <div className="new-message"></div>}
+        <FontAwesomeIcon
+          onClick={props.closeConnection}
+          className="icon"
+          icon={faRightFromBracket}
+        />
+      </div>
     </div>
   );
 };
