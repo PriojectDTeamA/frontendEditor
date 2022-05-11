@@ -1,27 +1,50 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { APIReturnType, base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps } from "../component-types/propTypes";
-import { setLanguage, updateProjectName } from "../component-types/stateTypes";
+import {
+  setLanguage,
+  updateEditor,
+  updateRoom,
+} from "../component-types/stateTypes";
 
 import "./login.css";
 
 const JoinProject = (props: IProjectProps) => {
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
-  const projectName = useAppSelector(
-    (state) => state.projectConnection.projectName
-  );
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
-  //const user = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const join = async () => {
-    await props.joinRoom();
-    dispatch(setLanguage("python")); // TODO: load this dynamically from an API call
+    try {
+      await joinProjectApiCall();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const joinProjectApiCall = async () => {
+    fetch(`${base_API_URL}/joinsession?project_id=${room}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then(handleProjectData);
+  };
+
+  const handleProjectData = async (data: APIReturnType) => {
+    if (data.Status === "Success") {
+      const projectData = data.Data[0];
+      dispatch(setLanguage(projectData.Language));
+      dispatch(updateEditor(projectData.Code));
+      await props.joinRoom();
+    } else if (data.Status === "Failed") {
+      console.warn("joining project failed... (room might not exist?)");
+    }
   };
 
   return (
@@ -38,8 +61,8 @@ const JoinProject = (props: IProjectProps) => {
           >
             <input
               type="text"
-              value={projectName}
-              onChange={(e) => dispatch(updateProjectName(e.target.value))}
+              value={room}
+              onChange={(e) => dispatch(updateRoom(e.target.value))}
               id="projname"
               className="fadeIn second standard-input"
               name="newproj"

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "./login.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { base_API_URL } from "../App";
+import { APIReturnType, base_API_URL } from "../App";
 import { setID, setUsername } from "../component-types/stateTypes";
 import { useNavigate } from "react-router-dom";
 
@@ -27,15 +27,15 @@ const Login = () => {
       };
       await fetch(`${base_API_URL}/Login`, requestOptions)
         .then((response) => response.json())
-        .then((data) => {
+        .then((data: APIReturnType) => {
           if (data.Status === "Success") {
             console.log("user logged in");
             console.log(data.Data);
             console.log(data.Data[0].ID);
             dispatch(setID(data.Data[0].ID));
             dispatch(setUsername(data.Data[0].username));
-          } else if (data.status === "Failed") {
-            console.log(data.message);
+          } else if (data.Status === "Failed") {
+            console.log(data.Message);
           }
         });
     } catch (error) {

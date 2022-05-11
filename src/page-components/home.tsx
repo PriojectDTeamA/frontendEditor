@@ -10,7 +10,6 @@ import {
 
 import "./login.css";
 import "./Home.scss";
-import { Link } from "react-router-dom";
 import { useAppSelector } from "../component-types/hooks";
 import { IProjectBoxProps } from "../component-types/propTypes";
 

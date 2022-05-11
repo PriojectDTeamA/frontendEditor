@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { base_API_URL } from "../App";
+import { APIReturnType, base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps, Language } from "../component-types/propTypes";
 import {
@@ -40,20 +40,19 @@ const NewProject = (props: IProjectProps) => {
     try {
       await fetch(`${base_API_URL}/createsession`, requestOptions)
         .then((response) => response.json())
-        .then(async (data) => {
+        .then(async (data: APIReturnType) => {
           if (data.Status === "Success") {
             const projectData = data.Data[0];
+            console.log(`This is the id of the new project: ${projectData.ID}`);
             dispatch(updateRoom(projectData.ID));
             dispatch(updateEditor(projectData.Code));
-            //dispatch(setLanguage(projectData.language));
-            console.log(language);
             await props.joinRoom();
           } else if (data.Status === "Failed") {
-            console.log(data.message);
+            console.warn(data.Message);
           }
         });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

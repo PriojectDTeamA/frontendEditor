@@ -28,6 +28,11 @@ import {
 
 // didnt work after testing, idk if we should use this IP
 export const base_API_URL = "http://145.24.222.113/api";
+export type APIReturnType = {
+  Status: string;
+  Data: Record<string, any>[];
+  Message?: string;
+};
 
 function App() {
   // maybe we can replace these hooks and states with state in the store
@@ -86,7 +91,7 @@ function App() {
       setConnectionChat(tempConnection);
       dispatch(connectProject());
     } catch (e) {
-      console.log(e);
+      console.error(e);
       dispatch(disconnectProject());
     }
   };
