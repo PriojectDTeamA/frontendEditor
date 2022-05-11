@@ -45,6 +45,8 @@ const NewProject = (props: IProjectProps) => {
             const projectData = data.Data[0];
             dispatch(updateRoom(projectData.ID));
             dispatch(updateEditor(projectData.Code));
+            //dispatch(setLanguage(projectData.language));
+            console.log(language);
             await props.joinRoom();
           } else if (data.Status === "Failed") {
             console.log(data.message);
