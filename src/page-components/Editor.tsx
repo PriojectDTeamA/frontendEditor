@@ -96,7 +96,7 @@ const Editor = (props: IEditorProps) => {
   const passCodeToServerAndUpdateConsole = async (
     requestOptions: RequestInit
   ) => {
-    fetch(`${base_API_URL}/RunSession`, requestOptions)
+    await fetch(`${base_API_URL}/RunSession`, requestOptions)
       .then((response) => response.json())
       .then((data) => dispatch(updateConsole(data.Message)));
   };
