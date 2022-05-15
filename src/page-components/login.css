@@ -113,9 +113,9 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
+.standard-input[type="button"],
+.standard-input[type="submit"],
+.standard-input[type="reset"] {
   background-color: var(--main-button-color);
   border: none;
   color: var(--main-button-color-text);
@@ -137,9 +137,9 @@ input[type="reset"] {
   transition: all 0.3s ease-in-out;
 }
 
-input[type="button"]:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover {
+.standard-input[type="button"]:hover,
+.standard-input[type="submit"]:hover,
+.standard-input[type="reset"]:hover {
   background-color: var(--main-button-color-hover);
 }
 
@@ -153,8 +153,8 @@ input[type="reset"]:hover {
   transform: scale(0.95);
 }
 
-input[type="text"],
-input[type="password"]  {
+.standard-input[type="text"],
+.standard-input[type="password"]  {
   background-color: #ffffff;
   border: none;
   color: #0d0d0d;
