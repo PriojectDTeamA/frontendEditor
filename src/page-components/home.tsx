@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { base_API_URL } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Language } from "../component-types/propTypes";
 import {
   faPlus,
   faArrowRightToBracket,
@@ -21,17 +22,25 @@ import csharplogo from "../assets/csharp.png";
 const Home = () => {
   const mainUser = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const [projects, setProjects] = useState<any>([]);
 
-  // this will be used to load in all the projects when the api call for projects for one user works
-  // it doesn't work yet since the api isn't complete and the fetch() call isn't correct
-  const loadInProjects = async () => {
-    const userProjects = await fetch(`${base_API_URL}/Projects/${mainUser.id}`)
+  useEffect( () => {
+    const loadProjects = async () => {
+      await fetch(`${base_API_URL}/Projects/GetProjects/1`)
       .then((response) => response.json())
-      .then(
-        (data) =>
-          data /*.map(res => {ProjectBox language=res.language projectName=res.name})*/
-      );
-  };
+      .then((data) => {
+        if(data.Status == "Success"){
+          setProjects(data.Data);      
+        }
+      });
+    };
+    loadProjects();
+
+  }, []);
+
+  const projectsComp = projects?.map((e: { language:Language, name: string;}, i:number) => (
+    <ProjectBox key={i} language={e.language} projectName={e.name} fadeTiming="second"/>
+  ));
 
   return (
     <div>
@@ -43,19 +52,11 @@ const Home = () => {
               <hr />
             </div>
             <div className="projects-body">
-              `{/*loadInProjects() here instead of the single projectBoxes*/}
-              <ProjectBox language="python" projectName="First Project" />
-              <ProjectBox language="java" projectName="Second Project" />
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-              />
+              {projects.length != 0 ?
+                projectsComp
+              :
+                <div>No projects found</div>
+              }
               <div
                 onClick={() => navigate("/NewProject")}
                 className="fadeIn third projects-button"
@@ -64,6 +65,7 @@ const Home = () => {
               </div>
             </div>
           </div>
+
         </div>
 
         <div className="col-6">
