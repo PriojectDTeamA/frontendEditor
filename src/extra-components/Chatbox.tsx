@@ -72,21 +72,21 @@ const MessageContainer = () => {
             <div
               className={
                 m.user === mainUser.username
-                  ? "user-message"
-                  : "user-message-public"
+                  ? "user-message-public"
+                  : "user-message"
               }
             >
               <div
                 className={
                   "message " +
                   (m.user === mainUser.username
-                    ? "message-primary"
-                    : "message-secondary")
+                    ? "message-secondary"
+                    : "message-primary")
                 }
               >
                 {m.message}
               </div>
-              {m.user === mainUser.username && (
+              {m.user !== mainUser.username && (
                 <div className="from-user">
                   {m.user} {m.time}
                 </div>
