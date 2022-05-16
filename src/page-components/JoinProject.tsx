@@ -11,6 +11,10 @@ import {
 
 import "./login.css";
 
+import logo from "../assets/User-icon.png";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const JoinProject = (props: IProjectProps) => {
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
   const connected = useAppSelector(
@@ -40,6 +44,8 @@ const JoinProject = (props: IProjectProps) => {
     if (data.Status === "Success") {
       updateProjectOptionsAndJoinRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
+      toast.error("joining project failed... (room might not exist?)", {position: "top-center"});
+
       console.warn("joining project failed... (room might not exist?)");
     }
   };
@@ -81,6 +87,7 @@ const JoinProject = (props: IProjectProps) => {
           </form>
         </div>
       </div>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };

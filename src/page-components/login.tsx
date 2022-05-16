@@ -7,6 +7,8 @@ import { setID, setUsername } from "../component-types/stateTypes";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/User-icon.png";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +38,7 @@ const Login = () => {
             dispatch(setUsername(data.Data[0].username));
           } else if (data.Status === "Failed") {
             console.log(data.Message);
+            toast.error(data.Message, {position: "top-center"});
           }
         });
     } catch (error) {
@@ -88,6 +91,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };

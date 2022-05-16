@@ -12,6 +12,10 @@ import {
 
 import "./login.css";
 
+import logo from "../assets/User-icon.png";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const NewProject = (props: IProjectProps) => {
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
@@ -54,6 +58,7 @@ const NewProject = (props: IProjectProps) => {
     if (data.Status === "Success") {
       updateProjectOptionsAndCreateRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
+      toast.error(data.Message, {position: "top-center"});
       console.warn(data.Message);
     }
   };
@@ -103,6 +108,7 @@ const NewProject = (props: IProjectProps) => {
           </form>
         </div>
       </div>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };
