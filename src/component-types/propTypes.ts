@@ -5,7 +5,7 @@ export interface IChatMessageProps {
 }
 
 export interface IProjectProps {
-  joinRoom: () => Promise<void>;
+  joinRoom: (id?: string) => Promise<void>;
 }
 
 export interface IRunProps {
