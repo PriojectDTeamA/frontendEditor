@@ -53,7 +53,7 @@ const Editor = (props: IEditorProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    !connected && navigate("/JoinProject");
+    connected === false && navigate("/JoinProject");
   }, [connected, navigate]);
 
   const sendBroadcast = async (text: string) => {
@@ -103,7 +103,6 @@ const Editor = (props: IEditorProps) => {
 
   return (
     <div>
-      {!connected && navigate("/JoinProject")}
       {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
       {showLoadingScreen && <LoadingScreen />}
       <Chatbox connection={props.connection} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./login.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
@@ -20,6 +20,10 @@ const Login = () => {
 
   const logged_in = useAppSelector((state) => state.user.id);
 
+  useEffect(() => {
+    logged_in !== -1 && navigate("/Home");
+  }, [logged_in, navigate]);
+
   const login = async () => {
     try {
       const requestOptions = {
@@ -37,8 +41,7 @@ const Login = () => {
             dispatch(setID(data.Data[0].ID));
             dispatch(setUsername(data.Data[0].username));
           } else if (data.Status === "Failed") {
-            console.log(data.Message);
-            toast.error(data.Message, {position: "top-center"});
+            toast.error(data.Message, { position: "top-center" });
           }
         });
     } catch (error) {
@@ -48,7 +51,6 @@ const Login = () => {
 
   return (
     <div>
-      {logged_in !== -1 && navigate("/Home")}
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first">

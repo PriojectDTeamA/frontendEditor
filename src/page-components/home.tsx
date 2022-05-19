@@ -11,7 +11,7 @@ import {
 
 import "./login.css";
 import "./Home.scss";
-import { useAppSelector } from "../component-types/hooks";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectBoxProps } from "../component-types/propTypes";
 
 import pythonlogo from "../assets/python.png";
@@ -22,25 +22,37 @@ import csharplogo from "../assets/csharp.png";
 const Home = () => {
   const mainUser = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [projects, setProjects] = useState<any>([]);
 
-  useEffect( () => {
+  useEffect(() => {
     const loadProjects = async () => {
       await fetch(`${base_API_URL}/Projects/GetProjects/${mainUser.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if(data.Status == "Success"){
-          setProjects(data.Data);      
-        }
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.Status === "Success") {
+            setProjects(data.Data);
+          }
+        });
     };
     loadProjects();
-
   }, []);
 
-  const projectsComp = projects?.map((e: { language:Language, name: string;}, i:number) => (
-    <ProjectBox key={i} language={e.language} projectName={e.name} fadeTiming="second"/>
-  ));
+  const projectsComp = projects?.map(
+    (e: { language: Language; name: string }, i: number) => (
+      <ProjectBox
+        key={i}
+        language={e.language}
+        projectName={e.name}
+        fadeTiming="second"
+      />
+    )
+  );
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/Login");
+  };
 
   return (
     <div>
@@ -52,11 +64,11 @@ const Home = () => {
               <hr />
             </div>
             <div className="projects-body">
-              {projects.length != 0 ?
+              {projects.length !== 0 ? (
                 projectsComp
-              :
+              ) : (
                 <div>No projects found</div>
-              }
+              )}
               <div
                 onClick={() => navigate("/NewProject")}
                 className="fadeIn third projects-button"
@@ -65,7 +77,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
         </div>
 
         <div className="col-6">
@@ -141,10 +152,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div
-        onClick={() => navigate("/Login")}
-        className="fadeIn fourth leave-button"
-      >
+      <div onClick={logout} className="fadeIn fourth leave-button">
         <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket} />
       </div>
     </div>
@@ -153,6 +161,7 @@ const Home = () => {
 
 const ProjectBox = (props: IProjectBoxProps) => {
   const navigate = useNavigate();
+
   const getLogo = () => {
     switch (props.language) {
       case "python":
