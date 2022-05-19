@@ -26,7 +26,7 @@ const Home = () => {
 
   useEffect( () => {
     const loadProjects = async () => {
-      await fetch(`${base_API_URL}/Projects/GetProjects/1`)
+      await fetch(`${base_API_URL}/Projects/GetProjects/${mainUser.id}`)
       .then((response) => response.json())
       .then((data) => {
         if(data.Status == "Success"){

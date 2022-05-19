@@ -26,9 +26,10 @@ import {
   clearChatMessages,
 } from "./component-types/stateTypes";
 
-// export const base_API_URL = "http://codojo.made-by-s.id:8034";
+// Local testing:
+// export const base_API_URL = "http://127.0.0.1:8034";
 
-// didnt work after testing, idk if we should use this IP
+// Live testing:
 export const base_API_URL = "http://145.24.222.113/api";
 export type APIReturnType = {
   Status: string;
