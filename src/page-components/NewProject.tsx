@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APIReturnType, base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
@@ -29,6 +29,10 @@ const NewProject = (props: IProjectProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    connected === true && navigate("/Editor");
+  });
+
   const createNew = async (e: React.FormEvent) => {
     if (project_name === "") return;
     e.preventDefault();
@@ -58,7 +62,7 @@ const NewProject = (props: IProjectProps) => {
     if (data.Status === "Success") {
       updateProjectOptionsAndCreateRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
-      toast.error(data.Message, {position: "top-center"});
+      toast.error(data.Message, { position: "top-center" });
       console.warn(data.Message);
     }
   };
@@ -66,14 +70,13 @@ const NewProject = (props: IProjectProps) => {
   const updateProjectOptionsAndCreateRoom = async (
     projectData: Record<string, any>
   ) => {
-    dispatch(updateRoom(projectData.ID));
     dispatch(updateEditor(projectData.Code));
-    await props.joinRoom();
+    await props.joinRoom(projectData.ID);
+    dispatch(updateRoom(projectData.ID));
   };
 
   return (
     <div>
-      {connected && navigate("/Editor")}
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first"></div>

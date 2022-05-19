@@ -44,7 +44,9 @@ const JoinProject = (props: IProjectProps) => {
     if (data.Status === "Success") {
       updateProjectOptionsAndJoinRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
-      toast.error("joining project failed... (room might not exist?)", {position: "top-center"});
+      toast.error("joining project failed... (room might not exist?)", {
+        position: "top-center",
+      });
 
       console.warn("joining project failed... (room might not exist?)");
     }
