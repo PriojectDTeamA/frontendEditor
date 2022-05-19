@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { base_API_URL } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Language } from "../component-types/propTypes";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
+import { Language, IProjectBoxProps } from "../component-types/propTypes";
 import {
   faPlus,
   faArrowRightToBracket,
@@ -11,8 +12,6 @@ import {
 
 import "./login.css";
 import "./Home.scss";
-import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { IProjectBoxProps } from "../component-types/propTypes";
 
 import pythonlogo from "../assets/python.png";
 import javalogo from "../assets/java.jpg";

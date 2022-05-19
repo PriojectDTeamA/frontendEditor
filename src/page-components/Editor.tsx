@@ -2,11 +2,23 @@ import React, { useEffect } from "react";
 import AceEditor from "react-ace";
 import { useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
+import {
+  disconnectProject,
+  setNewMessages,
+  switchChatbox,
+  turnOffLoadingScreen,
+  turnOnLoadingScreen,
+  updateConsole,
+  updateEditor,
+} from "../component-types/stateTypes";
 import Console from "../extra-components/Console";
 import Run from "../extra-components/Run";
 import Chatbox from "../extra-components/Chatbox";
 import UsersList from "../extra-components/UsersList";
+import LoadingScreen from "../extra-components/LoadingScreen";
+
 // import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,17 +37,6 @@ import "ace-builds/src-noconflict/mode-java";
 
 // Import a Theme (okadia, github, xcode etc)
 import "ace-builds/src-noconflict/theme-twilight";
-import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import {
-  disconnectProject,
-  setNewMessages,
-  switchChatbox,
-  turnOffLoadingScreen,
-  turnOnLoadingScreen,
-  updateConsole,
-  updateEditor,
-} from "../component-types/stateTypes";
-import LoadingScreen from "../extra-components/LoadingScreen";
 
 const Editor = (props: IEditorProps) => {
   const connected = useAppSelector(

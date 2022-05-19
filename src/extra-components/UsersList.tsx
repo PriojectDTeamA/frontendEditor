@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../component-types/hooks";
+
 import "./UserList.scss";
 
 const UsersList = () => {

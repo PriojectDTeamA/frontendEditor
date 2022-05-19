@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Chatbox.css";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { chatMessageType, switchChatbox } from "../component-types/stateTypes";
 import { IChatMessageProps } from "../component-types/propTypes";
+
+import "./Chatbox.css";
 
 const ChatInput = (props: IChatMessageProps) => {
   const [currentinput, setinput] = useState("");

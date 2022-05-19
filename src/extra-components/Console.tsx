@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../component-types/hooks";
+
 import "./Console.css";
 
 const Console = () => {
@@ -7,7 +8,9 @@ const Console = () => {
 
   return (
     <div className="console">
-        {consoleText.split(/\n/).map(line => <div key={line}>{"$ " + line}</div>)}
+      {consoleText.split(/\n/).map((line) => (
+        <div key={line}>{"$ " + line}</div>
+      ))}
     </div>
   );
 };
