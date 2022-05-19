@@ -78,7 +78,7 @@ interface IEditorState {
 const initialEditorState: IEditorState = {
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
-  language: "python",
+  language: "csharp",
   currentUsers: [],
   loadingScreenOn: false,
 };
