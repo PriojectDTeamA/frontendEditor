@@ -9,12 +9,12 @@ const ChatInput = (props: IChatMessageProps) => {
   const [currentinput, setinput] = useState("");
 
   const send = async () => {
-    if (currentinput === "") return null;
+    if (currentinput === "") return; // error toaster here
 
     try {
       await props.connection.invoke("SendMessage", currentinput);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
 
     setinput("");
