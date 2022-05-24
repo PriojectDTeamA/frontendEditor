@@ -41,10 +41,8 @@ test("should handle the switching of the chatbox to close", () => {
     initialOpening: false,
   };
   expect(reducer(previousState, switchChatbox())).toEqual({
-    chatMessages: [],
-    newMessages: "",
+    ...previousState,
     chatIsOpen: false,
-    initialOpening: false,
   });
 });
 
@@ -62,10 +60,8 @@ test("should handle adding a new string to newMessages", () => {
       setNewMessages("Hi there!. Nice of you to use the editor")
     )
   ).toEqual({
-    chatMessages: [],
+    ...previousState,
     newMessages: "Hi there!. Nice of you to use the editor",
-    chatIsOpen: true,
-    initialOpening: false,
   });
 });
 
@@ -83,10 +79,8 @@ test("should handle overwriting the current string with a new one in newMessages
       setNewMessages("I believe there is an error on line 48")
     )
   ).toEqual({
-    chatMessages: [],
+    ...previousState,
     newMessages: "I believe there is an error on line 48",
-    chatIsOpen: true,
-    initialOpening: false,
   });
 });
 
@@ -108,6 +102,7 @@ test("should set a new chat message", () => {
       })
     )
   ).toEqual({
+    ...previousState,
     chatMessages: [
       {
         user: "martijn",
@@ -115,9 +110,6 @@ test("should set a new chat message", () => {
         time: "21:19",
       },
     ],
-    newMessages: "",
-    chatIsOpen: true,
-    initialOpening: false,
   });
 });
 
@@ -145,6 +137,7 @@ test("should set an additional new chat message", () => {
       })
     )
   ).toEqual({
+    ...previousState,
     chatMessages: [
       {
         user: "martijn",
@@ -157,9 +150,6 @@ test("should set an additional new chat message", () => {
         time: "21:22",
       },
     ],
-    newMessages: "",
-    chatIsOpen: true,
-    initialOpening: false,
   });
 });
 
@@ -194,9 +184,7 @@ test("should clear all the chat messages currently in chatMessages", () => {
     initialOpening: false,
   };
   expect(reducer(previousState, clearChatMessages())).toEqual({
+    ...previousState,
     chatMessages: [],
-    newMessages: "",
-    chatIsOpen: true,
-    initialOpening: false,
   });
 });
