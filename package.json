@@ -60,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.17.12",
     "babel-jest": "^28.1.0",
     "jest": "^28.1.0"
   }
