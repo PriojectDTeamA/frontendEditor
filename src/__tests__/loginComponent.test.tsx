@@ -1,10 +1,15 @@
 import React from "react";
-
+import { BrowserRouter as Router } from "react-router-dom";
 import { render, fireEvent, screen } from "../component-types/test-utils";
+import "@testing-library/jest-dom";
 import Login from "../page-components/login";
 
 test("integration tests the app component", async () => {
-  render(<Login />);
+  render(
+    <Router>
+      <Login />
+    </Router>
+  );
 
   // how does the component load initially?
   expect(screen.getByPlaceholderText("login")).toBeInTheDocument();
