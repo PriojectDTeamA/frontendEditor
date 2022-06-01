@@ -17,7 +17,7 @@ export interface IProjectBoxProps extends IProjectProps{
   language: Language;
   projectName: string;
   fadeTiming?: string;
-  ID?: number;
+  ID: number;
   joinRoom: IProjectProps["joinRoom"];
 }
 

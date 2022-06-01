@@ -80,63 +80,9 @@ const Home = (props: IProjectProps) => {
             </div>
             <div className="projects-body">
               {/*loadInProjects() here instead of the single projectBoxes*/}
-              <ProjectBox language="python" projectName="First Project" joinRoom={props.joinRoom}/>
-              <ProjectBox language="java" projectName="Second Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox language="python" projectName="First Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox language="java" projectName="Second Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox language="python" projectName="First Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox language="java" projectName="Second Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox language="python" projectName="First Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox language="java" projectName="Second Project" joinRoom = {props.joinRoom}/>
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-                joinRoom = {props.joinRoom}
-              />
-
+              <ProjectBox language="python" projectName="Demo Project" ID={188} joinRoom={props.joinRoom}/>
+              <ProjectBox language="csharp" projectName="Login System" ID={187} joinRoom = {props.joinRoom}/>
+              <ProjectBox language="javascript" projectName="Sids Project" ID={189} joinRoom = {props.joinRoom}/>
               <div>
                 <button
                   className="fadeIn third projects-button"
@@ -197,7 +143,7 @@ const ProjectBox = (props: IProjectBoxProps) => {
       dispatch(setLanguage(props.language));
       dispatch(updateEditor(data.Data[0].Code));
       dispatch(updateRoom(data.Data[0].ID));
-      await props.joinRoom(props.ID?.toString());
+      await props.joinRoom(props.ID.toString());
 
     } 
     // navigate("/Editor");
