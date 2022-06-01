@@ -33,6 +33,7 @@ test("integration tests the login component", async () => {
   // how does the component load initially?
   expect(usernameTextBox).toBeInTheDocument();
   expect(passwordTextBox).toBeInTheDocument();
+  expect(submitButton).toBeInTheDocument();
 
   // while a certain action is executed (i.e. typing something), how does the component look now?
   userEvent.type(usernameTextBox, usernameToTest);
@@ -44,5 +45,4 @@ test("integration tests the login component", async () => {
   submitButton.click(); // logging in, thus redirecting to the Home page
 
   // after a certain action was executed (i.e. typing or submitting something), how does the component look now?
-  expect(usernameTextBox).not.toBeInTheDocument();
 });
