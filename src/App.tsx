@@ -24,6 +24,7 @@ import {
   setNewMessages,
   User,
   clearChatMessages,
+  resetInitialOpen,
 } from "./component-types/stateTypes";
 
 // Local testing:
@@ -107,6 +108,7 @@ function App() {
     dispatch(disconnectProject());
     dispatch(clearChatMessages());
     dispatch(setUserArray([]));
+    dispatch(resetInitialOpen());
   };
 
   return (

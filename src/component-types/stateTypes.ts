@@ -39,6 +39,9 @@ const chatBoxSlice = createSlice({
     setNewMessages: (state, action: PayloadAction<string>) => {
       state.newMessages = action.payload;
     },
+    resetInitialOpen: (state) => {
+      state.initialOpening = true;
+    }
   },
 });
 
@@ -151,6 +154,7 @@ export const {
   setChatMessagesArray,
   clearChatMessages,
   setNewMessages,
+  resetInitialOpen,
 } = chatBoxSlice.actions;
 export const {
   updateEditor,
