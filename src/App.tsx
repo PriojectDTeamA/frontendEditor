@@ -112,7 +112,7 @@ function App() {
         <Route path="/" element={<Login />}></Route>{" "}
         <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route path="/Home" element={<Home />}></Route>{" "}
+        <Route path="/Home" element={<Home joinRoom={joinRoom}/>}></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"
