@@ -50,9 +50,9 @@ function App() {
   const mainUser = useAppSelector((state) => state.user);
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
 
-  const joinRoom = async (roomId?: string) => {
+  const joinRoom = async (roomId: string) => {
     try {
-      const roomID = room !== "" ? room : roomId;
+      const roomID = ((room !== "") && (room !== undefined)) ? room : roomId;
       const tempConnection = new HubConnectionBuilder()
         .withUrl(`${base_API_URL}/chat`)
         .configureLogging(LogLevel.Information)
@@ -61,6 +61,9 @@ function App() {
       setConnectionCallbacks(tempConnection);
 
       await tempConnection.start();
+      console.log(roomID);
+      console.log(room);
+      console.log(roomId);
       await tempConnection.invoke("JoinRoom", {
         user: mainUser.username,
         room: roomID,

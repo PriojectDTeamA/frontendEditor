@@ -57,7 +57,7 @@ const JoinProject = (props: IProjectProps) => {
   ) => {
     dispatch(setLanguage(projectData.Language));
     dispatch(updateEditor(projectData.Code));
-    await props.joinRoom();
+    await props.joinRoom(projectData.ID);
   };
 
   return (
