@@ -49,7 +49,6 @@ const Home = () => {
   );
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" });
     navigate("/Login");
   };
 

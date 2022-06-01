@@ -24,6 +24,11 @@ const Login = () => {
     logged_in !== -1 && navigate("/Home");
   }, [logged_in, navigate]);
 
+  useEffect(() => {
+    // make sure any earlier ran state is not present here anymore
+    dispatch({ type: "LOGOUT" });
+  }, []);
+
   const login = async () => {
     try {
       const requestOptions = {
