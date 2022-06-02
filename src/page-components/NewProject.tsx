@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import { APIReturnType, base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps, Language } from "../component-types/propTypes";
@@ -11,9 +12,6 @@ import {
 } from "../component-types/stateTypes";
 
 import "./login.css";
-
-import logo from "../assets/User-icon.png";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const NewProject = (props: IProjectProps) => {

@@ -1,14 +1,14 @@
-import React from "react";
-import { useState } from "react";
-import "./login.css";
-import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { APIReturnType, base_API_URL } from "../App";
-import { setID, setUsername } from "../component-types/stateTypes";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { APIReturnType, base_API_URL } from "../App";
+import { useAppDispatch, useAppSelector } from "../component-types/hooks";
+import { setID, setUsername } from "../component-types/stateTypes";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./login.css";
 
 import logo from "../assets/User-icon.png";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +19,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const logged_in = useAppSelector((state) => state.user.id);
+
+  useEffect(() => {
+    logged_in !== -1 && navigate("/Home");
+  }, [logged_in, navigate]);
+
+  useEffect(() => {
+    // make sure any earlier ran state is not present here anymore
+    dispatch({ type: "LOGOUT" });
+  }, []);
 
   const login = async () => {
     try {
@@ -37,8 +46,7 @@ const Login = () => {
             dispatch(setID(data.Data[0].ID));
             dispatch(setUsername(data.Data[0].username));
           } else if (data.Status === "Failed") {
-            console.log(data.Message);
-            toast.error(data.Message, {position: "top-center"});
+            toast.error(data.Message, { position: "top-center" });
           }
         });
     } catch (error) {
@@ -48,7 +56,6 @@ const Login = () => {
 
   return (
     <div>
-      {logged_in !== -1 && navigate("/Home")}
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first">

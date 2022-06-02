@@ -39,6 +39,9 @@ const chatBoxSlice = createSlice({
     setNewMessages: (state, action: PayloadAction<string>) => {
       state.newMessages = action.payload;
     },
+    resetInitialOpen: (state) => {
+      state.initialOpening = true;
+    }
   },
 });
 
@@ -92,6 +95,9 @@ const editorSlice = createSlice({
     },
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
+    },
+    resetConsole: (state) => {
+      state.consoleText = initialEditorState.consoleText;
     },
     setUserArray: (state, action: PayloadAction<User[]>) => {
       state.currentUsers = action.payload;
@@ -151,10 +157,12 @@ export const {
   setChatMessagesArray,
   clearChatMessages,
   setNewMessages,
+  resetInitialOpen,
 } = chatBoxSlice.actions;
 export const {
   updateEditor,
   updateConsole,
+  resetConsole,
   setUserArray,
   setLanguage,
   turnOnLoadingScreen,
