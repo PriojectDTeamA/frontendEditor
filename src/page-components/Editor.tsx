@@ -28,6 +28,7 @@ import "ace-builds/src-noconflict/theme-twilight";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import {
   disconnectProject,
+  resetConsole,
   setNewMessages,
   switchChatbox,
   turnOffLoadingScreen,
@@ -67,6 +68,7 @@ const Editor = (props: IEditorProps) => {
   const closeConnection = async () => {
     try {
       await props.connection.stop().then(() => dispatch(disconnectProject()));
+      dispatch(resetConsole);
     } catch (e) {
       console.log(e);
     }

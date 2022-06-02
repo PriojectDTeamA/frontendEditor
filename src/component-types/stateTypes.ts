@@ -96,6 +96,9 @@ const editorSlice = createSlice({
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
     },
+    resetConsole: (state) => {
+      state.consoleText = initialEditorState.consoleText;
+    },
     setUserArray: (state, action: PayloadAction<User[]>) => {
       state.currentUsers = action.payload;
     },
@@ -159,6 +162,7 @@ export const {
 export const {
   updateEditor,
   updateConsole,
+  resetConsole,
   setUserArray,
   setLanguage,
   turnOnLoadingScreen,
