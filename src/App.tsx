@@ -82,6 +82,7 @@ function App() {
   const receiveMessage = (user: string, message: string) => {
     const today = new Date();
     const time =
+      (today.getHours() < 10 ? "0" : "") +
       today.getHours() +
       ":" +
       (today.getMinutes() < 10 ? "0" : "") +
