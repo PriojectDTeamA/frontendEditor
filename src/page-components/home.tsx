@@ -42,7 +42,7 @@ const Home = (props: IProjectProps) => {
   }, []);
 
   const projectsComp = projects?.map((e: { language:Language, name: string, ID: number;}, i:number) => (
-    <ProjectBox key={i} language={e.language} projectName={e.name} ID={e.ID} joinRoom = {props.joinRoom} fadeTiming="second"/>
+    <ProjectBox key={e.ID} language={e.language} projectName={e.name} ID={e.ID} joinRoom = {props.joinRoom} fadeTiming="second"/>
   ));
 
   return (
@@ -142,7 +142,8 @@ const ProjectBox = (props: IProjectBoxProps) => {
     if (data.Status === "Success") {
       dispatch(setLanguage(props.language));
       dispatch(updateEditor(data.Data[0].Code));
-      dispatch(updateRoom(data.Data[0].ID));
+      dispatch(updateRoom(props.ID.toString()));
+      // console.log(data.Data[0].ID)
       await props.joinRoom(props.ID.toString());
 
     } 
