@@ -70,7 +70,7 @@ const Editor = (props: IEditorProps) => {
   const closeConnection = async () => {
     try {
       await props.connection.stop().then(() => dispatch(disconnectProject()));
-      dispatch(resetConsole);
+      dispatch(resetConsole());
     } catch (e) {
       console.log(e);
     }
