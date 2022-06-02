@@ -57,7 +57,7 @@
 }
 
 .chatbox {
-  z-index: 999;
+  z-index: 6;
   height: var(--chat-box-height);
   width: var(--chat-box-width);
   background-color: gray;
@@ -67,7 +67,7 @@
 
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
-  overflow-y: scroll; 
+  overflow-y: scroll;
 
   padding-bottom: 40px;
 
@@ -81,7 +81,7 @@
 }
 
 .slide-button {
-  z-index: 1;
+  z-index: 6;
   width: 25px;
   height: 25px;
   cursor: pointer;

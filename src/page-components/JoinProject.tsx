@@ -19,13 +19,21 @@ const JoinProject = (props: IProjectProps) => {
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
+  const mainUser = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(disconnectProject());
+    componentInitCheck();
   }, []);
+
+  const componentInitCheck = () => {
+    // if no user is logged in, log out again
+    if (mainUser.id === -1) navigate("/");
+    // disconnecting from any connected project for each page other than editor
+    dispatch(disconnectProject());
+  };
 
   useEffect(() => {
     connected === true && navigate("/Editor");

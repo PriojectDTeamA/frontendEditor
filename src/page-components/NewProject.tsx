@@ -5,6 +5,7 @@ import { APIReturnType, base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps, Language } from "../component-types/propTypes";
 import {
+  disconnectProject,
   setLanguage,
   updateEditor,
   updateProjectName,
@@ -23,9 +24,21 @@ const NewProject = (props: IProjectProps) => {
   const project_name = useAppSelector(
     (state) => state.projectConnection.projectName
   );
+  const mainUser = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    componentInitCheck();
+  }, []);
+
+  const componentInitCheck = () => {
+    // if no user is logged in, log out again
+    if (mainUser.id === -1) navigate("/");
+    // disconnecting from any connected project for each page other than editor
+    dispatch(disconnectProject());
+  };
 
   useEffect(() => {
     connected === true && navigate("/Editor");

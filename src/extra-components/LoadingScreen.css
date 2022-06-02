@@ -2,7 +2,7 @@
   position: absolute;
   left: calc(50% - (120px / 2));
   top: calc(50% - (120px / 2));
-  z-index: 1;
+  z-index: 5;
   border: 16px solid gray;
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
@@ -17,7 +17,8 @@
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  /* z-index of the gutter of the editor is 4, that's why we make this 5 */
+  z-index: 5;
   background-color: rgba(77, 77, 77, 0.763);
 }
 

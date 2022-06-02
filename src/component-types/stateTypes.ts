@@ -41,7 +41,7 @@ const chatBoxSlice = createSlice({
     },
     resetInitialOpen: (state) => {
       state.initialOpening = true;
-    }
+    },
   },
 });
 
@@ -142,6 +142,8 @@ const projectConnectionSlice = createSlice({
     },
     disconnectProject: (state) => {
       state.connected = false;
+      state.currentRoom = "";
+      state.projectName = "";
     },
   },
 });
