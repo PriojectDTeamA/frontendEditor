@@ -22,6 +22,7 @@ import javalogo from "../assets/java.jpg";
 import javascriptlogo from "../assets/javascript.png";
 import csharplogo from "../assets/csharp.png";
 import {
+  disconnectProject,
   setLanguage,
   updateEditor,
   updateRoom,
@@ -36,6 +37,7 @@ const Home = (props: IProjectProps) => {
     (state) => state.projectConnection.connected
   );
   useEffect(() => {
+    componentInitCheck();
     const loadProjects = async () => {
       await fetch(`${base_API_URL}/Projects/GetProjects/${mainUser.id}`)
         .then((response) => response.json())
@@ -48,9 +50,13 @@ const Home = (props: IProjectProps) => {
     loadProjects();
   }, []);
 
-  const logout = () => {
-    navigate("/Login");
+  const componentInitCheck = () => {
+    // if no user is logged in, log out again
+    if (mainUser.id === -1) navigate("/");
+    // disconnecting from any connected project for each page other than editor
+    dispatch(disconnectProject());
   };
+
   const projectsComp = projects?.map(
     (e: { language: Language; name: string; ID: number }, i: number) => (
       <ProjectBox
@@ -132,7 +138,10 @@ const Home = (props: IProjectProps) => {
         </div>
       </div>
 
-      <div onClick={logout} className="fadeIn fourth leave-button">
+      <div
+        onClick={() => navigate("/Login")}
+        className="fadeIn fourth leave-button"
+      >
         <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket} />
       </div>
     </div>
