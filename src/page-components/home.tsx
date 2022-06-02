@@ -160,7 +160,6 @@ const ProjectBox = (props: IProjectBoxProps) => {
   };
 
   const handleClick = () => {
-    // TODO: update this so it connects to the right room and not just to the general editor
     fetch(`${base_API_URL}/joinsession?project_id=${props.ID}`, {
       method: "GET",
     })

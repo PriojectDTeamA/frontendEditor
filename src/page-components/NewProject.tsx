@@ -32,8 +32,12 @@ const NewProject = (props: IProjectProps) => {
   });
 
   const createNew = async (e: React.FormEvent) => {
-    if (project_name === "") return;
     e.preventDefault();
+    if (project_name === "") {
+      toast.error("No project name was given...", { position: "top-center" });
+      return;
+    }
+
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
