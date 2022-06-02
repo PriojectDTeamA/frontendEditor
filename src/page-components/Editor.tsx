@@ -54,7 +54,7 @@ const Editor = (props: IEditorProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    connected === false && navigate("/JoinProject");
+    connected === false && navigate("/Home");
   }, [connected, navigate]);
 
   const sendBroadcast = async (text: string) => {
@@ -67,8 +67,8 @@ const Editor = (props: IEditorProps) => {
 
   const closeConnection = async () => {
     try {
-      await props.connection.stop();
-      dispatch(disconnectProject());
+      await props.connection.stop().then(() => dispatch(disconnectProject()));
+      dispatch(resetConsole);
     } catch (e) {
       console.log(e);
     }

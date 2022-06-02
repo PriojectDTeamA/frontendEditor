@@ -22,6 +22,7 @@ import {
   setNewMessages,
   User,
   clearChatMessages,
+  resetInitialOpen,
 } from "./component-types/stateTypes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -48,9 +49,9 @@ function App() {
   const mainUser = useAppSelector((state) => state.user);
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
 
-  const joinRoom = async (roomId?: string) => {
+  const joinRoom = async (roomId: string) => {
     try {
-      const roomID = room !== "" ? room : roomId;
+      const roomID = ((room !== "") && (room !== undefined)) ? room : roomId;
       const tempConnection = new HubConnectionBuilder()
         .withUrl(`${base_API_URL}/chat`)
         .configureLogging(LogLevel.Information)
@@ -59,6 +60,9 @@ function App() {
       setConnectionCallbacks(tempConnection);
 
       await tempConnection.start();
+      console.log(roomID);
+      console.log(room);
+      console.log(roomId);
       await tempConnection.invoke("JoinRoom", {
         user: mainUser.username,
         room: roomID,
@@ -102,6 +106,7 @@ function App() {
     dispatch(disconnectProject());
     dispatch(clearChatMessages());
     dispatch(setUserArray([]));
+    dispatch(resetInitialOpen());
   };
 
   return (
@@ -110,7 +115,7 @@ function App() {
         <Route path="/" element={<Login />}></Route>{" "}
         <Route path="/Login" element={<Login />}></Route>{" "}
         {/* route to the login page */}
-        <Route path="/Home" element={<Home />}></Route>{" "}
+        <Route path="/Home" element={<Home joinRoom={joinRoom}/>}></Route>{" "}
         {/* route to the home page */}
         <Route
           path="/NewProject"

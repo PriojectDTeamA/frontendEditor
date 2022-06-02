@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { base_API_URL } from "../App";
+import { APIReturnType, base_API_URL } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { Language, IProjectBoxProps } from "../component-types/propTypes";
+import {
+  Language,
+  IProjectBoxProps,
+  IProjectProps,
+} from "../component-types/propTypes";
 import {
   faPlus,
   faArrowRightToBracket,
@@ -17,13 +21,20 @@ import pythonlogo from "../assets/python.png";
 import javalogo from "../assets/java.jpg";
 import javascriptlogo from "../assets/javascript.png";
 import csharplogo from "../assets/csharp.png";
+import {
+  setLanguage,
+  updateEditor,
+  updateRoom,
+} from "../component-types/stateTypes";
 
-const Home = () => {
+const Home = (props: IProjectProps) => {
   const mainUser = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [projects, setProjects] = useState<any>([]);
-
+  const connected = useAppSelector(
+    (state) => state.projectConnection.connected
+  );
   useEffect(() => {
     const loadProjects = async () => {
       await fetch(`${base_API_URL}/Projects/GetProjects/${mainUser.id}`)
@@ -37,23 +48,25 @@ const Home = () => {
     loadProjects();
   }, []);
 
+  const logout = () => {
+    navigate("/Login");
+  };
   const projectsComp = projects?.map(
-    (e: { language: Language; name: string }, i: number) => (
+    (e: { language: Language; name: string; ID: number }, i: number) => (
       <ProjectBox
-        key={i}
+        key={e.ID}
         language={e.language}
         projectName={e.name}
+        ID={e.ID}
+        joinRoom={props.joinRoom}
         fadeTiming="second"
       />
     )
   );
 
-  const logout = () => {
-    navigate("/Login");
-  };
-
   return (
     <div>
+      {connected === true && navigate("/Editor")}
       <div className="row fadeInDown m-5">
         <div className="col-6">
           <div className="projects-group">
@@ -80,60 +93,29 @@ const Home = () => {
         <div className="col-6">
           <div className="projects-group">
             <div className="projects-header">
-              <h3 className="projects-title">My Projects</h3>
+              <h3 className="projects-title">Recent Projects</h3>
               <hr />
             </div>
             <div className="projects-body">
               {/*loadInProjects() here instead of the single projectBoxes*/}
-              <ProjectBox language="python" projectName="First Project" />
-              <ProjectBox language="java" projectName="Second Project" />
               <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
+                language="python"
+                projectName="Demo Project"
+                ID={188}
+                joinRoom={props.joinRoom}
               />
               <ProjectBox
                 language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
+                projectName="Login System"
+                ID={187}
+                joinRoom={props.joinRoom}
               />
-              <ProjectBox language="python" projectName="First Project" />
-              <ProjectBox language="java" projectName="Second Project" />
               <ProjectBox
                 language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
+                projectName="Sids Project"
+                ID={189}
+                joinRoom={props.joinRoom}
               />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-              />
-              <ProjectBox language="python" projectName="First Project" />
-              <ProjectBox language="java" projectName="Second Project" />
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-              />
-              <ProjectBox language="python" projectName="First Project" />
-              <ProjectBox language="java" projectName="Second Project" />
-              <ProjectBox
-                language="javascript"
-                projectName="Third Project"
-                fadeTiming="second"
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Fourth Project"
-                fadeTiming="second"
-              />
-
               <div>
                 <button
                   className="fadeIn third projects-button"
@@ -158,8 +140,7 @@ const Home = () => {
 };
 
 const ProjectBox = (props: IProjectBoxProps) => {
-  const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const getLogo = () => {
     switch (props.language) {
       case "python":
@@ -180,7 +161,29 @@ const ProjectBox = (props: IProjectBoxProps) => {
 
   const handleClick = () => {
     // TODO: update this so it connects to the right room and not just to the general editor
-    navigate("/Editor");
+    fetch(`${base_API_URL}/joinsession?project_id=${props.ID}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then(updateProject);
+  };
+
+  const updateProject = async (data: APIReturnType) => {
+    if (data.Status === "Success") {
+      dispatch(setLanguage(props.language));
+      dispatch(updateEditor(data.Data[0].Code));
+      dispatch(updateRoom(props.ID.toString()));
+      // console.log(data.Data[0].ID)
+      await props.joinRoom(props.ID.toString());
+    }
+    // navigate("/Editor");
+    // else if (data.Status === "Failed") {
+    //   toast.error("joining project failed... (room might not exist?)", {
+    //     position: "top-center",
+    //   });
+
+    //   console.warn("joining project failed... (room might not exist?)");
+    // }
   };
 
   return (
