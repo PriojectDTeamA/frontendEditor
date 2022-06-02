@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
   disconnectProject,
+  resetConsole,
   setNewMessages,
   switchChatbox,
   turnOffLoadingScreen,
