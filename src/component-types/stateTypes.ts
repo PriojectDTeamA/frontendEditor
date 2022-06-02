@@ -4,14 +4,14 @@ import { Language } from "./propTypes";
 // CODE FOR THE CHATBOX
 interface IChatBoxState {
   chatMessages: chatMessageType[];
-  newMessages: string;
+  newMessages: boolean;
   chatIsOpen: boolean;
   initialOpening: boolean;
 }
 
 const initialChatBoxState: IChatBoxState = {
   chatMessages: [],
-  newMessages: "",
+  newMessages: false,
   chatIsOpen: false,
   initialOpening: true, // this is added to prevent a bug with the chatbox where it loads in on an animation
 };
@@ -36,11 +36,34 @@ const chatBoxSlice = createSlice({
     clearChatMessages: (state) => {
       state.chatMessages = [];
     },
-    setNewMessages: (state, action: PayloadAction<string>) => {
-      state.newMessages = action.payload;
+    setNewMessage: (state) => {
+      state.newMessages = true;
+    },
+    clearNewMessage: (state) => {
+      state.newMessages = false;
     },
     resetInitialOpen: (state) => {
       state.initialOpening = true;
+    },
+    receiveMessageCallback: (
+      state,
+      action: PayloadAction<{ user: string; message: string }>
+    ) => {
+      const today = new Date();
+      const time =
+        (today.getHours() < 10 ? "0" : "") +
+        today.getHours() +
+        ":" +
+        (today.getMinutes() < 10 ? "0" : "") +
+        today.getMinutes();
+      const chatMessageObject = {
+        user: action.payload.user,
+        message: action.payload.message,
+        time,
+      };
+      state.chatMessages.push(chatMessageObject);
+      if (state.chatIsOpen === true) return;
+      state.newMessages = true;
     },
   },
 });
@@ -158,8 +181,10 @@ export const {
   switchChatbox,
   setChatMessagesArray,
   clearChatMessages,
-  setNewMessages,
+  setNewMessage,
+  clearNewMessage,
   resetInitialOpen,
+  receiveMessageCallback,
 } = chatBoxSlice.actions;
 export const {
   updateEditor,

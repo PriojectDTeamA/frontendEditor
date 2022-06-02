@@ -5,9 +5,10 @@ import { base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
+  clearNewMessage,
   disconnectProject,
   resetConsole,
-  setNewMessages,
+  setNewMessage,
   switchChatbox,
   turnOffLoadingScreen,
   turnOnLoadingScreen,
@@ -142,13 +143,13 @@ const EditorIcons = (props: IEditorIconProps) => {
         </div>
         <FontAwesomeIcon
           onClick={() => {
-            dispatch(setNewMessages(""));
+            dispatch(clearNewMessage());
             dispatch(switchChatbox());
           }}
           className="icon"
           icon={faMessage}
         />
-        {newMessages !== "" && <div className="new-message"></div>}
+        {newMessages === true && <div className="new-message"></div>}
         <FontAwesomeIcon
           onClick={props.closeConnection}
           className="icon"
