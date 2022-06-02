@@ -19,6 +19,7 @@ import Run from "../extra-components/Run";
 import Chatbox from "../extra-components/Chatbox";
 import UsersList from "../extra-components/UsersList";
 import LoadingScreen from "../extra-components/LoadingScreen";
+import OverlayScreen from "../extra-components/OverlayScreen";
 
 // import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -106,6 +107,7 @@ const Editor = (props: IEditorProps) => {
   return (
     <div>
       {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
+      {chatIsOpen && <OverlayScreen />}
       {showLoadingScreen && <LoadingScreen />}
       <Chatbox connection={props.connection} />
       <AceEditor
