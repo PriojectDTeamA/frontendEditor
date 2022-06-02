@@ -31,6 +31,17 @@ const JoinProject = (props: IProjectProps) => {
     connected === true && navigate("/Editor");
   }, [connected, navigate]);
 
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (room === "") {
+      toast.error("No project name detected...", {
+        position: "top-center",
+      });
+    } else {
+      join();
+    }
+  };
+
   const join = async () => {
     try {
       await joinProjectApiCall();
@@ -54,8 +65,6 @@ const JoinProject = (props: IProjectProps) => {
       toast.error("joining project failed... (room might not exist?)", {
         position: "top-center",
       });
-
-      console.warn("joining project failed... (room might not exist?)");
     }
   };
 
@@ -72,12 +81,7 @@ const JoinProject = (props: IProjectProps) => {
       <div className="wrapper fadeInDown">
         <div id="formContent">
           <div className="fadeIn first"></div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              join();
-            }}
-          >
+          <form onSubmit={submit}>
             <input
               type="text"
               value={room}
