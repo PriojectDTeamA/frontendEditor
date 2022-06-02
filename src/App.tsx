@@ -81,7 +81,11 @@ function App() {
 
   const receiveMessage = (user: string, message: string) => {
     const today = new Date();
-    const time = today.getHours() + ":" + today.getMinutes();
+    const time =
+      today.getHours() +
+      ":" +
+      (today.getMinutes() < 10 ? "0" : "") +
+      today.getMinutes();
     if (!chatIsOpen) {
       dispatch(setNewMessages("*"));
     }
