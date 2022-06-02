@@ -43,7 +43,6 @@ function App() {
   );
 
   const dispatch = useAppDispatch();
-  const editorValue = useAppSelector((state) => state.editor.editorText);
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
   const mainUser = useAppSelector((state) => state.user);
 
@@ -83,9 +82,7 @@ function App() {
   };
 
   const broadcastText = (text: string) => {
-    if (text !== editorValue) {
-      dispatch(updateEditor(text));
-    }
+    dispatch(updateEditor(text));
   };
 
   const setRoomUsers = (users: User[]) => {

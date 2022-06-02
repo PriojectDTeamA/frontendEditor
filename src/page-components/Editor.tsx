@@ -8,7 +8,6 @@ import {
   clearNewMessage,
   disconnectProject,
   resetConsole,
-  setNewMessage,
   switchChatbox,
   turnOffLoadingScreen,
   turnOnLoadingScreen,

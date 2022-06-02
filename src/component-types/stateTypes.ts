@@ -36,9 +36,6 @@ const chatBoxSlice = createSlice({
     clearChatMessages: (state) => {
       state.chatMessages = [];
     },
-    setNewMessage: (state) => {
-      state.newMessages = true;
-    },
     clearNewMessage: (state) => {
       state.newMessages = false;
     },
@@ -114,7 +111,9 @@ const editorSlice = createSlice({
   initialState: initialEditorState,
   reducers: {
     updateEditor: (state, action: PayloadAction<string>) => {
-      state.editorText = action.payload;
+      if (state.editorText !== action.payload) {
+        state.editorText = action.payload;
+      }
     },
     updateConsole: (state, action: PayloadAction<string>) => {
       state.consoleText = action.payload;
@@ -181,7 +180,6 @@ export const {
   switchChatbox,
   setChatMessagesArray,
   clearChatMessages,
-  setNewMessage,
   clearNewMessage,
   resetInitialOpen,
   receiveMessageCallback,
