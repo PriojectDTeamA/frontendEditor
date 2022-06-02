@@ -41,7 +41,6 @@ const Login = () => {
         .then((data: APIReturnType) => {
           if (data.Status === "Success") {
             console.log("user logged in");
-            console.log(data.Data);
             console.log(data.Data[0].ID);
             dispatch(setID(data.Data[0].ID));
             dispatch(setUsername(data.Data[0].username));

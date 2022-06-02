@@ -25,6 +25,7 @@ import {
   disconnectProject,
   setLanguage,
   updateEditor,
+  updateProjectName,
   updateRoom,
 } from "../component-types/stateTypes";
 
@@ -179,6 +180,7 @@ const ProjectBox = (props: IProjectBoxProps) => {
   const updateProject = async (data: APIReturnType) => {
     if (data.Status === "Success") {
       dispatch(setLanguage(props.language));
+      dispatch(updateProjectName(props.projectName));
       dispatch(updateEditor(data.Data[0].Code));
       dispatch(updateRoom(props.ID.toString()));
       // console.log(data.Data[0].ID)

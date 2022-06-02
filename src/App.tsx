@@ -18,8 +18,7 @@ import {
   disconnectProject,
   setUserArray,
   updateEditor,
-  setChatMessagesArray,
-  setNewMessages,
+  receiveMessageCallback,
   User,
   clearChatMessages,
   resetInitialOpen,
@@ -44,10 +43,8 @@ function App() {
   );
 
   const dispatch = useAppDispatch();
-  const editorValue = useAppSelector((state) => state.editor.editorText);
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
   const mainUser = useAppSelector((state) => state.user);
-  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
 
   const joinRoom = async (roomId: string) => {
     try {
@@ -64,6 +61,7 @@ function App() {
         user: mainUser.username,
         room: roomID,
       });
+
       setConnectionChat(tempConnection);
       dispatch(connectProject());
     } catch (e) {
@@ -80,19 +78,11 @@ function App() {
   };
 
   const receiveMessage = (user: string, message: string) => {
-    const today = new Date();
-    const time = today.getHours() + ":" + today.getMinutes();
-    if (!chatIsOpen) {
-      dispatch(setNewMessages("*"));
-    }
-    const chatMessageObject = { user, message, time };
-    dispatch(setChatMessagesArray(chatMessageObject));
+    dispatch(receiveMessageCallback({ user, message }));
   };
 
   const broadcastText = (text: string) => {
-    if (text !== editorValue) {
-      dispatch(updateEditor(text));
-    }
+    dispatch(updateEditor(text));
   };
 
   const setRoomUsers = (users: User[]) => {
