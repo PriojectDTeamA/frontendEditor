@@ -34,6 +34,7 @@ const Home = (props: IProjectProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [projects, setProjects] = useState<any>([]);
+  const [RecentProjects, setRecentProjects] = useState<any>([]);
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
@@ -48,7 +49,18 @@ const Home = (props: IProjectProps) => {
           }
         });
     };
+    // creates a api call to get all the recent projects per user
+    const loadRecentProjects = async () => {
+      await fetch(`${base_API_URL}/RecentProj/GetRecentProjects/${mainUser.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.Status === "Success") {
+            setRecentProjects(data.Data);
+          }
+        });
+    }
     loadProjects();
+    loadRecentProjects();
   }, []);
 
   const componentInitCheck = () => {
@@ -59,6 +71,20 @@ const Home = (props: IProjectProps) => {
   };
 
   const projectsComp = projects?.map(
+    (e: { language: Language; name: string; ID: number }, i: number) => (
+      <ProjectBox
+        key={e.ID}
+        language={e.language}
+        projectName={e.name}
+        ID={e.ID}
+        joinRoom={props.joinRoom}
+        fadeTiming="second"
+      />
+    )
+  );
+
+  //function for creating components on homepage
+  const recentProjectsComp = RecentProjects?.map(
     (e: { language: Language; name: string; ID: number }, i: number) => (
       <ProjectBox
         key={e.ID}
@@ -105,24 +131,12 @@ const Home = (props: IProjectProps) => {
             </div>
             <div className="projects-body">
               {/*loadInProjects() here instead of the single projectBoxes*/}
-              <ProjectBox
-                language="python"
-                projectName="Demo Project"
-                ID={188}
-                joinRoom={props.joinRoom}
-              />
-              <ProjectBox
-                language="csharp"
-                projectName="Login System"
-                ID={187}
-                joinRoom={props.joinRoom}
-              />
-              <ProjectBox
-                language="javascript"
-                projectName="Sids Project"
-                ID={189}
-                joinRoom={props.joinRoom}
-              />
+              {RecentProjects.length !== 0 ? (
+                recentProjectsComp
+              ) : (
+                <div>No projects found</div>
+              )}
+
               <div>
                 <button
                   className="fadeIn third projects-button"
@@ -150,6 +164,7 @@ const Home = (props: IProjectProps) => {
 };
 
 const ProjectBox = (props: IProjectBoxProps) => {
+  const mainUser = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const getLogo = () => {
     switch (props.language) {
@@ -177,8 +192,22 @@ const ProjectBox = (props: IProjectBoxProps) => {
       .then(updateProject);
   };
 
+  //API call for adding or modifying data in recentProjects when an user clicks on a project on the homepage
+  const setRecentProjectsAPICall = async() => {
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ UserID: mainUser.id, ProjectID: props.ID }),
+    }
+
+    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
+      .then((response) => response.json());
+  };
+
   const updateProject = async (data: APIReturnType) => {
     if (data.Status === "Success") {
+      setRecentProjectsAPICall();
       dispatch(setLanguage(props.language));
       dispatch(updateProjectName(props.projectName));
       dispatch(updateEditor(data.Data[0].Code));
