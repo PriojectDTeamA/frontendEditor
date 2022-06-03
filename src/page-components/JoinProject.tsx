@@ -66,8 +66,22 @@ const JoinProject = (props: IProjectProps) => {
       .then(handleProjectData);
   };
 
+  //API call for adding or modifying data to Recentprojects whenuser joins an existing project
+  const setRecentProjectsAPICall = async() => {
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ UserID: mainUser.id, ProjectID: room }),
+    }
+
+    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
+      .then((response) => response.json());
+  };
+
   const handleProjectData = async (data: APIReturnType) => {
     if (data.Status === "Success") {
+      setRecentProjectsAPICall();
       updateProjectOptionsAndJoinRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
       toast.error("joining project failed... (room might not exist?)", {
