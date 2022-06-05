@@ -9,7 +9,7 @@ const Console = () => {
   return (
     <div className="console">
       {consoleText.split(/\n/).map((line) => (
-        <div key={line}>{"$ " + line}</div>
+        <div key={line}>{line}</div>
       ))}
     </div>
   );

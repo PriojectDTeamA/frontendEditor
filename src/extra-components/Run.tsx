@@ -6,6 +6,8 @@ import "./Run.css";
 const Run = (props: IRunProps) => {
   return (
     <div className="run-container" onClick={props.runcode}>
+      <p>Save</p>
+      <p>&</p>
       <p>Run</p>
     </div>
   );
