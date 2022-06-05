@@ -1,17 +1,16 @@
 .run-container {
-  position: absolute;
+  float: right;
   right: 15px;
   bottom: 15px;
 
-  border: 3px white solid;
-
+  border: 5px solid var(--main-color);
   background-color: #777;
   color: white;
-  height: 50px;
-  width: 100px;
+  height: 250px;
+  width: 10%;
 }
 
-.run-container:hover{
+.run-container:hover {
   background-color: rgb(148, 148, 148);
   cursor: pointer;
 }

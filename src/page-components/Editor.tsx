@@ -109,6 +109,7 @@ const Editor = (props: IEditorProps) => {
       {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
       {chatIsOpen && <OverlayScreen />}
       {showLoadingScreen && <LoadingScreen />}
+      <EditorNavbar />
       <Chatbox connection={props.connection} />
       <AceEditor
         mode={language}
@@ -124,8 +125,10 @@ const Editor = (props: IEditorProps) => {
           $blockScrolling: true,
         }}
       />
-      <Console />
-      <Run runcode={runCodeWithLoading} />
+      <div>
+        <Console />
+        <Run runcode={runCodeWithLoading} />
+      </div>
     </div>
   );
 };
@@ -155,6 +158,23 @@ const EditorIcons = (props: IEditorIconProps) => {
           icon={faRightFromBracket}
         />
       </div>
+    </div>
+  );
+};
+
+const EditorNavbar = () => {
+  const projectID = useAppSelector(
+    (state) => state.projectConnection.currentRoom
+  );
+  const projectName = useAppSelector(
+    (state) => state.projectConnection.projectName
+  );
+
+  return (
+    <div className="editor-navbar">
+      <h3 className="projects-title col-8">
+        {projectName} (ID: {projectID})
+      </h3>
     </div>
   );
 };
