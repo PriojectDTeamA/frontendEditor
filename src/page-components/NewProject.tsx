@@ -14,6 +14,8 @@ import {
 
 import "./login.css";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 
 const NewProject = (props: IProjectProps) => {
   const connected = useAppSelector(
@@ -108,6 +110,19 @@ const NewProject = (props: IProjectProps) => {
     <div>
       <div className="wrapper fadeInDown">
         <div id="formContent">
+        <div className="exit-button">
+            <FontAwesomeIcon
+            onClick={(e) => navigate("/Home")}
+            className="icon"
+            icon={faXmarkCircle}
+            style={{
+              float: 'left',
+              position: 'relative',
+              cursor: 'pointer'
+            }}
+            
+            />
+          </div>
           <div className="fadeIn first"></div>
           <form onSubmit={(e) => createNew(e)}>
             <input
