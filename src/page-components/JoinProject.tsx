@@ -119,6 +119,8 @@ const JoinProject = (props: IProjectProps) => {
             
             />
           </div>
+          <br/>
+
           <div className="fadeIn first"></div>
           <form onSubmit={submit}>
             <input

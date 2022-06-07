@@ -123,6 +123,7 @@ const NewProject = (props: IProjectProps) => {
             
             />
           </div>
+          <br/>
           <div className="fadeIn first"></div>
           <form onSubmit={(e) => createNew(e)}>
             <input
@@ -134,6 +135,16 @@ const NewProject = (props: IProjectProps) => {
               onChange={(e) => dispatch(updateProjectName(e.target.value))}
             ></input>
             <select
+              style={
+                {
+                  border: '1px solid transparent',
+                  fontFamily: 'sans-serif',
+                  fontSize: '14',
+                  textAlignLast: 'center',
+                  padding: '5px',
+                  borderRadius: '5px'
+                }
+              }
               id="language"
               name="language"
               placeholder="Language"
