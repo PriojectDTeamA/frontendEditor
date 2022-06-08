@@ -126,7 +126,7 @@ const Editor = (props: IEditorProps) => {
           dispatch(updateEditor(newValue));
         }}
         width="100%"
-        height="400px"
+        height="600px"
         editorProps={{
           $blockScrolling: true,
         }}
