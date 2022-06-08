@@ -125,8 +125,10 @@ const Editor = (props: IEditorProps) => {
           $blockScrolling: true,
         }}
       />
-      <div>
+      <div className="Console">
         <Console />
+      </div>
+      <div className="Runbutton">
         <Run runcode={runCodeWithLoading} />
       </div>
     </div>
