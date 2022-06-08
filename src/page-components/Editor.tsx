@@ -126,6 +126,9 @@ const Editor = (props: IEditorProps) => {
         onLoad={(editorInstance) => {
           editorInstance.container.style.resize = "vertical";
           document.addEventListener("mouseup", () => editorInstance.resize());
+          if (props.connection == null) {
+            closeConnection()
+          }
         }}
         mode={language}
         theme="twilight"
