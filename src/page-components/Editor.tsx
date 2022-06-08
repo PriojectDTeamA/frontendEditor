@@ -5,9 +5,12 @@ import { base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
+  clearChatMessages,
   clearNewMessage,
   disconnectProject,
   resetConsole,
+  resetInitialOpen,
+  setUserArray,
   switchChatbox,
   turnOffLoadingScreen,
   turnOnLoadingScreen,
@@ -73,6 +76,11 @@ const Editor = (props: IEditorProps) => {
       dispatch(resetConsole());
     } catch (e) {
       console.log(e);
+      dispatch(disconnectProject());
+      dispatch(resetConsole());
+      dispatch(clearChatMessages());
+      dispatch(setUserArray([]));
+      dispatch(resetInitialOpen());
     }
   };
 
