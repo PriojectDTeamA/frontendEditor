@@ -104,6 +104,8 @@ const Editor = (props: IEditorProps) => {
       .then((data) => dispatch(updateConsole(data.Message)));
   };
 
+  const windowheight = window.innerHeight;
+
   return (
     <div>
       {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
@@ -126,7 +128,7 @@ const Editor = (props: IEditorProps) => {
           dispatch(updateEditor(newValue));
         }}
         width="100%"
-        height="600px"
+        height={windowheight-295 + "px"}
         editorProps={{
           $blockScrolling: true,
         }}
