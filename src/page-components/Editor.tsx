@@ -111,7 +111,12 @@ const Editor = (props: IEditorProps) => {
       {showLoadingScreen && <LoadingScreen />}
       <EditorNavbar />
       <Chatbox connection={props.connection} />
+      <div className="editor-constraints">
       <AceEditor
+        onLoad={(editorInstance) => {
+          editorInstance.container.style.resize = "vertical";
+          document.addEventListener("mouseup", () => editorInstance.resize());
+        }}
         mode={language}
         theme="twilight"
         value={editorValue}
@@ -121,16 +126,15 @@ const Editor = (props: IEditorProps) => {
           dispatch(updateEditor(newValue));
         }}
         width="100%"
+        height="400px"
         editorProps={{
           $blockScrolling: true,
         }}
-      />
-      <div className="Console">
+      /></div>
+      <div className="console-and-run-bar">
         <Console />
-      </div>
-      <div className="Runbutton">
         <Run runcode={runCodeWithLoading} />
-      </div>
+        </div>
     </div>
   );
 };
