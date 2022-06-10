@@ -163,8 +163,13 @@ const EditorIcons = (props: IEditorIconProps) => {
   const dispatch = useAppDispatch();
   const newMessages = useAppSelector((state) => state.chatbox.newMessages);
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
+  // check TODO's under here for the next two state variables
+  const projectOwner = useAppSelector((state) => state.editor.owner);
+  const mainUser = useAppSelector((state) => state.user);
   return !chatIsOpen ? (
     // TODO: add new icon for sharing projects, add onclick={dispatch(showShareProjects())}
+    // TODO: also make sure to add a check that verifies that the mainUser.id is the same as owner, see below for an example
+    // mainUser.id === projectOwner ? <FontAwesomeIcon className="share button"/> : <div style={{display: none}}></div>
     <div className="iets">
       <div className="button-group">
         <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
