@@ -126,7 +126,7 @@ const Home = (props: IProjectProps) => {
         <div className="col-6">
           <div className="projects-group">
             <div className="projects-header">
-              <h3 className="projects-title">Recent Projects</h3>
+              <h3 className="projects-title">Shared With Me</h3>
               <hr />
             </div>
             <div className="projects-body">
