@@ -96,6 +96,7 @@ interface IEditorState {
   language?: Language;
   currentUsers: User[];
   loadingScreenOn: boolean;
+  shareProjectsShown: boolean;
 }
 
 const initialEditorState: IEditorState = {
@@ -104,6 +105,7 @@ const initialEditorState: IEditorState = {
   language: "csharp",
   currentUsers: [],
   loadingScreenOn: false,
+  shareProjectsShown: false,
 };
 
 const editorSlice = createSlice({
@@ -132,6 +134,12 @@ const editorSlice = createSlice({
     },
     turnOffLoadingScreen: (state) => {
       state.loadingScreenOn = false;
+    },
+    showShareProjects: (state) => {
+      state.shareProjectsShown = true;
+    },
+    closeShareProjects: (state) => {
+      state.shareProjectsShown = false;
     },
   },
 });
@@ -192,6 +200,8 @@ export const {
   setLanguage,
   turnOnLoadingScreen,
   turnOffLoadingScreen,
+  showShareProjects,
+  closeShareProjects,
 } = editorSlice.actions;
 export const {
   updateRoom,

@@ -75,17 +75,17 @@ const NewProject = (props: IProjectProps) => {
       .then(checkReturnStatus);
   };
 
-//API call for adding or modifying data in Recentprojects when user creates a new room
-  const setRecentProjectsAPICall = async(ProjectID:number) => {
-
+  //API call for adding or modifying data in Recentprojects when user creates a new room
+  const setRecentProjectsAPICall = async (ProjectID: number) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ UserID: mainUser.id, ProjectID: ProjectID }),
-    }
+    };
 
-    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
-      .then((response) => response.json());
+    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions).then(
+      (response) => response.json()
+    );
   };
 
   const checkReturnStatus = async (data: APIReturnType) => {

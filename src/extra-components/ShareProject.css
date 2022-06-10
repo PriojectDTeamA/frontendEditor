@@ -4,67 +4,14 @@ body {
   background-color: var(--background-color-primary);
 }
 
-a {
-  color: #fffce8;
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 400;
-}
-
-h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  display: inline-block;
-  margin: 40px 8px 10px 8px;
-  color: #cccccc;
-}
-
 /* STRUCTURE */
-
-#language {
-  width: 85%;
-  height: 20%;
-}
-.new {
-  right: 20%;
-  top: 25%;
-}
-
-.join {
-  right: 20%;
-  top: 50%;
-}
-
-.logout {
-  right: 5%;
-  top: 10%;
-}
-
-.projectlogo {
-  height: 50px;
-  width: 50px;
-}
-
-.btn-danger {
-  background-color: #b87a9b;
-  border-color: #b87a9b;
-  color: #fffce8;
-}
-
-.btn-check:active + .btn-primary,
-.btn-check:checked + .btn-primary,
-.btn-primary.active,
-.btn-primary:active,
-.show > .btn-primary.dropdown-toggle {
-  background-color: #63d2ff;
-  border-color: #63d2ff;
-  color: #fffce8;
-}
-
-.list-group-item {
-  background-color: #7e9181;
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 7;
 }
 
 .wrapper {
@@ -91,31 +38,8 @@ h2 {
   text-align: center;
 }
 
-#formFooter {
-  background-color: var(--main-color);
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-}
-
-/* TABS */
-
-h2.inactive {
-  color: #cccccc;
-}
-
-h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
-}
-
 /* FORM TYPOGRAPHY*/
-
-.standard-input[type="button"],
-.standard-input[type="submit"],
-.standard-input[type="reset"] {
+.standard-input[type="submit"] {
   background-color: var(--main-button-color);
   border: none;
   color: var(--main-button-color-text);
@@ -137,15 +61,11 @@ h2.active {
   transition: all 0.3s ease-in-out;
 }
 
-.standard-input[type="button"]:hover,
-.standard-input[type="submit"]:hover,
-.standard-input[type="reset"]:hover {
+.standard-input[type="submit"]:hover {
   background-color: var(--main-button-color-hover);
 }
 
-.standard-input[type="button"]:active,
-.standard-input[type="submit"]:active,
-.standard-input[type="reset"]:active {
+.standard-input[type="submit"]:active {
   -moz-transform: scale(0.95);
   -webkit-transform: scale(0.95);
   -o-transform: scale(0.95);
@@ -153,10 +73,8 @@ h2.active {
   transform: scale(0.95);
 }
 
-.standard-input[type="text"],
-.standard-input[type="password"] {
-  background-color: #ffffff;
-  border: none;
+.standard-input[type="text"] {
+  background-color: #fff;
   color: #0d0d0d;
   padding: 15px 32px;
   text-align: center;
@@ -165,7 +83,7 @@ h2.active {
   font-size: 16px;
   margin: 5px;
   width: 85%;
-  border: 2px solid #ffffff;
+  border: 2px solid #fff;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
@@ -292,31 +210,7 @@ h2.active {
   animation-delay: 1s;
 }
 
-.underlineHover {
-  color: #0d6efd;
-}
 /* Simple CSS3 Fade-in Animation */
-.underlineHover:after {
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #56baed;
-  content: "";
-  transition: width 0.2s;
-}
-
-.underlineHover:hover {
-  color: #0d0d0d;
-}
-
-.underlineHover:hover:after {
-  width: 100%;
-}
-
-/* OTHERS */
-
 *:focus {
   outline: none;
 }

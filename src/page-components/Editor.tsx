@@ -7,6 +7,7 @@ import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
   clearChatMessages,
   clearNewMessage,
+  closeShareProjects,
   disconnectProject,
   resetConsole,
   resetInitialOpen,
@@ -23,6 +24,7 @@ import Chatbox from "../extra-components/Chatbox";
 import UsersList from "../extra-components/UsersList";
 import LoadingScreen from "../extra-components/LoadingScreen";
 import OverlayScreen from "../extra-components/OverlayScreen";
+import ShareProject from "../extra-components/ShareProject";
 
 // import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,12 +49,8 @@ const Editor = (props: IEditorProps) => {
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
-  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   const editorValue = useAppSelector((state) => state.editor.editorText);
   const language = useAppSelector((state) => state.editor.language);
-  const showLoadingScreen = useAppSelector(
-    (state) => state.editor.loadingScreenOn
-  );
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
 
   const dispatch = useAppDispatch();
@@ -61,6 +59,11 @@ const Editor = (props: IEditorProps) => {
   useEffect(() => {
     connected === false && navigate("/Home");
   }, [connected, navigate]);
+
+  // close the shared project popup on opening the editor
+  useEffect(() => {
+    dispatch(closeShareProjects());
+  }, []);
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -116,38 +119,42 @@ const Editor = (props: IEditorProps) => {
 
   return (
     <div>
-      {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
-      {chatIsOpen && <OverlayScreen />}
-      {showLoadingScreen && <LoadingScreen />}
+      {/* start conditionally shown components */}
+      <EditorIcons closeConnection={closeConnection} />
+      <OverlayScreen />
+      <LoadingScreen />
+      <ShareProject />
+      {/* end conditionally shown components*/}
       <EditorNavbar />
       <Chatbox connection={props.connection} />
       <div className="editor-constraints">
-      <AceEditor
-        onLoad={(editorInstance) => {
-          editorInstance.container.style.resize = "vertical";
-          document.addEventListener("mouseup", () => editorInstance.resize());
-          if (props.connection == null) {
-            closeConnection()
-          }
-        }}
-        mode={language}
-        theme="twilight"
-        value={editorValue}
-        name="editor"
-        onChange={(newValue: string) => {
-          sendBroadcast(newValue);
-          dispatch(updateEditor(newValue));
-        }}
-        width="100%"
-        height={windowheight-295 + "px"}
-        editorProps={{
-          $blockScrolling: true,
-        }}
-      /></div>
+        <AceEditor
+          onLoad={(editorInstance) => {
+            editorInstance.container.style.resize = "vertical";
+            document.addEventListener("mouseup", () => editorInstance.resize());
+            if (props.connection == null) {
+              closeConnection();
+            }
+          }}
+          mode={language}
+          theme="twilight"
+          value={editorValue}
+          name="editor"
+          onChange={(newValue: string) => {
+            sendBroadcast(newValue);
+            dispatch(updateEditor(newValue));
+          }}
+          width="100%"
+          height={windowheight - 295 + "px"}
+          editorProps={{
+            $blockScrolling: true,
+          }}
+        />
+      </div>
       <div className="console-and-run-bar">
         <Console />
         <Run runcode={runCodeWithLoading} />
-        </div>
+      </div>
     </div>
   );
 };
@@ -155,7 +162,9 @@ const Editor = (props: IEditorProps) => {
 const EditorIcons = (props: IEditorIconProps) => {
   const dispatch = useAppDispatch();
   const newMessages = useAppSelector((state) => state.chatbox.newMessages);
-  return (
+  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
+  return !chatIsOpen ? (
+    // TODO: add new icon for sharing projects, add onclick={dispatch(showShareProjects())}
     <div className="iets">
       <div className="button-group">
         <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
@@ -178,6 +187,8 @@ const EditorIcons = (props: IEditorIconProps) => {
         />
       </div>
     </div>
+  ) : (
+    <div></div>
   );
 };
 

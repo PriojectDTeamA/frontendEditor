@@ -1,90 +1,88 @@
 .projects-group {
-    height: calc( 100vh - 6rem );
-    padding: 25px;
-    background-color: var(--main-color);
-    border-radius: 1rem;
-    -webkit-box-shadow: 0 30px 20px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 30px 20px 0 rgba(0, 0, 0, 0.3);
+  height: calc(100vh - 6rem);
+  padding: 25px;
+  background-color: var(--main-color);
+  border-radius: 1rem;
+  -webkit-box-shadow: 0 30px 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
 .projects-header {
-    width: 100%;    
+  width: 100%;
 }
 
 .projects-title {
-    text-align: center;
+  text-align: center;
 }
 
 .projects-body {
-    height: 85%;
-    overflow: scroll;
+  height: 85%;
+  overflow: scroll;
 
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none; 
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
 }
 
 .projects-body::-webkit-scrollbar {
-    display: none; /* chrome opera... */
+  display: none; /* chrome opera... */
 }
 
 .projects-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: var(--main-button-color);
-    display: flex;
-    position: absolute;
-    bottom: 20px;
-    color: var(--main-button-color-text);
-    border: 1px var(--main-button-color-text) solid;
-    -webkit-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--main-button-color);
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  color: var(--main-button-color-text);
+  border: 1px var(--main-button-color-text) solid;
+  -webkit-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
 .projects-button:hover {
-    background-color: var(--main-button-color-hover);
-    cursor: pointer;
-
+  background-color: var(--main-button-color-hover);
+  cursor: pointer;
 }
 
 .project-item {
-    padding: 20px;
-    background-color: var(--main-button-color);
-    border-radius: 4px;
-    color: var(--main-button-color-text);
+  padding: 20px;
+  background-color: var(--main-button-color);
+  border-radius: 4px;
+  color: var(--main-button-color-text);
 }
 
 .project-item:hover {
-    background-color: var(--main-button-color-hover);
-    cursor: pointer;
+  background-color: var(--main-button-color-hover);
+  cursor: pointer;
 }
 
 .project-title {
-    margin: auto;
-    text-align: center;
-    color: var(--main-button-color-text);
+  margin: auto;
+  text-align: center;
+  color: var(--main-button-color-text);
 }
 
 .icon {
-    margin: auto;
+  margin: auto;
 }
 
 .leave-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 1px var(--main-button-color-text) solid;
-    background-color: var(--main-color);
-    display: flex;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    -webkit-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px var(--main-button-color-text) solid;
+  background-color: var(--main-color);
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  -webkit-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
 .leave-button:hover {
-    background-color: #b5dab4;
-    cursor: pointer;
-
+  background-color: #b5dab4;
+  cursor: pointer;
 }
