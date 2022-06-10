@@ -14,6 +14,7 @@ const ChatInput = (props: IChatMessageProps) => {
     try {
       await props.connection.invoke("SendMessage", currentinput);
     } catch (e) {
+      // TODO: invoke an error message
       console.error(e);
     }
 

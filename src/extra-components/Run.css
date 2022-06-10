@@ -2,12 +2,12 @@
   float: right;
   right: 15px;
   bottom: 15px;
-
+  z-index: 3;
   border: 5px solid var(--main-color);
   background-color: #777;
   color: white;
   height: 250px;
-  width: 10%;
+  width: 175px;
 }
 
 .run-container:hover {

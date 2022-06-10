@@ -1,16 +1,17 @@
 .console {
   float: left;
-  left: 20;
-
-  width: 90%;
+  position: relative;
   height: 250px;
   background-color: black;
   color: white;
   border: 5px solid var(--main-color);
-  padding-left: 10px;
+  padding-left: 40px;
   padding-top: 5px;
+  z-index: 1;
+  width: calc(100% - 175px);
 
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: auto
 }
 
 .console p {

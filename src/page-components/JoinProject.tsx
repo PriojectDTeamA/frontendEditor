@@ -13,6 +13,10 @@ import {
 
 import "./login.css";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import { Right } from "react-bootstrap/lib/Media";
+import { cursorTo } from "readline";
 
 const JoinProject = (props: IProjectProps) => {
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
@@ -102,6 +106,21 @@ const JoinProject = (props: IProjectProps) => {
     <div>
       <div className="wrapper fadeInDown">
         <div id="formContent">
+          <div className="exit-button">
+            <FontAwesomeIcon
+            onClick={(e) => navigate("/Home")}
+            className="icon"
+            icon={faXmarkCircle}
+            style={{
+              float: 'left',
+              position: 'relative',
+              cursor: 'pointer'
+            }}
+            
+            />
+          </div>
+          <br/>
+
           <div className="fadeIn first"></div>
           <form onSubmit={submit}>
             <input

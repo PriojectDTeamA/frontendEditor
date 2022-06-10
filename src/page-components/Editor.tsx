@@ -5,9 +5,12 @@ import { base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
+  clearChatMessages,
   clearNewMessage,
   disconnectProject,
   resetConsole,
+  resetInitialOpen,
+  setUserArray,
   switchChatbox,
   turnOffLoadingScreen,
   turnOnLoadingScreen,
@@ -73,6 +76,11 @@ const Editor = (props: IEditorProps) => {
       dispatch(resetConsole());
     } catch (e) {
       console.log(e);
+      dispatch(disconnectProject());
+      dispatch(resetConsole());
+      dispatch(clearChatMessages());
+      dispatch(setUserArray([]));
+      dispatch(resetInitialOpen());
     }
   };
 
@@ -104,6 +112,8 @@ const Editor = (props: IEditorProps) => {
       .then((data) => dispatch(updateConsole(data.Message)));
   };
 
+  const windowheight = window.innerHeight;
+
   return (
     <div>
       {!chatIsOpen && <EditorIcons closeConnection={closeConnection} />}
@@ -111,7 +121,15 @@ const Editor = (props: IEditorProps) => {
       {showLoadingScreen && <LoadingScreen />}
       <EditorNavbar />
       <Chatbox connection={props.connection} />
+      <div className="editor-constraints">
       <AceEditor
+        onLoad={(editorInstance) => {
+          editorInstance.container.style.resize = "vertical";
+          document.addEventListener("mouseup", () => editorInstance.resize());
+          if (props.connection == null) {
+            closeConnection()
+          }
+        }}
         mode={language}
         theme="twilight"
         value={editorValue}
@@ -121,14 +139,15 @@ const Editor = (props: IEditorProps) => {
           dispatch(updateEditor(newValue));
         }}
         width="100%"
+        height={windowheight-295 + "px"}
         editorProps={{
           $blockScrolling: true,
         }}
-      />
-      <div>
+      /></div>
+      <div className="console-and-run-bar">
         <Console />
         <Run runcode={runCodeWithLoading} />
-      </div>
+        </div>
     </div>
   );
 };
