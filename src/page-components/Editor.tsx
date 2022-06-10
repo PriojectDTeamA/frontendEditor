@@ -7,6 +7,7 @@ import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
   clearChatMessages,
   clearNewMessage,
+  closeShareProjects,
   disconnectProject,
   resetConsole,
   resetInitialOpen,
@@ -58,6 +59,11 @@ const Editor = (props: IEditorProps) => {
   useEffect(() => {
     connected === false && navigate("/Home");
   }, [connected, navigate]);
+
+  // close the shared project popup on opening the editor
+  useEffect(() => {
+    dispatch(closeShareProjects());
+  }, []);
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -158,6 +164,7 @@ const EditorIcons = (props: IEditorIconProps) => {
   const newMessages = useAppSelector((state) => state.chatbox.newMessages);
   const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   return !chatIsOpen ? (
+    // TODO: add new icon for sharing projects, add onclick={dispatch(showShareProjects())}
     <div className="iets">
       <div className="button-group">
         <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
