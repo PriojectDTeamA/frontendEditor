@@ -7,7 +7,7 @@ import { closeShareProjects, User } from "../component-types/stateTypes";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { APIReturnType, base_API_URL } from "../App";
 
-import "login.css";
+import "../page-components/login.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const ShareProject = () => {
