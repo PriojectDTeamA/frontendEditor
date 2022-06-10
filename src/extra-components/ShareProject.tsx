@@ -23,11 +23,8 @@ const ShareProject = () => {
   const mainUser = useAppSelector((state) => state.user);
 
   const shareProject = async () => {
-    // gets the right user and sets it to setShareUser, checks if the user that is added to the project is the same as the current user
     await getUserAPI();
-    // exit if the user is not set yet
     if (userToShareWith.id === -1) return;
-    // if the user is set, share the project with the user
     await setSharedProjectAPI();
   };
 
@@ -41,14 +38,15 @@ const ShareProject = () => {
       );
       return;
     }
-    fetch(`${base_API_URL}/getUser/${userToShareWith.username}`)
+    fetch(`${base_API_URL}/Users/Username/${userToShareWith.username}`)
       .then((response) => response.json())
       .then(handleSettingUser);
   };
 
   const handleSettingUser = async (data: APIReturnType) => {
     if (data.Status === "Success") {
-      // TODO: set user here
+      const shareUser = data.Data[0];
+      setShareUser({ id: shareUser.ID, username: shareUser.username });
     } else if (data.Status === "Failed") {
       toast.error(
         `User ${userToShareWith.username} not found... (note that a username is case sensitive)`,
