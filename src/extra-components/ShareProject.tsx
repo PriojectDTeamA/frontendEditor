@@ -7,7 +7,7 @@ import { closeShareProjects, User } from "../component-types/stateTypes";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { APIReturnType, base_API_URL } from "../App";
 
-import "../page-components/login.css";
+import "./ShareProject.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const ShareProject = () => {
@@ -80,7 +80,7 @@ const ShareProject = () => {
 
   return shareProjectOpen ? (
     <div>
-      <div className="wrapper fadeInDown">
+      <div className="wrapper fadeInDown popup">
         <div id="formContent">
           <div className="exit-button">
             <FontAwesomeIcon
