@@ -24,6 +24,7 @@ import csharplogo from "../assets/csharp.png";
 import {
   disconnectProject,
   setLanguage,
+  setOwner,
   updateEditor,
   updateProjectName,
   updateRoom,
@@ -71,11 +72,15 @@ const Home = (props: IProjectProps) => {
   };
 
   const projectsComp = projects?.map(
-    (e: { language: Language; name: string; ID: number }, i: number) => (
+    (
+      e: { language: Language; name: string; ID: number; owner: number },
+      i: number
+    ) => (
       <ProjectBox
         key={e.ID}
         language={e.language}
         projectName={e.name}
+        owner={e.owner}
         ID={e.ID}
         joinRoom={props.joinRoom}
         fadeTiming="second"
@@ -85,12 +90,16 @@ const Home = (props: IProjectProps) => {
 
   //function for creating components on homepage
   const recentProjectsComp = RecentProjects?.map(
-    (e: { language: Language; name: string; ID: number }, i: number) => (
+    (
+      e: { language: Language; name: string; ID: number; owner: number },
+      i: number
+    ) => (
       <ProjectBox
         key={e.ID}
         language={e.language}
         projectName={e.name}
         ID={e.ID}
+        owner={e.owner}
         joinRoom={props.joinRoom}
         fadeTiming="second"
       />
@@ -130,7 +139,6 @@ const Home = (props: IProjectProps) => {
               <hr />
             </div>
             <div className="projects-body">
-              {/*loadInProjects() here instead of the single projectBoxes*/}
               {RecentProjects.length !== 0 ? (
                 recentProjectsComp
               ) : (
@@ -212,17 +220,10 @@ const ProjectBox = (props: IProjectBoxProps) => {
       dispatch(updateProjectName(props.projectName));
       dispatch(updateEditor(data.Data[0].Code));
       dispatch(updateRoom(props.ID.toString()));
+      dispatch(setOwner(props.owner));
       // console.log(data.Data[0].ID)
       await props.joinRoom(props.ID.toString());
     }
-    // navigate("/Editor");
-    // else if (data.Status === "Failed") {
-    //   toast.error("joining project failed... (room might not exist?)", {
-    //     position: "top-center",
-    //   });
-
-    //   console.warn("joining project failed... (room might not exist?)");
-    // }
   };
 
   return (

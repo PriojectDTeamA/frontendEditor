@@ -94,6 +94,7 @@ interface IEditorState {
   editorText: string;
   consoleText: string;
   language?: Language;
+  owner: number;
   currentUsers: User[];
   loadingScreenOn: boolean;
   shareProjectsShown: boolean;
@@ -103,6 +104,7 @@ const initialEditorState: IEditorState = {
   editorText: "this is the default text value for the editor",
   consoleText: "this is the default text value for the console",
   language: "csharp",
+  owner: -1,
   currentUsers: [],
   loadingScreenOn: false,
   shareProjectsShown: false,
@@ -140,6 +142,9 @@ const editorSlice = createSlice({
     },
     closeShareProjects: (state) => {
       state.shareProjectsShown = false;
+    },
+    setOwner: (state, action: PayloadAction<number>) => {
+      state.owner = action.payload;
     },
   },
 });
@@ -202,6 +207,7 @@ export const {
   turnOffLoadingScreen,
   showShareProjects,
   closeShareProjects,
+  setOwner,
 } = editorSlice.actions;
 export const {
   updateRoom,

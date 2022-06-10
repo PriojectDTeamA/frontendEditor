@@ -1,5 +1,4 @@
 import { HubConnection } from "@microsoft/signalr";
-import { SuperProperty } from "typescript";
 
 export interface IChatMessageProps {
   connection: HubConnection | any;
@@ -13,11 +12,12 @@ export interface IRunProps {
   runcode: () => Promise<void>;
 }
 
-export interface IProjectBoxProps extends IProjectProps{
+export interface IProjectBoxProps extends IProjectProps {
   language: Language;
   projectName: string;
   fadeTiming?: string;
   ID: number;
+  owner: number;
   joinRoom: IProjectProps["joinRoom"];
 }
 
