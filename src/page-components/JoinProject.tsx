@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+
 import { APIReturnType, base_API_URL } from "../App";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IProjectProps } from "../component-types/propTypes";
@@ -13,10 +16,6 @@ import {
 
 import "./login.css";
 import "react-toastify/dist/ReactToastify.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
-import { Right } from "react-bootstrap/lib/Media";
-import { cursorTo } from "readline";
 
 const JoinProject = (props: IProjectProps) => {
   const room = useAppSelector((state) => state.projectConnection.currentRoom);
@@ -108,18 +107,17 @@ const JoinProject = (props: IProjectProps) => {
         <div id="formContent">
           <div className="exit-button">
             <FontAwesomeIcon
-            onClick={(e) => navigate("/Home")}
-            className="icon"
-            icon={faXmarkCircle}
-            style={{
-              float: 'left',
-              position: 'relative',
-              cursor: 'pointer'
-            }}
-            
+              onClick={(e) => navigate("/Home")}
+              className="icon"
+              icon={faXmarkCircle}
+              style={{
+                float: "left",
+                position: "relative",
+                cursor: "pointer",
+              }}
             />
           </div>
-          <br/>
+          <br />
 
           <div className="fadeIn first"></div>
           <form onSubmit={submit}>
