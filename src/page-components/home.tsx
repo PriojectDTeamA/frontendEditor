@@ -58,7 +58,7 @@ const Home = (props: IProjectProps) => {
             setRecentProjects(data.Data);
           }
         });
-    }
+    };
     loadProjects();
     loadRecentProjects();
   }, []);
@@ -193,16 +193,16 @@ const ProjectBox = (props: IProjectBoxProps) => {
   };
 
   //API call for adding or modifying data in recentProjects when an user clicks on a project on the homepage
-  const setRecentProjectsAPICall = async() => {
-
+  const setRecentProjectsAPICall = async () => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ UserID: mainUser.id, ProjectID: props.ID }),
-    }
+    };
 
-    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
-      .then((response) => response.json());
+    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions).then(
+      (response) => response.json()
+    );
   };
 
   const updateProject = async (data: APIReturnType) => {

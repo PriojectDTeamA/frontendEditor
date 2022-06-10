@@ -67,16 +67,16 @@ const JoinProject = (props: IProjectProps) => {
   };
 
   //API call for adding or modifying data to Recentprojects whenuser joins an existing project
-  const setRecentProjectsAPICall = async() => {
-
+  const setRecentProjectsAPICall = async () => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ UserID: mainUser.id, ProjectID: room }),
-    }
+    };
 
-    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
-      .then((response) => response.json());
+    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions).then(
+      (response) => response.json()
+    );
   };
 
   const handleProjectData = async (data: APIReturnType) => {
