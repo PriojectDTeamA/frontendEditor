@@ -20,19 +20,27 @@ const ShareProject = () => {
   const shareProjectOpen = useAppSelector(
     (state) => state.editor.shareProjectsShown
   );
+  const mainUser = useAppSelector((state) => state.user);
 
   const shareProject = async () => {
     // gets the right user and sets it to setShareUser, checks if the user that is added to the project is the same as the current user
     await getUserAPI();
     // exit if the user is not set yet
-    if (userToShareWith.id === -1) {
-      return;
-    }
+    if (userToShareWith.id === -1) return;
     // if the user is set, share the project with the user
     await setSharedProjectAPI();
   };
 
   const getUserAPI = async () => {
+    if (userToShareWith === mainUser) {
+      toast.error(
+        `You already own this project, no need to share it with yourself...`,
+        {
+          position: "top-center",
+        }
+      );
+      return;
+    }
     fetch(`${base_API_URL}/getUser/${userToShareWith.username}`)
       .then((response) => response.json())
       .then(handleSettingUser);
@@ -40,7 +48,7 @@ const ShareProject = () => {
 
   const handleSettingUser = async (data: APIReturnType) => {
     if (data.Status === "Success") {
-      // set user here
+      // TODO: set user here
     } else if (data.Status === "Failed") {
       toast.error(
         `User ${userToShareWith.username} not found... (note that a username is case sensitive)`,
@@ -71,6 +79,7 @@ const ShareProject = () => {
       });
     }
   };
+
   return shareProjectOpen ? (
     <div>
       <div className="wrapper fadeInDown">
@@ -95,15 +104,15 @@ const ShareProject = () => {
               onChange={(e) =>
                 setShareUser({ id: -1, username: e.target.value })
               }
-              id="projname"
+              id="username"
               className="fadeIn second standard-input"
-              name="newproj"
-              placeholder="Project Name"
+              name="newUsername"
+              placeholder="Username"
             ></input>
             <input
               type="submit"
               className="fadeIn fourth standard-input"
-              value="Join Project"
+              value="Share Project"
             ></input>
           </form>
         </div>
