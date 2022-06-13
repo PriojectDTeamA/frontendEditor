@@ -7,6 +7,7 @@ import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
   clearChatMessages,
   clearNewMessage,
+  showShareProjects,
   closeShareProjects,
   disconnectProject,
   resetConsole,

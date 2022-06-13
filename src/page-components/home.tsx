@@ -64,6 +64,9 @@ const Home = (props: IProjectProps) => {
     loadRecentProjects();
   }, []);
 
+  useEffect(() => {
+    connected && navigate("/Editor");
+  });
   const componentInitCheck = () => {
     // if no user is logged in, log out again
     if (mainUser.id === -1) navigate("/");
@@ -108,7 +111,6 @@ const Home = (props: IProjectProps) => {
 
   return (
     <div>
-      {connected === true && navigate("/Editor")}
       <div className="row fadeInDown m-5">
         <div className="col-6">
           <div className="projects-group">

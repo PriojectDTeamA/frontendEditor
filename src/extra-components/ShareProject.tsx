@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
@@ -22,14 +22,13 @@ const ShareProject = () => {
   );
   const mainUser = useAppSelector((state) => state.user);
 
-  const shareProject = async () => {
-    await getUserAPI();
-    if (userToShareWith.id === -1) return;
-    await setSharedProjectAPI();
+  const shareProject = async (e: FormEvent) => {
+    e.preventDefault();
+    await shareProjectAPI();
   };
 
-  const getUserAPI = async () => {
-    if (userToShareWith === mainUser) {
+  const shareProjectAPI = async () => {
+    if (userToShareWith.username === mainUser.username) {
       toast.error(
         `You already own this project, no need to share it with yourself...`,
         {
@@ -38,7 +37,7 @@ const ShareProject = () => {
       );
       return;
     }
-    fetch(`${base_API_URL}/Users/Username/${userToShareWith.username}`)
+    await fetch(`${base_API_URL}/Users/Username/${userToShareWith.username}`)
       .then((response) => response.json())
       .then(handleSettingUser);
   };
@@ -46,7 +45,7 @@ const ShareProject = () => {
   const handleSettingUser = async (data: APIReturnType) => {
     if (data.Status === "Success") {
       const shareUser = data.Data[0];
-      setShareUser({ id: shareUser.ID, username: shareUser.username });
+      setSharedProjectAPI({ id: shareUser.ID, username: shareUser.username });
     } else if (data.Status === "Failed") {
       toast.error(
         `User ${userToShareWith.username} not found... (note that a username is case sensitive)`,
@@ -57,20 +56,26 @@ const ShareProject = () => {
     }
   };
 
-  const setSharedProjectAPI = async () => {
+  const setSharedProjectAPI = async (shareUser: User) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ UserID: userToShareWith.id, ProjectID: room }),
+      body: JSON.stringify({ UserID: shareUser.id, ProjectID: room }),
     };
 
-    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
+    await fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
       .then((response) => response.json())
-      .then(handleSharedProjectAPIResponse);
+      .then((data) => handleSharedProjectAPIResponse(data, shareUser));
   };
 
-  const handleSharedProjectAPIResponse = (data: APIReturnType) => {
+  const handleSharedProjectAPIResponse = (
+    data: APIReturnType,
+    shareUser: User
+  ) => {
     if (data.Status === "Success") {
+      toast.success(`Succesfully shared project with ${shareUser.username}`, {
+        position: "top-center",
+      });
     } else if (data.Status === "Failed") {
       toast.error("Sharing project failed...", {
         position: "top-center",
