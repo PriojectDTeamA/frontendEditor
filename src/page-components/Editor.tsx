@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import { useNavigate } from "react-router-dom";
 import { base_API_URL } from "../App";
@@ -6,14 +6,11 @@ import { useAppDispatch, useAppSelector } from "../component-types/hooks";
 import { IEditorIconProps, IEditorProps } from "../component-types/propTypes";
 import {
   clearChatMessages,
-  clearNewMessage,
   showShareProjects,
   closeShareProjects,
   disconnectProject,
   resetConsole,
-  resetInitialOpen,
   setUserArray,
-  switchChatbox,
   turnOffLoadingScreen,
   turnOnLoadingScreen,
   updateConsole,
@@ -44,7 +41,7 @@ import "ace-builds/src-noconflict/mode-csharp";
 import "ace-builds/src-noconflict/mode-java";
 
 // Import a Theme (okadia, github, xcode etc)
-import "ace-builds/src-noconflict/theme-twilight";
+import "ace-builds/src-noconflict/theme-idle_fingers";
 
 const Editor = (props: IEditorProps) => {
   const connected = useAppSelector(
@@ -57,6 +54,10 @@ const Editor = (props: IEditorProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [currentWindowHeight, setWindowHeight] = useState(
+    `${window.innerHeight - 350}px`
+  );
+
   useEffect(() => {
     connected === false && navigate("/Home");
   }, [connected, navigate]);
@@ -64,7 +65,26 @@ const Editor = (props: IEditorProps) => {
   // close the shared project popup on opening the editor
   useEffect(() => {
     dispatch(closeShareProjects());
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleResize = () => {
+    let windowHeight = window.innerHeight;
+    let consoleHeight = document.getElementById("console")
+      ?.offsetHeight as number;
+    let navbarHeight = document.getElementById("editor-navbar")
+      ?.offsetHeight as number;
+    // didn't find a way to get the margins between the console and editor dynamically, so just got this from the css
+    // the totalMargin basically equals the following formula
+    // (margin between editor and navbar) + (margin between the editor and the console) + (margin between the console and the editor) + (margin between the console and the bottom of the screen)
+    let totalMargin = 45;
+    console.log(consoleHeight, navbarHeight);
+    setWindowHeight(
+      `${windowHeight - consoleHeight - navbarHeight - totalMargin}px`
+    );
+  };
 
   const sendBroadcast = async (text: string) => {
     try {
@@ -84,7 +104,6 @@ const Editor = (props: IEditorProps) => {
       dispatch(resetConsole());
       dispatch(clearChatMessages());
       dispatch(setUserArray([]));
-      dispatch(resetInitialOpen());
     }
   };
 
@@ -116,8 +135,6 @@ const Editor = (props: IEditorProps) => {
       .then((data) => dispatch(updateConsole(data.Message)));
   };
 
-  const windowheight = window.innerHeight;
-
   return (
     <div>
       {/* start conditionally shown components */}
@@ -130,31 +147,22 @@ const Editor = (props: IEditorProps) => {
       <Chatbox connection={props.connection} />
       <div className="editor-constraints">
         <AceEditor
-          onLoad={(editorInstance) => {
-            editorInstance.container.style.resize = "vertical";
-            document.addEventListener("mouseup", () => editorInstance.resize());
-            if (props.connection == null) {
-              closeConnection();
-            }
-          }}
           mode={language}
-          theme="twilight"
+          theme="idle_fingers"
           value={editorValue}
           name="editor"
           onChange={(newValue: string) => {
             sendBroadcast(newValue);
             dispatch(updateEditor(newValue));
           }}
-          width="100%"
-          height={windowheight - 295 + "px"}
+          width="73%"
+          height={currentWindowHeight}
           editorProps={{
             $blockScrolling: true,
           }}
         />
-      </div>
-      <div className="console-and-run-bar">
-        <Console />
         <Run runcode={runCodeWithLoading} />
+        <Console />
       </div>
     </div>
   );
@@ -162,12 +170,10 @@ const Editor = (props: IEditorProps) => {
 
 const EditorIcons = (props: IEditorIconProps) => {
   const dispatch = useAppDispatch();
-  const newMessages = useAppSelector((state) => state.chatbox.newMessages);
-  const chatIsOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
   // check TODO's under here for the next two state variables
   const projectOwner = useAppSelector((state) => state.editor.owner);
   const mainUser = useAppSelector((state) => state.user);
-  return !chatIsOpen ? (
+  return (
     // TODO: add new icon for sharing projects, add onclick={dispatch(showShareProjects())}
     // TODO: also make sure to add a check that verifies that the mainUser.id is the same as owner, see below for an example
     // mainUser.id === projectOwner ? <FontAwesomeIcon className="share button"/> : <div style={{display: none}}></div>
@@ -179,13 +185,13 @@ const EditorIcons = (props: IEditorIconProps) => {
         </div>
         <FontAwesomeIcon
           onClick={() => {
-            dispatch(clearNewMessage());
-            dispatch(switchChatbox());
+            console.log(
+              "this icon can go since the chat will now be forever open"
+            );
           }}
           className="icon"
           icon={faMessage}
         />
-        {newMessages === true && <div className="new-message"></div>}
         <FontAwesomeIcon
           onClick={props.closeConnection}
           className="icon"
@@ -193,8 +199,6 @@ const EditorIcons = (props: IEditorIconProps) => {
         />
       </div>
     </div>
-  ) : (
-    <div></div>
   );
 };
 
@@ -207,7 +211,7 @@ const EditorNavbar = () => {
   );
 
   return (
-    <div className="editor-navbar">
+    <div id="editor-navbar">
       <h3 className="projects-title col-8">
         {projectName} (ID: {projectID})
       </h3>

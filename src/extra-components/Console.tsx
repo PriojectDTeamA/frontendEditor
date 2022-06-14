@@ -5,21 +5,19 @@ import "./Console.css";
 
 const Console = () => {
   const consoleText = useAppSelector((state) => state.editor.consoleText);
-  const el = useRef<null | HTMLDivElement>(null); 
+  const el = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
-    el.current!.scrollIntoView({ behavior: "smooth" })
+    el.current!.scrollIntoView({ behavior: "smooth" });
   }, [consoleText]);
 
-
   return (
-    <div className="console">
+    <div id="console">
       {consoleText.split(/\n/).map((line) => (
         <div key={line}>{line}</div>
       ))}
-      <div ref={el} ></div>
+      <div ref={el}></div>
     </div>
-    
   );
 };
 
