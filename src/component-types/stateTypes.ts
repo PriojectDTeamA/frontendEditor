@@ -4,16 +4,10 @@ import { Language } from "./propTypes";
 // CODE FOR THE CHATBOX
 interface IChatBoxState {
   chatMessages: chatMessageType[];
-  newMessages: boolean;
-  chatIsOpen: boolean;
-  initialOpening: boolean;
 }
 
 const initialChatBoxState: IChatBoxState = {
   chatMessages: [],
-  newMessages: false,
-  chatIsOpen: false,
-  initialOpening: true, // this is added to prevent a bug with the chatbox where it loads in on an animation
 };
 
 export type chatMessageType = {
@@ -26,21 +20,11 @@ const chatBoxSlice = createSlice({
   name: "chatbox",
   initialState: initialChatBoxState,
   reducers: {
-    switchChatbox: (state) => {
-      state.chatIsOpen = !state.chatIsOpen;
-      state.initialOpening = false;
-    },
     setChatMessagesArray: (state, action: PayloadAction<chatMessageType>) => {
       state.chatMessages.push(action.payload);
     },
     clearChatMessages: (state) => {
       state.chatMessages = [];
-    },
-    clearNewMessage: (state) => {
-      state.newMessages = false;
-    },
-    resetInitialOpen: (state) => {
-      state.initialOpening = true;
     },
     receiveMessageCallback: (
       state,
@@ -59,8 +43,6 @@ const chatBoxSlice = createSlice({
         time,
       };
       state.chatMessages.push(chatMessageObject);
-      if (state.chatIsOpen === true) return;
-      state.newMessages = true;
     },
   },
 });
@@ -190,11 +172,8 @@ export const slices = {
   userSlice,
 };
 export const {
-  switchChatbox,
   setChatMessagesArray,
   clearChatMessages,
-  clearNewMessage,
-  resetInitialOpen,
   receiveMessageCallback,
 } = chatBoxSlice.actions;
 export const {
