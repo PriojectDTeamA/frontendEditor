@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../component-types/hooks";
-import { chatMessageType, switchChatbox } from "../component-types/stateTypes";
+import { useAppSelector } from "../component-types/hooks";
+import { chatMessageType } from "../component-types/stateTypes";
 import { IChatMessageProps } from "../component-types/propTypes";
 
 import "./Chatbox.css";
@@ -102,32 +102,9 @@ const MessageContainer = () => {
 };
 
 const Chatbox = (props: IChatMessageProps) => {
-  const isOpen = useAppSelector((state) => state.chatbox.chatIsOpen);
-  const initialOpening = useAppSelector(
-    (state) => state.chatbox.initialOpening
-  );
-
-  const dispatch = useAppDispatch();
-
-  const handleChatAnimation = () => {
-    if (initialOpening) return "";
-    else if (isOpen) return "slide-out";
-    else return "slide-in";
-  };
-
   return (
     <div>
-      {isOpen && (
-        <div>
-          <div
-            className={`slide-button slide-out`}
-            onClick={() => dispatch(switchChatbox())}
-          >
-            {">"}
-          </div>
-        </div>
-      )}
-      <div className={`chatbox ${handleChatAnimation()}`}>
+      <div className={`chatbox`}>
         <MessageContainer />
         <ChatInput connection={props.connection} />
       </div>

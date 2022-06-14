@@ -62,6 +62,7 @@
   width: var(--chat-box-width);
   background-color: gray;
   color: white;
+  border-left: var(--editor-border-width) solid black;
 
   overflow: scroll;
 
@@ -72,52 +73,10 @@
   padding-bottom: 40px;
 
   position: fixed;
-  top: 0;
-  right: calc(-1 * var(--chat-box-width));
+
+  right: 0;
 }
 
 .chatbox::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
-}
-
-.slide-button {
-  z-index: 6;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: gray;
-  justify-content: center;
-  text-align: center;
-  color: white;
-}
-
-.slide-in {
-  animation: slide-in 0.5s ease-out forwards;
-}
-
-.slide-out {
-  animation: slide-out 0.5s ease-out forwards;
-}
-
-@keyframes slide-out {
-  0% {
-    margin-right: 0;
-  }
-
-  100% {
-    margin-right: var(--chat-box-width);
-  }
-}
-
-@keyframes slide-in {
-  0% {
-    margin-right: var(--chat-box-width);
-  }
-
-  100% {
-    margin-right: 0;
-  }
 }

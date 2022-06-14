@@ -1,20 +1,22 @@
-.console {
-  float: left;
-  position: relative;
-  height: 250px;
-  background-color: black;
+#console {
+  position: absolute;
+  margin: var(--editor-margins);
+  height: 20%;
+  background-color: grey;
   color: white;
-  border: 5px solid var(--main-color);
+  border: var(--editor-border-width) solid black;
   padding-left: 40px;
   padding-top: 5px;
   z-index: 1;
-  width: calc(100% - 175px);
+  width: 73%;
 
   overflow-y: auto;
-  overflow-x: auto
+  overflow-x: auto;
+
+  bottom: 0;
 }
 
-.console p {
+#console p {
   margin: 0;
   padding: 0;
 }

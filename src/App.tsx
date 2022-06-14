@@ -21,7 +21,6 @@ import {
   receiveMessageCallback,
   User,
   clearChatMessages,
-  resetInitialOpen,
 } from "./component-types/stateTypes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -93,7 +92,6 @@ function App() {
     dispatch(disconnectProject());
     dispatch(clearChatMessages());
     dispatch(setUserArray([]));
-    dispatch(resetInitialOpen());
   };
 
   return (
