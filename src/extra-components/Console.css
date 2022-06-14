@@ -1,9 +1,10 @@
 #console {
   position: absolute;
+  font-family: monospace;
   margin: var(--editor-margins);
   height: 20%;
   background-color: grey;
-  color: white;
+  color: black;
   border: var(--editor-border-width) solid black;
   padding-left: 40px;
   padding-top: 5px;
