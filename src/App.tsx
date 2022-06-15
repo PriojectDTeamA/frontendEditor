@@ -9,7 +9,6 @@ import {
 import Editor from "./page-components/Editor";
 import Login from "./page-components/login";
 import Home from "./page-components/home";
-import JoinProject from "./page-components/JoinProject";
 import NewProject from "./page-components/NewProject";
 
 import { useAppDispatch, useAppSelector } from "./component-types/hooks";
@@ -26,10 +25,10 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Local testing:
-// export const base_API_URL = "http://127.0.0.1:8034";
+export const base_API_URL = "http://127.0.0.1:8034";
 
 // Live testing:
-export const base_API_URL = "http://145.24.222.113/api";
+// export const base_API_URL = "http://145.24.222.113/api";
 export type APIReturnType = {
   Status: string;
   Data: Record<string, any>[];
@@ -107,11 +106,6 @@ function App() {
           element={<NewProject joinRoom={joinRoom} />}
         ></Route>{" "}
         {/* route to the new_project page */}
-        <Route
-          path="/JoinProject"
-          element={<JoinProject joinRoom={joinRoom} />}
-        ></Route>{" "}
-        {/* route to the join_project page */}
         <Route
           path="/Editor"
           element={<Editor connection={connectionChat as HubConnection} />}
