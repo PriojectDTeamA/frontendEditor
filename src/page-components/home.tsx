@@ -194,7 +194,20 @@ const ProjectBox = (props: IProjectBoxProps) => {
     }
   };
 
+  const updateMyProjectTimestampAPICall = async (room: number) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ UserID: mainUser.id, ProjectID: room }),
+    };
+
+    fetch(`${base_API_URL}/Projects/UpdateTimeStamp`, requestOptions).then(
+      (response) => response.json()
+    );
+  };
+
   const handleClick = () => {
+    updateMyProjectTimestampAPICall(props.ID);
     fetch(`${base_API_URL}/joinsession?project_id=${props.ID}`, {
       method: "GET",
     })
