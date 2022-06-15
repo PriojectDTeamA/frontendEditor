@@ -65,7 +65,7 @@ const Editor = (props: IEditorProps) => {
   // close the shared project popup on opening the editor
   useEffect(() => {
     dispatch(closeShareProjects());
-
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -80,10 +80,9 @@ const Editor = (props: IEditorProps) => {
     // the totalMargin basically equals the following formula
     // (margin between editor and navbar) + (margin between the editor and the console) + (margin between the console and the editor) + (margin between the console and the bottom of the screen)
     let totalMargin = 45;
-    console.log(consoleHeight, navbarHeight);
-    setWindowHeight(
-      `${windowHeight - consoleHeight - navbarHeight - totalMargin}px`
-    );
+    let editorHeight =
+      windowHeight - consoleHeight - navbarHeight - totalMargin;
+    setWindowHeight(`${editorHeight}px`);
   };
 
   const sendBroadcast = async (text: string) => {
