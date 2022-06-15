@@ -25,10 +25,10 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Local testing:
-export const base_API_URL = "http://127.0.0.1:8034";
+// export const base_API_URL = "http://127.0.0.1:8034";
 
 // Live testing:
-// export const base_API_URL = "http://145.24.222.113/api";
+export const base_API_URL = "http://145.24.222.113/api";
 export type APIReturnType = {
   Status: string;
   Data: Record<string, any>[];
