@@ -69,28 +69,15 @@ const NewProject = (props: IProjectProps) => {
     }
   };
 
+  // the timestamp of the new project is also set with this api call
   const passProjectOptionsToServer = async (requestOptions: RequestInit) => {
     fetch(`${base_API_URL}/createsession`, requestOptions)
       .then((response) => response.json())
       .then(checkReturnStatus);
   };
 
-  //API call for adding or modifying data in Recentprojects when user creates a new room
-  const setRecentProjectsAPICall = async (ProjectID: number) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ UserID: mainUser.id, ProjectID: ProjectID }),
-    };
-
-    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions).then(
-      (response) => response.json()
-    );
-  };
-
   const checkReturnStatus = async (data: APIReturnType) => {
     if (data.Status === "Success") {
-      setRecentProjectsAPICall(data.Data[0].ID);
       updateProjectOptionsAndCreateRoom(data.Data[0]);
     } else if (data.Status === "Failed") {
       toast.error(data.Message, { position: "top-center" });
@@ -110,20 +97,19 @@ const NewProject = (props: IProjectProps) => {
     <div>
       <div className="wrapper fadeInDown">
         <div id="formContent">
-        <div className="exit-button">
+          <div className="exit-button">
             <FontAwesomeIcon
-            onClick={(e) => navigate("/Home")}
-            className="icon"
-            icon={faXmarkCircle}
-            style={{
-              float: 'left',
-              position: 'relative',
-              cursor: 'pointer'
-            }}
-            
+              onClick={(e) => navigate("/Home")}
+              className="icon"
+              icon={faXmarkCircle}
+              style={{
+                float: "left",
+                position: "relative",
+                cursor: "pointer",
+              }}
             />
           </div>
-          <br/>
+          <br />
           <div className="fadeIn first"></div>
           <form onSubmit={(e) => createNew(e)}>
             <input
@@ -135,16 +121,14 @@ const NewProject = (props: IProjectProps) => {
               onChange={(e) => dispatch(updateProjectName(e.target.value))}
             ></input>
             <select
-              style={
-                {
-                  border: '1px solid transparent',
-                  fontFamily: 'sans-serif',
-                  fontSize: '14',
-                  textAlignLast: 'center',
-                  padding: '5px',
-                  borderRadius: '5px'
-                }
-              }
+              style={{
+                border: "1px solid transparent",
+                fontFamily: "sans-serif",
+                fontSize: "14",
+                textAlignLast: "center",
+                padding: "5px",
+                borderRadius: "5px",
+              }}
               id="language"
               name="language"
               placeholder="Language"

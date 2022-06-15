@@ -10,7 +10,6 @@ import {
 } from "../component-types/propTypes";
 import {
   faPlus,
-  faArrowRightToBracket,
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -35,7 +34,7 @@ const Home = (props: IProjectProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [projects, setProjects] = useState<any>([]);
-  const [RecentProjects, setRecentProjects] = useState<any>([]);
+  const [SharedProjects, setSharedProjects] = useState<any>([]);
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
@@ -50,18 +49,18 @@ const Home = (props: IProjectProps) => {
           }
         });
     };
-    // creates a api call to get all the recent projects per user
-    const loadRecentProjects = async () => {
-      await fetch(`${base_API_URL}/RecentProj/GetRecentProjects/${mainUser.id}`)
+    // creates a api call to get all the Shared projects per user
+    const loadSharedProjects = async () => {
+      await fetch(`${base_API_URL}/SharedProj/GetSharedProjects/${mainUser.id}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.Status === "Success") {
-            setRecentProjects(data.Data);
+            setSharedProjects(data.Data);
           }
         });
     };
     loadProjects();
-    loadRecentProjects();
+    loadSharedProjects();
   }, []);
 
   useEffect(() => {
@@ -92,7 +91,7 @@ const Home = (props: IProjectProps) => {
   );
 
   //function for creating components on homepage
-  const recentProjectsComp = RecentProjects?.map(
+  const SharedProjectsComp = SharedProjects?.map(
     (
       e: { language: Language; name: string; ID: number; owner: number },
       i: number
@@ -141,23 +140,11 @@ const Home = (props: IProjectProps) => {
               <hr />
             </div>
             <div className="projects-body">
-              {RecentProjects.length !== 0 ? (
-                recentProjectsComp
+              {SharedProjects.length !== 0 ? (
+                SharedProjectsComp
               ) : (
                 <div>No projects found</div>
               )}
-
-              <div>
-                <button
-                  className="fadeIn third projects-button"
-                  onClick={() => navigate("/JoinProject")}
-                >
-                  <FontAwesomeIcon
-                    className="icon"
-                    icon={faArrowRightToBracket}
-                  />
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -215,22 +202,22 @@ const ProjectBox = (props: IProjectBoxProps) => {
       .then(updateProject);
   };
 
-  //API call for adding or modifying data in recentProjects when an user clicks on a project on the homepage
-  const setRecentProjectsAPICall = async () => {
+  //API call for adding or modifying data in SharedProjects when an user clicks on a project on the homepage
+  const setSharedProjectsAPICall = async () => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ UserID: mainUser.id, ProjectID: props.ID }),
     };
 
-    fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions).then(
+    fetch(`${base_API_URL}/SharedProj/SetSharedProject`, requestOptions).then(
       (response) => response.json()
     );
   };
 
   const updateProject = async (data: APIReturnType) => {
     if (data.Status === "Success") {
-      setRecentProjectsAPICall();
+      setSharedProjectsAPICall();
       dispatch(setLanguage(props.language));
       dispatch(updateProjectName(props.projectName));
       dispatch(updateEditor(data.Data[0].Code));
