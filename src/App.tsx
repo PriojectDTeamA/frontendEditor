@@ -9,7 +9,6 @@ import {
 import Editor from "./page-components/Editor";
 import Login from "./page-components/login";
 import Home from "./page-components/home";
-import JoinProject from "./page-components/JoinProject";
 import NewProject from "./page-components/NewProject";
 
 import { useAppDispatch, useAppSelector } from "./component-types/hooks";
@@ -107,11 +106,6 @@ function App() {
           element={<NewProject joinRoom={joinRoom} />}
         ></Route>{" "}
         {/* route to the new_project page */}
-        <Route
-          path="/JoinProject"
-          element={<JoinProject joinRoom={joinRoom} />}
-        ></Route>{" "}
-        {/* route to the join_project page */}
         <Route
           path="/Editor"
           element={<Editor connection={connectionChat as HubConnection} />}

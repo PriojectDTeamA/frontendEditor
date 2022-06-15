@@ -63,7 +63,7 @@ const ShareProject = () => {
       body: JSON.stringify({ UserID: shareUser.id, ProjectID: room }),
     };
 
-    await fetch(`${base_API_URL}/RecentProj/SetRecentProject`, requestOptions)
+    await fetch(`${base_API_URL}/SharedProj/SetSharedProject`, requestOptions)
       .then((response) => response.json())
       .then((data) => handleSharedProjectAPIResponse(data, shareUser));
   };

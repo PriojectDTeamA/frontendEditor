@@ -65,7 +65,7 @@ const Editor = (props: IEditorProps) => {
   // close the shared project popup on opening the editor
   useEffect(() => {
     dispatch(closeShareProjects());
-
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -80,10 +80,9 @@ const Editor = (props: IEditorProps) => {
     // the totalMargin basically equals the following formula
     // (margin between editor and navbar) + (margin between the editor and the console) + (margin between the console and the editor) + (margin between the console and the bottom of the screen)
     let totalMargin = 45;
-    console.log(consoleHeight, navbarHeight);
-    setWindowHeight(
-      `${windowHeight - consoleHeight - navbarHeight - totalMargin}px`
-    );
+    let editorHeight =
+      windowHeight - consoleHeight - navbarHeight - totalMargin;
+    setWindowHeight(`${editorHeight}px`);
   };
 
   const sendBroadcast = async (text: string) => {
@@ -183,15 +182,21 @@ const EditorIcons = (props: IEditorIconProps) => {
         <div className="popover-list">
           <UsersList></UsersList>
         </div>
-        <FontAwesomeIcon
-          onClick={() => {
-            console.log(
-              "this icon can go since the chat will now be forever open"
-            );
-          }}
-          className="icon"
-          icon={faMessage}
-        />
+        {mainUser.id === projectOwner ? (
+          <FontAwesomeIcon
+            onClick={() => {
+              console.log(
+                "this icon will be used temporarily to test share project"
+              );
+              dispatch(showShareProjects());
+            }}
+            className="icon"
+            icon={faMessage}
+          />
+        ) : (
+          <div style={{ display: "none" }}></div>
+        )}
+
         <FontAwesomeIcon
           onClick={props.closeConnection}
           className="icon"
