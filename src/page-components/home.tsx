@@ -202,19 +202,6 @@ const ProjectBox = (props: IProjectBoxProps) => {
       .then(updateProject);
   };
 
-  //API call for adding or modifying data in SharedProjects when an user clicks on a project on the homepage
-  const setSharedProjectsAPICall = async () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ UserID: mainUser.id, ProjectID: props.ID }),
-    };
-
-    fetch(`${base_API_URL}/SharedProj/SetSharedProject`, requestOptions).then(
-      (response) => response.json()
-    );
-  };
-
   const updateProject = async (data: APIReturnType) => {
     if (data.Status === "Success") {
       setSharedProjectsAPICall();
@@ -226,6 +213,19 @@ const ProjectBox = (props: IProjectBoxProps) => {
       // console.log(data.Data[0].ID)
       await props.joinRoom(props.ID.toString());
     }
+  };
+
+  //API call for adding or modifying data in SharedProjects when an user clicks on a project on the homepage
+  const setSharedProjectsAPICall = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ UserID: mainUser.id, ProjectID: props.ID }),
+    };
+
+    fetch(`${base_API_URL}/SharedProj/SetSharedProject`, requestOptions).then(
+      (response) => response.json()
+    );
   };
 
   return (

@@ -182,15 +182,21 @@ const EditorIcons = (props: IEditorIconProps) => {
         <div className="popover-list">
           <UsersList></UsersList>
         </div>
-        <FontAwesomeIcon
-          onClick={() => {
-            console.log(
-              "this icon can go since the chat will now be forever open"
-            );
-          }}
-          className="icon"
-          icon={faMessage}
-        />
+        {mainUser.id === projectOwner ? (
+          <FontAwesomeIcon
+            onClick={() => {
+              console.log(
+                "this icon will be used temporarily to test share project"
+              );
+              dispatch(showShareProjects());
+            }}
+            className="icon"
+            icon={faMessage}
+          />
+        ) : (
+          <div style={{ display: "none" }}></div>
+        )}
+
         <FontAwesomeIcon
           onClick={props.closeConnection}
           className="icon"
