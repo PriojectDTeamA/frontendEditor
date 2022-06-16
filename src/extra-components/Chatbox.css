@@ -13,8 +13,6 @@
 
   width: var(--chat-box-width);
   height: 40px;
-  -webkit-box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .message-text {
@@ -85,7 +83,7 @@
   position: fixed;
 
   right: 30px;
-  top: 85px;
+  top: 75px;
   -webkit-box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
