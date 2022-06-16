@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../component-types/hooks";
 import { chatMessageType } from "../component-types/stateTypes";
-import { IChatMessageProps } from "../component-types/propTypes";
+import { IChatBoxProps, IChatMessageProps } from "../component-types/propTypes";
 
 import "./Chatbox.css";
 
@@ -101,12 +101,12 @@ const MessageContainer = () => {
   );
 };
 
-const Chatbox = (props: IChatMessageProps) => {
+const Chatbox = (props: IChatBoxProps) => {
   return (
     <div>
-      <div className={`chatbox`}>
+      <div className={`chatbox`} style={{height: props.height}}>
         <MessageContainer />
-        <ChatInput connection={props.connection} />
+        <ChatInput connection={props.connection } />
       </div>
     </div>
   );

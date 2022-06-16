@@ -62,6 +62,10 @@ const Editor = (props: IEditorProps) => {
     `${window.innerHeight - 330}px`
   );
 
+  const [chatboxHeight, setChatboxPostition] = useState(
+    `${window.innerHeight - 330}px`
+  );
+
   useEffect(() => {
     connected === false && navigate("/Home");
   }, [connected, navigate]);
@@ -87,7 +91,10 @@ const Editor = (props: IEditorProps) => {
     let editorHeight =
       windowHeight - consoleHeight - navbarHeight - totalMargin;
     setWindowHeight(`${editorHeight}px`);
-    setRunPosition(`${editorHeight - 20}px`)
+    setRunPosition(`${editorHeight - 20}px`);
+    setChatboxPostition(`${windowHeight -navbarHeight - 60}px`);
+
+    // document.getElementById("chatbox")!.style.height=chatboxHeight
   };
 
   const sendBroadcast = async (text: string) => {
@@ -148,7 +155,8 @@ const Editor = (props: IEditorProps) => {
       <ShareProject />
       {/* end conditionally shown components*/}
       <EditorNavbar />
-      <Chatbox connection={props.connection} />
+      <div style={{top: chatboxHeight}}>
+      <Chatbox connection={props.connection} height={chatboxHeight}/></div>
       <div className="editor-constraints">
         <AceEditor
           mode={language}

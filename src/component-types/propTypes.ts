@@ -1,5 +1,10 @@
 import { HubConnection } from "@microsoft/signalr";
 
+export interface IChatBoxProps {
+  connection: HubConnection | any;
+  height: string;
+}
+
 export interface IChatMessageProps {
   connection: HubConnection | any;
 }

@@ -2,7 +2,6 @@
   --chat-input-height: 25%;
   --chat-input-margin: 2%;
   --chat-input-width: calc(100% - var(--chat-input-margin) * 2);
-  --chat-box-height: 85%;
   --chat-box-width: 22%;
 }
 
@@ -69,7 +68,6 @@
 
 .chatbox {
   z-index: 3;
-  height: var(--chat-box-height);
   width: var(--chat-box-width);
   background-color: gray;
   color: white;
