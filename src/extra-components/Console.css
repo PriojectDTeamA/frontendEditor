@@ -5,7 +5,8 @@
   height: 20%;
   background-color: grey;
   color: black;
-  border: var(--editor-border-width) solid black;
+  border: var(--editor-border-width) solid dimgray;
+  border-radius: 5px;
   padding-left: 40px;
   padding-top: 5px;
   z-index: 1;
@@ -15,6 +16,9 @@
   overflow-x: auto;
 
   bottom: 0;
+
+  -webkit-box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
 }
 
 #console p {

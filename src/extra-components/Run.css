@@ -1,14 +1,14 @@
 .run-container {
-  position: relative;
-  right: 15px;
-  bottom: 15px;
+  position: absolute;
+  left: calc(73% - 150px);
+  top: 62%;
   z-index: 3;
   border: 5px solid var(--main-color);
   background-color: var(--main-color);
-  border: var(--editor-border-width) solid black;
+  border: var(--editor-border-width) solid dimgray;
   color: black;
-  height: 100px;
-  width: 200px;
+  height: 75px;
+  width: 150px;
 }
 
 .run-container:hover {
