@@ -1,14 +1,19 @@
 .run-container {
   position: absolute;
-  left: calc(73% - 150px);
+  left: calc(73% - 120px);
   z-index: 3;
   border: 5px solid var(--main-color);
   background-color: var(--main-color);
   border: var(--editor-border-width) solid dimgray;
-  border-radius: 3px;
+  border-radius: 5px;
   color: black;
-  height: 75px;
-  width: 150px;
+  height: 40px;
+  width: 120px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .run-container:hover {
