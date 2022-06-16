@@ -6,6 +6,7 @@
   column-gap: 10px;
   font-size: 20px;
   margin: 10px;
+  margin-right: 20px;
   color: #4c4c4c;
   z-index: 10;
 
@@ -13,6 +14,43 @@
     cursor: pointer;
     color: #999999;
   }
+}
+
+.button-group-left {
+  top: 0;
+  left: 0;
+  position: fixed;
+  display: flex;
+  column-gap: 10px;
+  font-size: 30px;
+  margin: 10px;
+  margin-left: 20px;
+  color: #4c4c4c;
+  z-index: 10;
+
+  .icon:hover {
+    cursor: pointer;
+    color: #999999;
+  }
+}
+
+.people-joined {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #fc6a03;
+  text-align: center;
+  right: 40px;
+  top: 5px;
+  position: fixed;
+  z-index: 2;
+}
+
+.people-joined > div {
+  color: white;
+  margin-top: -4px;
+  font-size: 14px;
+  margin-left: 0px;
 }
 
 .new-message {
@@ -41,6 +79,7 @@
   overflow: hidden;
   max-height: 55%;
   margin: var(--editor-margins);
+  margin-top: 20px;
   -webkit-box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
 }
@@ -56,7 +95,7 @@
 
 #editor-navbar h3 {
   font-size: 30px;
-  padding-top: 10px;
+  padding-top: 7px;
   color: rgb(80, 80, 80);
 }
 

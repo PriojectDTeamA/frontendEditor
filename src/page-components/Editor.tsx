@@ -27,9 +27,11 @@ import ShareProject from "../extra-components/ShareProject";
 // import Editorcomp from "../extra-components/Editorcomp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faShareNodes,
+  faShare,
+  faAngleLeft,
   faUserGroup,
   faRightFromBracket,
-  faShare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./Editor.scss";
@@ -191,10 +193,6 @@ const EditorIcons = (props: IEditorIconProps) => {
     // mainUser.id === projectOwner ? <FontAwesomeIcon className="share button"/> : <div style={{display: none}}></div>
     <div className="iets">
       <div className="button-group">
-        <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
-        <div className="popover-list">
-          <UsersList></UsersList>
-        </div>
         {mainUser.id === projectOwner ? (
           <FontAwesomeIcon
             onClick={() => {
@@ -205,15 +203,25 @@ const EditorIcons = (props: IEditorIconProps) => {
             }}
             className="icon"
             icon={faShare}
+            size="1x"
           />
         ) : (
           <div style={{ display: "none" }}></div>
         )}
+        <div className="people-joined">
+        <div>{useAppSelector((state) => state.editor.currentUsers).length}</div>
+        </div>
+        <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
+        <div className="popover-list">
+          <UsersList></UsersList>
+        </div>
+      </div>
+      <div className="button-group-left">
 
         <FontAwesomeIcon
           onClick={props.closeConnection}
           className="icon"
-          icon={faRightFromBracket}
+          icon={faAngleLeft}
         />
       </div>
     </div>
