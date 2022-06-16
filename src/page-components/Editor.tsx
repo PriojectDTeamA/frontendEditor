@@ -30,6 +30,8 @@ import {
   faUserGroup,
   faRightFromBracket,
   faMessage,
+  faShareNodes,
+  faAngleLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./Editor.scss";
@@ -178,10 +180,8 @@ const EditorIcons = (props: IEditorIconProps) => {
     // mainUser.id === projectOwner ? <FontAwesomeIcon className="share button"/> : <div style={{display: none}}></div>
     <div className="iets">
       <div className="button-group">
-        <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
-        <div className="popover-list">
-          <UsersList></UsersList>
-        </div>
+        
+        
         {mainUser.id === projectOwner ? (
           <FontAwesomeIcon
             onClick={() => {
@@ -191,16 +191,25 @@ const EditorIcons = (props: IEditorIconProps) => {
               dispatch(showShareProjects());
             }}
             className="icon"
-            icon={faMessage}
+            icon={faShareNodes}
           />
+
         ) : (
           <div style={{ display: "none" }}></div>
         )}
-
+        <div className="people-joined">
+        <div>{useAppSelector((state) => state.editor.currentUsers).length}</div>
+        </div>
+        <FontAwesomeIcon id="user-list" className="icon" icon={faUserGroup} />
+        <div className="popover-list">
+          <UsersList></UsersList>
+        </div>
+      </div>
+      <div className="button-group-left">
         <FontAwesomeIcon
           onClick={props.closeConnection}
           className="icon"
-          icon={faRightFromBracket}
+          icon={faAngleLeft}
         />
       </div>
     </div>
@@ -217,7 +226,7 @@ const EditorNavbar = () => {
 
   return (
     <div id="editor-navbar">
-      <h3 className="projects-title col-8">
+      <h3 className="projects-title col-12">
         {projectName} (ID: {projectID})
       </h3>
     </div>

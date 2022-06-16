@@ -4,7 +4,7 @@
   position: fixed;
   display: flex;
   column-gap: 10px;
-  font-size: 20px;
+  font-size: 50px;
   margin: 10px;
   color: #4c4c4c;
   z-index: 10;
@@ -13,6 +13,42 @@
     cursor: pointer;
     color: #999999;
   }
+}
+
+.button-group-left {
+  top: 0;
+  left: 0;
+  position: fixed;
+  display: flex;
+  column-gap: 10px;
+  font-size: 50px;
+  margin: 10px;
+  color: #4c4c4c;
+  z-index: 10;
+
+  .icon:hover {
+    cursor: pointer;
+    color: #999999;
+  }
+}
+
+.people-joined {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #fc6a03;
+  text-align: center;
+  right: 15px;
+  top: 5px;
+  position: fixed;
+  z-index: 2;
+}
+
+.people-joined > div {
+  color: white;
+  margin-top: -6px;
+  font-size: 16px;
+  margin-left: 0px;
 }
 
 .new-message {
