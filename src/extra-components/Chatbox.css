@@ -2,17 +2,20 @@
   --chat-input-height: 25%;
   --chat-input-margin: 2%;
   --chat-input-width: calc(100% - var(--chat-input-margin) * 2);
-  --chat-box-height: 100%;
-  --chat-box-width: 25%;
+  --chat-box-height: 85%;
+  --chat-box-width: 22%;
 }
 
 .input-container {
   display: flex;
-  bottom: 0;
+  bottom: 30px;
   position: fixed;
+  right: 30px;
 
   width: var(--chat-box-width);
   height: 40px;
+  -webkit-box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .message-text {
@@ -20,21 +23,29 @@
 }
 
 .message-button {
-  width: 10%;
+  width: 15%;
   font-size: 10px;
+  
 }
 
 .message {
   padding: 10px;
-  border-radius: 2px;
+  border-radius: 5px;
   margin: 10px;
   display: inline-block;
   max-width: 80%;
+  -webkit-box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .user-message-public {
   display: flex;
   flex-direction: row-reverse;
+}
+
+.message-container {
+  position: relative;
+  top: 10px;
 }
 
 .message-primary {
@@ -57,12 +68,13 @@
 }
 
 .chatbox {
-  z-index: 6;
+  z-index: 3;
   height: var(--chat-box-height);
   width: var(--chat-box-width);
   background-color: gray;
   color: white;
-  border-left: var(--editor-border-width) solid black;
+  border-left: var(--editor-border-width) solid dimgray;
+  border-radius: 5px;
 
   overflow: scroll;
 
@@ -74,7 +86,10 @@
 
   position: fixed;
 
-  right: 0;
+  right: 30px;
+  top: 85px;
+  -webkit-box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .chatbox::-webkit-scrollbar {

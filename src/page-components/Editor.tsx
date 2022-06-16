@@ -29,7 +29,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserGroup,
   faRightFromBracket,
-  faMessage,
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./Editor.scss";
@@ -55,7 +55,7 @@ const Editor = (props: IEditorProps) => {
   const navigate = useNavigate();
 
   const [currentWindowHeight, setWindowHeight] = useState(
-    `${window.innerHeight - 350}px`
+    `${window.innerHeight - 300}px`
   );
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Editor = (props: IEditorProps) => {
     // didn't find a way to get the margins between the console and editor dynamically, so just got this from the css
     // the totalMargin basically equals the following formula
     // (margin between editor and navbar) + (margin between the editor and the console) + (margin between the console and the editor) + (margin between the console and the bottom of the screen)
-    let totalMargin = 45;
+    let totalMargin = 90;
     let editorHeight =
       windowHeight - consoleHeight - navbarHeight - totalMargin;
     setWindowHeight(`${editorHeight}px`);
@@ -191,7 +191,7 @@ const EditorIcons = (props: IEditorIconProps) => {
               dispatch(showShareProjects());
             }}
             className="icon"
-            icon={faMessage}
+            icon={faShare}
           />
         ) : (
           <div style={{ display: "none" }}></div>
@@ -215,10 +215,14 @@ const EditorNavbar = () => {
     (state) => state.projectConnection.projectName
   );
 
+  const language = useAppSelector (
+    (state) => state.editor.language
+  );
+
   return (
     <div id="editor-navbar">
       <h3 className="projects-title col-8">
-        {projectName} (ID: {projectID})
+        {language} project: 	&nbsp;"<i>{projectName}</i>"	&nbsp;	&nbsp;	&nbsp;(ID: {projectID})
       </h3>
     </div>
   );
