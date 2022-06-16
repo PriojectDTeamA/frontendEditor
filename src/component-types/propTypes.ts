@@ -10,6 +10,7 @@ export interface IProjectProps {
 
 export interface IRunProps {
   runcode: () => Promise<void>;
+  height: string;
 }
 
 export interface IProjectBoxProps extends IProjectProps {

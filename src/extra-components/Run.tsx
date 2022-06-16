@@ -5,7 +5,7 @@ import "./Run.css";
 
 const Run = (props: IRunProps) => {
   return (
-    <div className="run-container" onClick={props.runcode}>
+    <div className="run-container" onClick={props.runcode} style={{top: props.height}}>
       <p>Save & Run</p>
     </div>
   );

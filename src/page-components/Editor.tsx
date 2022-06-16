@@ -160,7 +160,7 @@ const Editor = (props: IEditorProps) => {
             $blockScrolling: true,
           }}
         />
-        <Run runcode={runCodeWithLoading} />
+        <Run runcode={runCodeWithLoading} height={currentWindowHeight}/>
         <Console />
       </div>
     </div>

@@ -1,7 +1,6 @@
 .run-container {
   position: absolute;
   left: calc(73% - 150px);
-  top: 62%;
   z-index: 3;
   border: 5px solid var(--main-color);
   background-color: var(--main-color);
