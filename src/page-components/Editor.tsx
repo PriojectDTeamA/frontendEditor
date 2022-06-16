@@ -94,7 +94,7 @@ const Editor = (props: IEditorProps) => {
       windowHeight - consoleHeight - navbarHeight - totalMargin;
     setWindowHeight(`${editorHeight}px`);
     setRunPosition(`${editorHeight - 20}px`);
-    setChatboxPostition(`${windowHeight -navbarHeight - 60}px`);
+    setChatboxPostition(`${windowHeight -navbarHeight - 50}px`);
 
     // document.getElementById("chatbox")!.style.height=chatboxHeight
   };
