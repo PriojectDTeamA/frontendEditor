@@ -5,6 +5,7 @@
   border: 5px solid var(--main-color);
   background-color: var(--main-color);
   border: var(--editor-border-width) solid dimgray;
+  border-radius: 3px;
   color: black;
   height: 75px;
   width: 150px;

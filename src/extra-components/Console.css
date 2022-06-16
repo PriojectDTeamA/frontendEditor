@@ -2,12 +2,12 @@
   position: absolute;
   font-family: monospace;
   margin: var(--editor-margins);
-  height: 27%;
+  height: 25%;
   background-color: grey;
   color: black;
   border: var(--editor-border-width) solid dimgray;
   border-radius: 5px;
-  padding-left: 40px;
+  padding-left: 53px;
   padding-top: 5px;
   z-index: 1;
   width: 73%;

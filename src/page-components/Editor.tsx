@@ -89,7 +89,7 @@ const Editor = (props: IEditorProps) => {
     // didn't find a way to get the margins between the console and editor dynamically, so just got this from the css
     // the totalMargin basically equals the following formula
     // (margin between editor and navbar) + (margin between the editor and the console) + (margin between the console and the editor) + (margin between the console and the bottom of the screen)
-    let totalMargin = 90;
+    let totalMargin = 75;
     let editorHeight =
       windowHeight - consoleHeight - navbarHeight - totalMargin;
     setWindowHeight(`${editorHeight}px`);
