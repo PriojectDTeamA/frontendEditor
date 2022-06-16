@@ -58,8 +58,8 @@ const Editor = (props: IEditorProps) => {
     `${window.innerHeight - 300}px`
   );
 
-  const [runButtonPositioning] = useState(
-    `${window.innerHeight - 340}px`
+  const [runButtonPositioning, setRunPosition] = useState(
+    `${window.innerHeight - 330}px`
   );
 
   useEffect(() => {
@@ -87,6 +87,7 @@ const Editor = (props: IEditorProps) => {
     let editorHeight =
       windowHeight - consoleHeight - navbarHeight - totalMargin;
     setWindowHeight(`${editorHeight}px`);
+    setRunPosition(`${editorHeight - 20}px`)
   };
 
   const sendBroadcast = async (text: string) => {
