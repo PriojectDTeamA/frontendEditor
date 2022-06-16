@@ -2,7 +2,7 @@
   position: absolute;
   font-family: monospace;
   margin: var(--editor-margins);
-  height: 20%;
+  height: 27%;
   background-color: grey;
   color: black;
   border: var(--editor-border-width) solid dimgray;
