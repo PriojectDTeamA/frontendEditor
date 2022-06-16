@@ -58,6 +58,10 @@ const Editor = (props: IEditorProps) => {
     `${window.innerHeight - 300}px`
   );
 
+  const [runButtonPositioning] = useState(
+    `${window.innerHeight - 340}px`
+  );
+
   useEffect(() => {
     connected === false && navigate("/Home");
   }, [connected, navigate]);
@@ -160,7 +164,7 @@ const Editor = (props: IEditorProps) => {
             $blockScrolling: true,
           }}
         />
-        <Run runcode={runCodeWithLoading} height={currentWindowHeight}/>
+        <Run runcode={runCodeWithLoading} height={runButtonPositioning}/>
         <Console />
       </div>
     </div>
