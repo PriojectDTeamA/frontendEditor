@@ -73,7 +73,7 @@
 }
 
 #editor {
-  border: var(--editor-border-width) solid dimgray;
+  border: var(--editor-border-width)  dimgray;
   border-radius: 5px;
   z-index: 0;
   overflow: hidden;
@@ -82,6 +82,23 @@
   margin-top: 20px;
   -webkit-box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
+}
+.ace-tm {
+  background-color: lightgrey;
+  color: black;
+}
+
+.ace-tm .ace_gutter {
+  background: darkgray;
+  color: #333;
+}
+
+.ace-tm .ace_gutter-active-line {
+  background-color: #8d8d8d;
+}
+
+.message-container{
+  padding-bottom: 50px;
 }
 
 #editor-navbar {

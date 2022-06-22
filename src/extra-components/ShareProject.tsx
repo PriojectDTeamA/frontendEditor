@@ -60,7 +60,7 @@ const ShareProject = () => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ UserID: shareUser.id, ProjectID: room }),
+      body: JSON.stringify({ userID: shareUser.id, projectID: room }),
     };
 
     await fetch(`${base_API_URL}/SharedProj/SetSharedProject`, requestOptions)

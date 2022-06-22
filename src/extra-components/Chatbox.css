@@ -7,11 +7,11 @@
 
 .input-container {
   display: flex;
-  bottom: 30px;
+  bottom: 50px;
   position: fixed;
-  right: 30px;
+  right: 45px;
 
-  width: var(--chat-box-width);
+  width: 20%;
   height: 40px;
 }
 
@@ -67,9 +67,9 @@
 .chatbox {
   z-index: 3;
   width: var(--chat-box-width);
-  background-color: gray;
+  background-color: lightgray;
   color: white;
-  border-left: var(--editor-border-width) solid dimgray;
+  border: var(--editor-border-width) dimgray;
   border-radius: 5px;
 
   overflow: scroll;
@@ -84,8 +84,8 @@
 
   right: 30px;
   top: 75px;
-  -webkit-box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 5px 10px 10px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 10px 15px 15px 0 rgba(0, 0, 0, 0.3);
 }
 
 .chatbox::-webkit-scrollbar {

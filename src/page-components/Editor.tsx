@@ -162,7 +162,7 @@ const Editor = (props: IEditorProps) => {
       <div className="editor-constraints">
         <AceEditor
           mode={language}
-          theme="idle_fingers"
+          theme="XCode"
           value={editorValue}
           name="editor"
           onChange={(newValue: string) => {

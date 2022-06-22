@@ -185,7 +185,7 @@ const ProjectBox = (props: IProjectBoxProps) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ UserID: mainUser.id, ProjectID: room }),
+      body: JSON.stringify({ userID: mainUser.id, projectID: room }),
     };
 
     fetch(`${base_API_URL}/Projects/UpdateTimeStamp`, requestOptions).then(
@@ -220,7 +220,7 @@ const ProjectBox = (props: IProjectBoxProps) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ UserID: mainUser.id, ProjectID: props.ID }),
+      body: JSON.stringify({ userID: mainUser.id, projectID: props.ID }),
     };
 
     fetch(`${base_API_URL}/SharedProj/SetSharedProject`, requestOptions).then(

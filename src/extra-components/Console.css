@@ -3,9 +3,9 @@
   font-family: monospace;
   margin: var(--editor-margins);
   height: 25%;
-  background-color: grey;
+  background-color: lightgray;
   color: black;
-  border: var(--editor-border-width) solid dimgray;
+  border: var(--editor-border-width) gray;
   border-radius: 5px;
   padding-left: 53px;
   padding-top: 5px;
