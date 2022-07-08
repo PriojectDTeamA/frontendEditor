@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { APIReturnType, base_API_URL } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppDispatch, useAppSelector } from "../component-types/hooks";
+import { toast, ToastContainer } from "react-toastify";
 import {
   Language,
   IProjectBoxProps,
@@ -11,6 +12,7 @@ import {
 import {
   faPlus,
   faArrowRightFromBracket,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./login.css";
@@ -29,12 +31,16 @@ import {
   updateRoom,
 } from "../component-types/stateTypes";
 
+import "react-toastify/dist/ReactToastify.css";
+
 const Home = (props: IProjectProps) => {
   const mainUser = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [projects, setProjects] = useState<any>([]);
   const [SharedProjects, setSharedProjects] = useState<any>([]);
+  const [currentPage, setCurrentPage] = useState<any>(0);
+  const [currentSharedPage, setCurrentSharedPage] = useState<any>(0);
   const connected = useAppSelector(
     (state) => state.projectConnection.connected
   );
@@ -45,7 +51,21 @@ const Home = (props: IProjectProps) => {
         .then((response) => response.json())
         .then((data) => {
           if (data.Status === "Success") {
-            setProjects(data.Data);
+            let i:number = 0;
+            let tempArray:any = [];
+            data.Data.forEach(function(item:any){  
+              if(i === 10){
+                setProjects((projects: any) => [...projects,tempArray] ); 
+                tempArray = [];
+                i = 0;
+              }
+              tempArray.push(item);
+              i++;
+              
+            });
+            if(tempArray !== []){
+              setProjects((projects: any) => [...projects,tempArray] ); 
+            } 
           }
         });
     };
@@ -55,7 +75,21 @@ const Home = (props: IProjectProps) => {
         .then((response) => response.json())
         .then((data) => {
           if (data.Status === "Success") {
-            setSharedProjects(data.Data);
+            let i:number = 0;
+            let tempArray:any = [];
+            data.Data.forEach(function(item:any){  
+              if(i === 10){
+                setSharedProjects((SharedProjects: any) => [...SharedProjects,tempArray] ); 
+                tempArray = [];
+                i = 0;
+              }
+              tempArray.push(item);
+              i++;
+              
+            });
+            if(tempArray !== []){
+              setSharedProjects((SharedProjects: any) => [...SharedProjects,tempArray] ); 
+            } 
           }
         });
     };
@@ -73,7 +107,27 @@ const Home = (props: IProjectProps) => {
     dispatch(disconnectProject());
   };
 
-  const projectsComp = projects?.map(
+  const leaveRoom = async (projID: number) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userID: mainUser.id, projectID: projID }),
+    };
+
+    await fetch(`${base_API_URL}/SharedProj/RemoveSharedProject`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.Status === "Success") {
+        window.location.reload();
+      }else{
+        toast.error("Failed leaving project", {
+          position: "bottom-center",
+        });
+      }
+    });
+  }
+
+  const projectsComp = projects[currentPage]?.map(
     (
       e: { language: Language; name: string; ID: number; owner: number },
       i: number
@@ -86,12 +140,13 @@ const Home = (props: IProjectProps) => {
         ID={e.ID}
         joinRoom={props.joinRoom}
         fadeTiming="second"
+        leaveRoom={leaveRoom}
       />
     )
   );
 
   //function for creating components on homepage
-  const SharedProjectsComp = SharedProjects?.map(
+  const SharedProjectsComp = SharedProjects[currentSharedPage]?.map(
     (
       e: { language: Language; name: string; ID: number; owner: number },
       i: number
@@ -104,9 +159,24 @@ const Home = (props: IProjectProps) => {
         owner={e.owner}
         joinRoom={props.joinRoom}
         fadeTiming="second"
+        leaveRoom={leaveRoom}
       />
     )
   );
+
+  const createPagination = (n:number, type:string) =>{
+    var elements = [];
+    if(type === "shared"){
+      for(let i:number = 0; i < n; i++){
+          elements.push(<span onClick={(() => setCurrentSharedPage(i))} className={`projects-pagination ${i !== currentSharedPage || "active-pagination"}`}>{i+1}</span>);
+      }
+    }else{
+      for(let i:number = 0; i < n; i++){
+        elements.push(<span onClick={(() => setCurrentPage(i))} className={`projects-pagination ${i !== currentPage || "active-pagination"}`}>{i+1}</span>);
+      }
+    }
+    return elements;
+  }
 
   return (
     <div>
@@ -130,6 +200,11 @@ const Home = (props: IProjectProps) => {
                 <FontAwesomeIcon className="icon" icon={faPlus} />
               </div>
             </div>
+            <div className="projects-footer">
+              <span>
+                {createPagination(projects.length, "shared")}
+              </span>   
+            </div>  
           </div>
         </div>
 
@@ -145,7 +220,13 @@ const Home = (props: IProjectProps) => {
               ) : (
                 <div>No projects found</div>
               )}
+              
             </div>
+            <div className="projects-footer">
+              <span>
+                {createPagination(SharedProjects.length, "shared")}
+              </span>   
+            </div>  
           </div>
         </div>
       </div>
@@ -156,6 +237,7 @@ const Home = (props: IProjectProps) => {
       >
         <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket} />
       </div>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };
@@ -173,7 +255,7 @@ const ProjectBox = (props: IProjectBoxProps) => {
         return javascriptlogo;
       case "csharp":
         return csharplogo;
-      default:
+      default:  
         console.error(
           "language was not recognized in getLogo() of ProjectBox component"
         );
@@ -192,6 +274,10 @@ const ProjectBox = (props: IProjectBoxProps) => {
       (response) => response.json()
     );
   };
+
+  const handleLeave = async() => {
+    await props.leaveRoom(props.ID);
+  }
 
   const handleClick = () => {
     updateMyProjectTimestampAPICall(props.ID);
@@ -229,14 +315,16 @@ const ProjectBox = (props: IProjectBoxProps) => {
   };
 
   return (
-    <div className={`fadeIn ${props.fadeTiming || "first"}`}>
-      <div onClick={handleClick} className="project-item m-3">
+    <span>
+      <div onClick={handleClick} className="project-item">
         <h3 className="project-title">
           <img src={getLogo()} alt="Project Icon" className="projectlogo" />{" "}
-          {props.projectName}
+          {props.projectName}      
         </h3>
       </div>
-    </div>
+      <FontAwesomeIcon onClick={handleLeave} className="trash-icon icon" icon={faTrash} />
+
+    </span>
   );
 };
 

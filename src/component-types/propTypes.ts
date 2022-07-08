@@ -25,6 +25,7 @@ export interface IProjectBoxProps extends IProjectProps {
   ID: number;
   owner: number;
   joinRoom: IProjectProps["joinRoom"];
+  leaveRoom: (id: number) => Promise<void>;
 }
 
 export interface IEditorProps {
