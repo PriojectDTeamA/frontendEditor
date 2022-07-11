@@ -127,6 +127,26 @@ const Home = (props: IProjectProps) => {
     });
   }
 
+  const deleteRoom = async (projID: number) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userID: mainUser.id, projectID: projID }),
+    };
+
+    await fetch(`${base_API_URL}/Projects/DeleteProject`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.Status === "Success") {
+        window.location.reload();
+      }else{
+        toast.error("Failed deleting project", {
+          position: "bottom-center",
+        });
+      }
+    });
+  }
+
   const projectsComp = projects[currentPage]?.map(
     (
       e: { language: Language; name: string; ID: number; owner: number },
@@ -140,7 +160,7 @@ const Home = (props: IProjectProps) => {
         ID={e.ID}
         joinRoom={props.joinRoom}
         fadeTiming="second"
-        leaveRoom={leaveRoom}
+        leaveRoom={deleteRoom}
       />
     )
   );
